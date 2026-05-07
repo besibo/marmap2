@@ -15,7 +15,7 @@ Authors@R: c(person(given = "Eric",
 Author: Eric Pante [aut], Benoit Simon-Bouhet [aut, cre], Jean-Olivier Irisson [aut]
 Maintainer: Benoit Simon-Bouhet <besibo@gmail.com>
 Depends: R (>= 2.10)
-Imports: DBI, RSQLite, gdistance, geosphere, sp, raster, ncdf4,
+Imports: DBI, RSQLite, curl, gdistance, geosphere, sp, raster, ncdf4,
         plotrix, shape, reshape2, adehabitatMA, ggplot2, methods
 Suggests: maps, mapdata, lattice, mapproj, R.rsp, terra
 BugReports: https://github.com/besibo/marmap2/issues
@@ -26,4 +26,4 @@ VignetteBuilder: R.rsp
 NeedsCompilation: no
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+Config/roxygen2/version: 8.0.0

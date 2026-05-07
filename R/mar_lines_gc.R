@@ -1,0 +1,107 @@
+#' Add Great Circle lines on a map
+#'
+#' @description
+#' \code{mar_lines_gc} draws Great Circle lines between a set of start and end points on an existing map.
+#'
+#' @rdname mar_lines_gc
+#' @usage
+#' mar_lines_gc(start.points, end.points, n = 10, antimeridian = FALSE, \dots)
+#' @param start.points Two-column data.frame or matrix of longitudes and latitudes for start points.
+#' @param end.points Two-column data.frame or matrix of longitudes and latitudes for end points. The dimensions of \code{start.points} and \code{end.points} must be compatible (\emph{i.e.} they must have the same number of rows).
+#' @param n Numeric. The number of intermediate points to add along the great circle line between the start end end points.
+#' @param antimeridian Logical indicating if the map on which the great circle lines will be plotted covers the antimeridian region. The antimeridian (or antemeridian) is the 180th meridian and is located in the middle of the Pacific Ocean, east of New Zealand and Fidji, west of Hawaii and Tonga.
+#' @param ... Further arguments to be passed to \code{lines} to control the aspect of the lines to draw.
+#'
+#' @details
+#' \code{linesGCD} takes advantage of the \code{gcIntermediate} function from package \code{geosphere} to plot lines following a great circle. When working with \code{marmap} maps encompassing the antimeridian, longitudes are numbered from 0 to 360 (as opposed to the classical numbering from -180 to +180). It is thus critical to set \code{antimeridian=TRUE} to avoid plotting incoherent great circle lines.
+#'
+#' @author
+#' Benoit Simon-Bouhet
+#'
+#' @seealso
+#' \code{\link{mar_distance_to_isobath}}, \code{\link{mar_least_cost_distance}}
+#'
+#' @examples
+#' # Load NW Atlantic data and convert to class bathy
+#' data(nw.atlantic)
+#' atl <- mar_as_bathy(nw.atlantic)
+#'
+#' # Create vectors of latitude and longitude
+#' lon <- c(-70, -65, -63, -55, -48)
+#' lat <- c(33, 35, 40, 37, 33)
+#'
+#' # Compute distances between each point and the -200m isobath
+#' d <- mar_distance_to_isobath(atl, lon, lat, isobath = -200)
+#' d
+#'
+#' # Create a nice palette of bleus for the bathymetry
+#' blues <- c("lightsteelblue4","lightsteelblue3","lightsteelblue2","lightsteelblue1")
+#'
+#' # Visualize the great circle distances
+#' plot(atl, image=TRUE, lwd=0.1, land=TRUE,
+#' 	 bpal = list(c(0,max(atl),"grey"), c(min(atl),0,blues)))
+#' points(lon,lat, pch=21, col="orange4", bg="orange2", cex=.8)
+#' mar_lines_gc(d[2:3],d[4:5])
+#'
+#' # Load aleutians data and plot the map
+#' data(aleutians)
+#' plot(aleutians, image=TRUE, lwd=0.1, land=TRUE,
+#' 	 bpal = list(c(0,max(aleutians),"grey"), c(min(aleutians),0,blues)))
+#'
+#' # define start and end points
+#' start <- matrix(c(170,55, 190, 60), ncol=2, byrow=TRUE, dimnames=list(1:2, c("lon","lat")))
+#' end <- matrix(c(200, 56, 201, 57), ncol=2, byrow=TRUE, dimnames=list(1:2, c("lon","lat")))
+#' start
+#' end
+#'
+#' # Add points and great circle distances on the map
+#' points(start, pch=21, col="orange4", bg="orange2", cex=.8)
+#' points(end, pch=21, col="orange4", bg="orange2", cex=.8)
+#' mar_lines_gc(start, end, antimeridian=TRUE)
+#' @export
+#' @aliases linesGC
+mar_lines_gc <- function(start.points, end.points, n = 10, antimeridian = FALSE, ...) {
+	
+	if (is.data.frame(start.points)) start.points <- as.matrix(start.points)
+	if (is.data.frame(end.points)) end.points <- as.matrix(end.points)
+		
+	if (is.vector(start.points)) {
+		if (length(start.points) != 2) {
+			stop("'start.points' must be a vector of length 2 or a 2-column matrix or data.frame")
+			} else {
+				start.points <- t(as.matrix(start.points))		
+			}
+
+	}
+
+	if (is.vector(end.points)) {
+		if (length(end.points) != 2) {
+			stop("'end.points' must be a vector of length 2 or a 2-column matrix or data.frame")
+			} else {
+				end.points <- t(as.matrix(end.points))		
+			}
+
+	}
+
+	if (!is.matrix(start.points)) stop("'start.points' must be a vector of length 2 or a 2-column matrix or data.frame")
+	if (!is.matrix(end.points)) stop("'end.points' must be a vector of length 2 or a 2-column matrix or data.frame")
+	
+	for (i in 1:nrow(start.points)) {
+
+		# Generate intermediate points along the path
+		ll <- suppressWarnings(geosphere::gcIntermediate(start.points[i,], end.points[i,], n=n, addStartEnd=TRUE))
+		# print(ll)
+
+		# Take care of antimeridian crossing
+		if (antimeridian) {
+			ll[ll[,1]<0,1] <- ll[ll[,1]<0,1] + 360
+		}
+	
+		lines(ll, ...)
+	}
+	
+}
+
+#' @rdname mar_lines_gc
+#' @export
+linesGC <- mar_lines_gc

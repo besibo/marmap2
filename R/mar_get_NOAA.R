@@ -1,4 +1,27 @@
-mar_get_NOAA <-
+#' Download bathymetry from NOAA ETOPO 2022
+#'
+#' @description
+#' Prototype replacement for \code{mar_get_noaa_bathy()} using the NOAA ArcGIS
+#' ETOPO 2022 image service.
+#'
+#' @rdname mar_get_noaa
+#' @usage
+#' mar_get_noaa(lon1, lon2, lat1, lat2, resolution = 4, keep = FALSE,
+#'   antimeridian = FALSE, path = NULL)
+#' @param lon1 Western or first longitude bound in decimal degrees.
+#' @param lon2 Eastern or second longitude bound in decimal degrees.
+#' @param lat1 Southern or first latitude bound in decimal degrees.
+#' @param lat2 Northern or second latitude bound in decimal degrees.
+#' @param resolution Requested grid resolution in arc-minutes.
+#' @param keep Whether to write the downloaded xyz table to disk.
+#' @param antimeridian Whether the requested region crosses the antimeridian.
+#' @param path Directory used for cached csv files when \code{keep = TRUE}.
+#'
+#' @return
+#' An object of class \code{bathy}.
+#' @export
+#' @aliases mar_get_NOAA
+mar_get_noaa <-
   function(
     lon1,
     lon2,
@@ -142,7 +165,7 @@ mar_get_NOAA <-
       )
       download.file(url = WEB.REQUEST, destfile = "tmp.tif", mode = "wb")
       dat <- suppressWarnings(try(raster::raster("tmp.tif"), silent = TRUE))
-      dat <- as.xyz(as.bathy(dat))
+      dat <- mar_as_xyz(mar_as_bathy(dat))
       file.remove("tmp.tif")
       return(dat)
     }
@@ -182,7 +205,7 @@ mar_get_NOAA <-
     # If file exists in PATH, load it,
     if (FILE %in% list.files(path = path)) {
       message("File already exists ; loading \'", FILE, "\'", sep = "")
-      exisiting.bathy <- read.bathy(paste0(path, "/", FILE), header = TRUE)
+      exisiting.bathy <- mar_read_bathy(paste0(path, "/", FILE), header = TRUE)
       return(exisiting.bathy)
     } else {
       # otherwise, fetch it on NOAA server
@@ -197,13 +220,13 @@ mar_get_NOAA <-
           stop("The NOAA server cannot be reached\n")
         } else {
           message("Building bathy matrix ...\n")
-          left <- as.bathy(left)
+          left <- mar_as_bathy(left)
           left <- left[-nrow(left), ]
-          right <- as.bathy(right)
+          right <- mar_as_bathy(right)
           rownames(right) <- as.numeric(rownames(right)) + 360
           bath2 <- rbind(left, right)
           class(bath2) <- "bathy"
-          bath <- as.xyz(bath2)
+          bath <- mar_as_xyz(bath2)
         }
       } else {
         message("Querying NOAA database ...")
@@ -213,7 +236,7 @@ mar_get_NOAA <-
           stop("The NOAA server cannot be reached\n")
         } else {
           message("Building bathy matrix ...")
-          bath2 <- as.bathy(bath)
+          bath2 <- mar_as_bathy(bath)
         }
       }
 
@@ -230,3 +253,7 @@ mar_get_NOAA <-
       return(bath2)
     }
   }
+
+#' @rdname mar_get_noaa
+#' @export
+mar_get_NOAA <- mar_get_noaa
