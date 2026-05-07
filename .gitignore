@@ -1,6 +1,11 @@
-.Rproj.user
+# History files
 .Rhistory
+
+# Example code in package build process
+*-Ex.R
+
+# R data files from past sessions
 .Rdata
-.httr-oauth
-.DS_Store
-.quarto
+.Rproj.user
+
+.Rproj.user/3F4D779B/console06/INDEX001

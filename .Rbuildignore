@@ -1,3 +1,2 @@
-^marmap2\.Rproj$
+^.*\.Rproj$
 ^\.Rproj\.user$
-^LICENSE\.md$
