@@ -53,7 +53,7 @@
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="mar_griddify.html">mar_griddify</a></code></p></div>
+    <div class="dont-index"><p><code><a href="griddify.html">griddify</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -65,17 +65,17 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># load data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">irregular</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># use mar_griddify</span></span>
-<span><span class="va">reg</span> <span class="op">&lt;-</span> <span class="fu"><a href="mar_griddify.html">mar_griddify</a></span><span class="op">(</span><span class="va">irregular</span>, nlon <span class="op">=</span> <span class="fl">40</span>, nlat <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></span>
+<span><span class="co"># use griddify</span></span>
+<span><span class="va">reg</span> <span class="op">&lt;-</span> <span class="fu"><a href="griddify.html">griddify</a></span><span class="op">(</span><span class="va">irregular</span>, nlon <span class="op">=</span> <span class="fl">40</span>, nlat <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># switch to class "bathy"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">reg</span><span class="op">)</span></span>
-<span><span class="va">bat</span> <span class="op">&lt;-</span> <span class="fu"><a href="mar_as_bathy.html">mar_as_bathy</a></span><span class="op">(</span><span class="va">reg</span><span class="op">)</span></span>
+<span><span class="va">bat</span> <span class="op">&lt;-</span> <span class="fu"><a href="as_bathy.html">as_bathy</a></span><span class="op">(</span><span class="va">reg</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bat</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Plot the new bathy object along with the original data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bat</span>, image <span class="op">=</span> <span class="cn">TRUE</span>, lwd <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">irregular</span><span class="op">$</span><span class="va">lon</span>, <span class="va">irregular</span><span class="op">$</span><span class="va">lat</span>, pch <span class="op">=</span> <span class="fl">19</span>, cex <span class="op">=</span> <span class="fl">0.3</span>, col <span class="op">=</span> <span class="fu"><a href="mar_col2alpha.html">mar_col2alpha</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">irregular</span><span class="op">$</span><span class="va">lon</span>, <span class="va">irregular</span><span class="op">$</span><span class="va">lat</span>, pch <span class="op">=</span> <span class="fl">19</span>, cex <span class="op">=</span> <span class="fl">0.3</span>, col <span class="op">=</span> <span class="fu"><a href="color_to_alpha.html">color_to_alpha</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

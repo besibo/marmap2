@@ -23,6 +23,7 @@ Pante E, Simon-Bouhet B (2013) marmap: A Package for Importing, Plotting and Ana
 Useful links:
 \itemize{
   \item \url{https://github.com/besibo/marmap2}
+  \item \url{https://besibo.github.io/marmap2/}
   \item Report bugs at \url{https://github.com/besibo/marmap2/issues}
 }
 

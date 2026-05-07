@@ -53,11 +53,11 @@
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Data imported from the NOAA Grid Extract webpage (<a href="https://www.ncei.noaa.gov/maps/grid-extract/" class="external-link">https://www.ncei.noaa.gov/maps/grid-extract/</a>). To prepare data from NOAA, fill the custom grid form, and choose "XYZ (lon,lat,depth)" as the "Output Grid Format", "No Header" as the "Output Grid Header", and either of the space, tab or comma as the column delimiter (either can be used, but "comma" is the default import format of <code>mar_read_bathy</code>). Choose "omit empty grid cells" to reduce memory usage.</p>
+    <p>Data imported from the NOAA Grid Extract webpage (<a href="https://www.ncei.noaa.gov/maps/grid-extract/" class="external-link">https://www.ncei.noaa.gov/maps/grid-extract/</a>). To prepare data from NOAA, fill the custom grid form, and choose "XYZ (lon,lat,depth)" as the "Output Grid Format", "No Header" as the "Output Grid Header", and either of the space, tab or comma as the column delimiter (either can be used, but "comma" is the default import format of <code>read_bathy</code>). Choose "omit empty grid cells" to reduce memory usage.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="mar_plot_bathy.html">mar_plot_bathy</a></code>, <code><a href="mar_summary_bathy.html">mar_summary_bathy</a></code></p></div>
+    <div class="dont-index"><p><code><a href="plot_bathy.html">plot_bathy</a></code>, <code><a href="summary_bathy.html">summary_bathy</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -69,14 +69,14 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># load NW Atlantic data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">nw.atlantic</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># use mar_as_bathy</span></span>
-<span><span class="va">atl</span> <span class="op">&lt;-</span> <span class="fu"><a href="mar_as_bathy.html">mar_as_bathy</a></span><span class="op">(</span><span class="va">nw.atlantic</span><span class="op">)</span></span>
+<span><span class="co"># use as_bathy</span></span>
+<span><span class="va">atl</span> <span class="op">&lt;-</span> <span class="fu"><a href="as_bathy.html">as_bathy</a></span><span class="op">(</span><span class="va">nw.atlantic</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># class "bathy"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">atl</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">atl</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># test mar_plot_bathy</span></span>
+<span><span class="co"># test plot_bathy</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">atl</span>, deep<span class="op">=</span><span class="op">-</span><span class="fl">8000</span>, shallow<span class="op">=</span><span class="op">-</span><span class="fl">1000</span>, step<span class="op">=</span><span class="fl">1000</span><span class="op">)</span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -20,12 +20,12 @@ Data imported from the NOAA Grid Extract webpage
 NOAA, fill the custom grid form, and choose "XYZ (lon,lat,depth)" as the
 "Output Grid Format", "No Header" as the "Output Grid Header", and
 either of the space, tab or comma as the column delimiter (either can be
-used, but "comma" is the default import format of `mar_read_bathy`).
-Choose "omit empty grid cells" to reduce memory usage.
+used, but "comma" is the default import format of `read_bathy`). Choose
+"omit empty grid cells" to reduce memory usage.
 
 ## See also
 
-`mar_plot_bathy`, `mar_summary_bathy`
+`plot_bathy`, `summary_bathy`
 
 ## Author
 
@@ -37,13 +37,13 @@ see <https://www.ncei.noaa.gov/maps/grid-extract/>
 # load NW Atlantic data
 data(nw.atlantic)
 
-# use mar_as_bathy
-atl <- mar_as_bathy(nw.atlantic)
+# use as_bathy
+atl <- as_bathy(nw.atlantic)
 
 # class "bathy"
 class(atl)
 summary(atl)
 
-# test mar_plot_bathy
+# test plot_bathy
 plot(atl, deep=-8000, shallow=-1000, step=1000)
 ```

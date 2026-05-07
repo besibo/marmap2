@@ -9,11 +9,11 @@ database :
 
 ``` r
 library(marmap2)
-papoue <- getNOAA.bathy(lon1 = 140, lon2 = 155,
+papoue <- get_noaa(lon1 = 140, lon2 = 155,
             lat1 = -13, lat2 = 0, resolution = 4)
 ```
 
-We can map these data using `plot.bathy()`:
+We can map these data using `plot()`:
 
 ``` r
 # Creating color palettes
@@ -31,42 +31,41 @@ plot(papoue, n = 1, lwd = 0.4, add = TRUE)
 
 ![](figures/papoueMid.jpg)
 
-Basic information about the whole area can be displayed by
-`summary.bathy()`:
+Basic information about the whole area can be displayed by `summary()`:
 
 ``` r
 summary(papoue)
 ```
 
-We can use the `get.transect()` and `plotProfile()` functions to extract
-and plot a depth cross section from the `papoue` dataset.
-`get.transect()` will use the coordinates you input to calculate the
+We can use the `get_transect()` and `plot_profile()` functions to
+extract and plot a depth cross section from the `papoue` dataset.
+`get_transect()` will use the coordinates you input to calculate the
 coordinates and depths along your transect, and calculate the great
 circle distance separating each point along the transect from the point
 of origin (in kilometers).
 
 ``` r
-trsect <- get.transect(papoue, 150, -5, 153, -7, distance = TRUE)
+trsect <- get_transect(papoue, 150, -5, 153, -7, distance = TRUE)
 head(trsect)
 ```
 
 We can plot that information on a map and make a cross section plot with
-`plotProfile()`. By setting the `locator` option of `get.transect()` to
+`plot_profile()`. By setting the `locator` option of `get_transect()` to
 `TRUE`, you can get transect information and make a cross-section plot
 directly by clicking on a bathemetric map.
 
 ``` r
-plotProfile(trsect)
+plot_profile(trsect)
 ```
 
-The function `path.profile()` takes advantage of both `get.transect()`
-and `plotProfile()` to retrieve and plot bathymetric information along a
-path that is not limited to a straight transect between 2 points. See
-the help file of `plotProfile()` for more details.
+The function `path_profile()` takes advantage of both `get_transect()`
+and `plot_profile()` to retrieve and plot bathymetric information along
+a path that is not limited to a straight transect between 2 points. See
+the help file of `plot_profile()` for more details.
 
 #### Getting information about points on a bathymetric map
 
-The `get.depth()` function can be used to retrieve depth information by
+The `get_depth()` function can be used to retrieve depth information by
 either clicking on the map or by providing a set of longitude/latitude
 pairs. This is helpfull to get depth information along a GPS track
 record for instance. If the argument `distance` is set to `TRUE`, the
@@ -74,7 +73,7 @@ haversine distance (in km) from the first data point on will also be
 computed. The output will look like this:
 
 ``` r
-get.depth(papoue, distance = TRUE)
+get_depth(papoue, distance = TRUE)
 
 Waiting for interactive input: click any number of times
 on the map, then press 'Esc'
@@ -86,10 +85,10 @@ on the map, then press 'Esc'
 4 150.7295 -4.249027 553.8867  -2289
 ```
 
-`get.sample()` can be used in combination with a table containing
+`get_sample()` can be used in combination with a table containing
 sampling information to retrieve sample information by clicking on the
 map. Let’s make a fake table of sampling data and use it for plotting
-and use with `get.sample()`:
+and use with `get_sample()`:
 
 ``` r
 x <- c(142.1390, 142.9593, 144.0466, 145.9141, 145.9372,
@@ -121,12 +120,12 @@ text(152, -7.2, "New Britain\nTrench", col = "white", font = 3)
 
 By clicking on the map, we can select the area in the New Britain
 Trench, to get information on the sampling stations of that area.
-`get.sample()` will detect that there are samples in the area selected
+`get_sample()` will detect that there are samples in the area selected
 and return the locations of these samples.
 
 ``` r
 # click twice on the map to delimit an area:
-get.sample(papoue, sampling, col.lon = 1, col.lat = 2)
+get_sample(papoue, sampling, col.lon = 1, col.lat = 2)
 
           x         y   station
 12 152.7475 -6.005769 station12
@@ -140,11 +139,11 @@ Instead of using a heat map to represent depth, we can use a simple
 contour plot for the bathymetry, add a color legend for the depth and
 associate the color of each point to the desired depth. First, let’s get
 the depth associated with each sampling point in `sampling` using
-`get.depth()`:
+`get_depth()`:
 
 ``` r
 # Get the depth for each sampling point
-sp <- get.depth(papoue, sampling[,1:2], locator = FALSE)
+sp <- get_depth(papoue, sampling[,1:2], locator = FALSE)
 sp
 ```
 
@@ -156,7 +155,7 @@ par(mai=c(1,1,1,1.5))
 plot(papoue, lwd = c(0.3, 1), lty = c(1, 1),
      deep = c(-4500, 0), shallow = c(-50, 0), step = c(500, 0),
      col = c("grey", "black"), drawlabels = c(FALSE, FALSE))
-scaleBathy(papoue, deg = 3, x = "bottomleft", inset = 5)
+scale_bathy(papoue, deg = 3, x = "bottomleft", inset = 5)
 
 # set color palette for depth
 library(shape)
@@ -172,7 +171,7 @@ colorlegend(zlim = c(mx, 0), col = rev(col.points),
 
 #### Computation of projected surfaces
 
-The function `get.area()` can be used to calculate projected surface
+The function `get_area()` can be used to calculate projected surface
 areas (the projecting surface being the ocean surface). This functions
 depends on the `geosphere` package . For example, in the case of the
 Hawaiian Archipelago, we can calculate the surface area of the bathyal
@@ -180,27 +179,27 @@ Hawaiian Archipelago, we can calculate the surface area of the bathyal
 
 ``` r
 data(hawaii)
-bathyal <- get.area(hawaii, level.inf = -4000, level.sup = -1000)
-abyssal <- get.area(hawaii, level.inf = min(hawaii),
+bathyal <- get_area(hawaii, level.inf = -4000, level.sup = -1000)
+abyssal <- get_area(hawaii, level.inf = min(hawaii),
                     level.sup = -4000)
 ba <- round(bathyal$Square.Km, 0)
 ab <- round(abyssal$Square.Km, 0)
 ```
 
-The function `get.area()` returns a list of 4 elements. The surface area
+The function `get_area()` returns a list of 4 elements. The surface area
 in square kilometers (`Square.Km`), a matrix of zeros and ones
 delimiting the area of interest (`Area`) and 2 vectors (`Lon` and
 `$Lat`) containing the longitudes and latitudes of the area of interest.
 Such lists can be used to highlight the projected surfaces on an
-existing bathymetric map using function the `plotArea()`:
+existing bathymetric map using function the `plot_area()`:
 
 ``` r
 plot(hawaii, lwd = 0.2)
 col.bath <- rgb(0.7, 0, 0, 0.3)
 col.abys <- rgb(0.7, 0.7, 0.3, 0.3)
 
-plotArea(bathyal, col = col.bath)
-plotArea(abyssal, col = col.abys)
+plot_area(bathyal, col = col.bath)
+plot_area(abyssal, col = col.abys)
 ```
 
 Finally, we can add a legend with the calculated surface for both areas:
@@ -232,41 +231,43 @@ sites <- hawaii.sites[-c(1,4),]
 rownames(sites) <- 1:4
 ```
 
-We first compute a transition matrix to be used by `lc.dist()` to
-compute least cost distances between locations. The transition object
-generated by `trans.mat()` contains the probability of transition from
-one cell of a bathymetric grid to adjacent cells, and depends on user
-defined parameters. `trans.mat()` is especially usefull when least cost
-distances need to be calculated between several locations at sea. The
-default values for arguments `min.depth` and `max.depth` of
-`trans.mat()` ensure that the path computed by `lc.dist()` will be the
-shortest path possible at sea avoiding land masses. The path can be
-constrained to a given depth range by setting manually `min.depth` and
-`max.depth`. For instance, it is possible to limit the possible paths to
-the continental shelf by setting `max.depth=-200`. Inaccuracies of the
-bathymetric data can occasionally result in paths crossing land masses.
-Setting `min.depth` to low negative values (e.g. -10 meters) can limit
-this problem.
+We first compute a transition matrix to be used by
+`least_cost_distance()` to compute least cost distances between
+locations. The transition object generated by `transition_matrix()`
+contains the probability of transition from one cell of a bathymetric
+grid to adjacent cells, and depends on user defined parameters.
+`transition_matrix()` is especially usefull when least cost distances
+need to be calculated between several locations at sea. The default
+values for arguments `min.depth` and `max.depth` of
+`transition_matrix()` ensure that the path computed by
+`least_cost_distance()` will be the shortest path possible at sea
+avoiding land masses. The path can be constrained to a given depth range
+by setting manually `min.depth` and `max.depth`. For instance, it is
+possible to limit the possible paths to the continental shelf by setting
+`max.depth=-200`. Inaccuracies of the bathymetric data can occasionally
+result in paths crossing land masses. Setting `min.depth` to low
+negative values (e.g. -10 meters) can limit this problem.
 
 Here, `trans1` is a transition object constrained only by land masses.
 `trans2` is a transition object that makes travel impossible in waters
 shallower than 200 meters depth. This step takes a little time.
 
 ``` r
-trans1 <- trans.mat(hawaii)
-trans2 <- trans.mat(hawaii, min.depth = -200)
+trans1 <- transition_matrix(hawaii)
+trans2 <- transition_matrix(hawaii, min.depth = -200)
 ```
 
 We can now use these transition objects to calculate least cost
-distances for `trans1` and `trans2`. The output of `lc.dist()` is a list
-of geographic positions corresponding to the least-cost path.
+distances for `trans1` and `trans2`. The output of
+`least_cost_distance()` is a list of geographic positions corresponding
+to the least-cost path.
 
 ``` r
-out1 <- lc.dist(trans1, sites, res = "path")
+out1 <- least_cost_distance(trans1, sites, res = "path")
 
 |=================================================| 100%
 
-out2 <- lc.dist(trans2, sites, res = "path")
+out2 <- least_cost_distance(trans2, sites, res = "path")
 
 |=================================================| 100%
 ```
@@ -285,7 +286,7 @@ plot(hawaii, xlim = c(-161, -154), ylim = c(18, 23),
      col = c("grey", "blue", "black"), step = c(1000, 200, 1),
      lty = c(1, 1, 1), lwd = c(0.6, 0.6, 1.2),
      draw = c(FALSE, FALSE, FALSE))
-points(sites, pch = 21, col = "blue", bg = col2alpha("blue", .9),
+points(sites, pch = 21, col = "blue", bg = color_to_alpha("blue", .9),
        cex = 1.2)
 text(sites[,1], sites[,2], lab = rownames(sites),
      pos = c(3, 4, 1, 2), col = "blue")
@@ -295,17 +296,17 @@ lapply(out2, lines, col = "black", lwd = 1, lty = 1) -> dummy
 
 ![](figures/lc.png)
 
-The argument `res` of `lc.dist()` controls whether path coordinates or
-distances between points (in kilometers) are outputted. Let’s see how
-these different scenarios (no constraint: great-circle distance,
-`dist0`\~; avoid landmasses: `dist1`\~; avoid areas shallower than 200
-m: `dist2`) affect distances between sampling points:
+The argument `res` of `least_cost_distance()` controls whether path
+coordinates or distances between points (in kilometers) are outputted.
+Let’s see how these different scenarios (no constraint: great-circle
+distance, `dist0`\~; avoid landmasses: `dist1`\~; avoid areas shallower
+than 200 m: `dist2`) affect distances between sampling points:
 
 ``` r
 library(fossil)
 dist0 <- round(earth.dist(sites), 0)
-dist1 <- lc.dist(trans1, sites, res = "dist")
-dist2 <- lc.dist(trans2, sites, res = "dist")
+dist1 <- least_cost_distance(trans1, sites, res = "dist")
+dist2 <- least_cost_distance(trans2, sites, res = "dist")
 
 dist0
 
@@ -329,8 +330,9 @@ dist2
 4 365 533 334
 ```
 
-Note: You can check out the help file for `lc.dist()` to see how we can
-combine these functions with cross-section calculations and plotting.
+Note: You can check out the help file for `least_cost_distance()` to see
+how we can combine these functions with cross-section calculations and
+plotting.
 
 #### Landscape Genetics
 
@@ -347,15 +349,15 @@ the `utils` package will be helpful.
 
 Two functions of `marmap` allow for computing and plotting the shortest
 path following a great circle distance between a set of points on a map
-and an arbitrary isobath line. The function `dist2isobath()` depends on
-functions from packages `sp` and `geosphere` to compute the distances.
-By default (`isobath = 0`), the nearest location along the coastline is
-computed for each point.
+and an arbitrary isobath line. The function `distance_to_isobath()`
+depends on functions from packages `sp` and `geosphere` to compute the
+distances. By default (`isobath = 0`), the nearest location along the
+coastline is computed for each point.
 
 ``` r
 # Load NW Atlantic xyz data and convert to class bathy
 data(nw.atlantic)
-atl <- as.bathy(nw.atlantic)
+atl <- as_bathy(nw.atlantic)
 
 # Create vectors of latitude and longitude for 5 points
 lon <- c(-70, -65, -63, -55, -48)
@@ -363,13 +365,13 @@ lat <- c(33, 35, 40, 37, 33)
 
 # Compute distances between each point and the nearest location
 # along the coastline
-d <- dist2isobath(atl, lon, lat, isobath = 0)
+d <- distance_to_isobath(atl, lon, lat, isobath = 0)
 d
 ```
 
 We can then plot the bathymetry, add the 5 points, and plot the great
 circle lines to the nearest points on the coast using the function
-`linesGC()`:
+`lines_gc()`:
 
 ``` r
 # Plot the bathymetry
@@ -383,16 +385,17 @@ plot(atl, deep = 0, shallow = 0, step = 0, lwd = 0.6, add = TRUE)
 points(lon, lat, pch = 21, bg = "orange2", cex = 0.8)
 
 # Add great circle lines
-linesGC(d[, 2:3], d[, 4:5])
+lines_gc(d[, 2:3], d[, 4:5])
 ```
 
 ![](figures/dist.jpg)
 
 The same process can be used to compute and visualize the shortest great
 circle distance between a set of points and any arbitrary isoline of
-depth or altitude by setting the `isobath` argument of `dist2isobath()`
-to non-zero values (the chosen value must be within the range of
-altitude/depth for the region used to compute the distances).
+depth or altitude by setting the `isobath` argument of
+`distance_to_isobath()` to non-zero values (the chosen value must be
+within the range of altitude/depth for the region used to compute the
+distances).
 
 ### 3D plotting
 
@@ -408,7 +411,7 @@ latitude / longitude aspect ratio.
 ``` r
 # Load NW Atlantic xyz data and convert to class bathy
 data(nw.atlantic)
-atl <- as.bathy(nw.atlantic)
+atl <- as_bathy(nw.atlantic)
 
 library(lattice)
 wireframe(unclass(atl), shade = TRUE, aspect = c(1/2, 0.1))
@@ -416,21 +419,21 @@ wireframe(unclass(atl), shade = TRUE, aspect = c(1/2, 0.1))
 
 ![](figures/3d.png)
 
-The `marmap` function `get.box()` can be coupled with the `lattice`
+The `marmap` function `get_box()` can be coupled with the `lattice`
 function `wireframe()` to produce 3D plots of belt transects of given
 width. Let’s use the NW Atlantic data to investigate these functions,
 and look at the New England and Corner Rise seamount chains.
 
 ``` r
 data(nw.atlantic)
-atl <- as.bathy(nw.atlantic)
+atl <- as_bathy(nw.atlantic)
 
 plot(atl, xlim = c(-70, -52),
      deep = c(-5000, 0), shallow = c(0, 0), step = c(1000, 0),
      col = c("lightgrey", "black"), lwd = c(0.8, 1),
      lty = c(1, 1), draw = c(FALSE, FALSE))
 
-belt <- get.box(atl, x1 = -68.6, x2 = -53.7, y1 = 42.4, y2 = 32.5,
+belt <- get_box(atl, x1 = -68.6, x2 = -53.7, y1 = 42.4, y2 = 32.5,
                 width = 3, col = "red")
 ```
 
@@ -450,12 +453,12 @@ Data files containing bathymetry information can rapidely become huge
 latitude-longitude-depth/altitude triplets), especially for
 hi-resolution bathymetry data recorded over large areas. If `marmap` can
 usually import large xyz files[¹](#fn1) to create `bathy` objects using
-`read.bathy()`, working with such objects can be difficult (if not
+`read_bathy()`, working with such objects can be difficult (if not
 impossible) depending on the amount of RAM available on your computer.
 More specifically, ressource-intensive tasks such as computing least
 cost paths might be extremely time consumming with datasets of millions
-of points. Even plotting with `plot.bathy()` can be very slow when too
-many countour lines are used, or when `image` is set to `TRUE`. In such
+of points. Even plotting with `plot()` can be very slow when too many
+countour lines are used, or when `image` is set to `TRUE`. In such
 situations, it is very useful to subset a big `bathy` object by either:
 
   - selecting a smaller region of a large `bathy` object while
@@ -465,9 +468,9 @@ situations, it is very useful to subset a big `bathy` object by either:
     resolution of the `bathy` object and selecting a smaller area for
     plotting or for other ressource-intensive computations.
 
-For option 1, you can either use `get.box()` (see above), or
-`subsetBathy()` to select a smaller area of a large `bathy` object.
-`subsetBathy()` allows the selection of a non-rectangular area within a
+For option 1, you can either use `get_box()` (see above), or
+`subset_bathy()` to select a smaller area of a large `bathy` object.
+`subset_bathy()` allows the selection of a non-rectangular area within a
 large `bathy` object to create a new, smaller `bathy` object of the same
 resolution. This function also has an interactive mode so that you can
 select an area of interest by clicking on a map.
@@ -491,7 +494,7 @@ class(dat.lowres) <- "bathy"
 than it was for `dat`.
 
 Option 3 is just a combination of the 2 previous methods: first, create
-a `dat.lowres` object, then use `get.box()` or `subsetBathy()` to
+a `dat.lowres` object, then use `get_box()` or `subset_bathy()` to
 extract a smaller region out of it.
 
 ### Interactions with other packages, projections
@@ -517,7 +520,7 @@ library(raster)
 data(hawaii)
 
 # Creates an object of class raster
-r1 <- marmap::as.raster(hawaii)
+r1 <- marmap::as_raster(hawaii)
 
 # Defines the target projection
 newproj <- "+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100
@@ -527,7 +530,7 @@ newproj <- "+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100
 r2 <- projectRaster(r1, crs = newproj)
 
 # Switches back to a bathy object
-hawaii.projected <- as.bathy(r2)
+hawaii.projected <- as_bathy(r2)
 
 # Plots both the original and projected bathy objects
 plot(hawaii, image = TRUE, lwd = 0.3)
@@ -546,17 +549,17 @@ world:
 library(raster)
 
 # Get data for the whole world. Careful: ca. 21 Mo!
-world <- getNOAA.bathy(-180, 180, -90, 90, res = 15, keep = TRUE)
+world <- get_noaa(-180, 180, -90, 90, res = 15, keep = TRUE)
 
 # Switch to raster
-world.ras <- marmap::as.raster(world)
+world.ras <- marmap::as_raster(world)
 
 # Set the projection and project
 my.proj <-   "+proj=ortho +lat_0=0 +lon_0=50 +x_0=0 +y_0=0"
 world.ras.proj <- projectRaster(world.ras,crs = my.proj)
 
 # Switch back to a bathy object
-world.proj <- as.bathy(world.ras.proj)
+world.proj <- as_bathy(world.ras.proj)
 
 # Set colors for oceans and land masses
 blues <- c("lightsteelblue4", "lightsteelblue3",
@@ -624,4 +627,4 @@ A great list of available projections is available at
 
 1.  The netcdf format is especially useful when dealing with big
     bathymetric files. Importing netcdf files to work with `marmap` is
-    discussed in the `marmap-ImportExport` vignette.
+    discussed in the `marmap-import-export` vignette.

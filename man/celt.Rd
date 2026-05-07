@@ -14,7 +14,7 @@ A text file.
 Bathymetric matrix of class \code{bathy} created from NOAA GEODAS data.
 }
 \details{
-Data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}) and transformed into an object of class \code{bathy} by \code{mar_as_bathy}.
+Data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}) and transformed into an object of class \code{bathy} by \code{as_bathy}.
 }
 \examples{
 # load celt data
@@ -24,11 +24,11 @@ data(celt)
 class(celt)
 summary(celt)
 
-# test mar_plot_bathy
+# test plot_bathy
 plot(celt, deep=-300, shallow=-50, step=25)
 }
 \seealso{
-\code{\link{mar_as_bathy}}, \code{\link{mar_read_bathy}}
+\code{\link{as_bathy}}, \code{\link{read_bathy}}
 }
 \author{
 see \url{https://www.ncei.noaa.gov/maps/grid-extract/}

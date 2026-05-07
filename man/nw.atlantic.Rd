@@ -14,24 +14,24 @@ A three-columns data.frame containing longitude, latitude and depth/elevation da
 Data imported from the NOAA GEODAS server
 }
 \details{
-Data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}). To prepare data from NOAA, fill the custom grid form, and choose "XYZ (lon,lat,depth)" as the "Output Grid Format", "No Header" as the "Output Grid Header", and either of the space, tab or comma as the column delimiter (either can be used, but "comma" is the default import format of \code{mar_read_bathy}). Choose "omit empty grid cells" to reduce memory usage.
+Data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}). To prepare data from NOAA, fill the custom grid form, and choose "XYZ (lon,lat,depth)" as the "Output Grid Format", "No Header" as the "Output Grid Header", and either of the space, tab or comma as the column delimiter (either can be used, but "comma" is the default import format of \code{read_bathy}). Choose "omit empty grid cells" to reduce memory usage.
 }
 \examples{
 # load NW Atlantic data
 data(nw.atlantic)
 
-# use mar_as_bathy
-atl <- mar_as_bathy(nw.atlantic)
+# use as_bathy
+atl <- as_bathy(nw.atlantic)
 
 # class "bathy"
 class(atl)
 summary(atl)
 
-# test mar_plot_bathy
+# test plot_bathy
 plot(atl, deep=-8000, shallow=-1000, step=1000)
 }
 \seealso{
-\code{\link{mar_plot_bathy}}, \code{\link{mar_summary_bathy}}
+\code{\link{plot_bathy}}, \code{\link{summary_bathy}}
 }
 \author{
 see \url{https://www.ncei.noaa.gov/maps/grid-extract/}

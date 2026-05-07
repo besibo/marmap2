@@ -2,46 +2,46 @@
 
 ### Overview of the different import and export strategies available in `marmap`
 
-`getNOAA.bathy()` is the easiest way to load data into `R`, but it
-depends on the NOAA download protocol, and one must have an internet
-connection. However, setting the `keep` argument to `TRUE` will save on
-disk the data downloaded from the NOAA servers when the function is
-called for the first time. Any subsequent call to `getNOAA.bathy()` with
-the same list of arguments (*i.e.* same longitudes, latitudes and
-resolution) will preferentially load the dataset saved on disk in the
-current working directory. This allows the users to run scripts without
-having to query the NOAA servers and download the same data again and
-again, making the use of `getNOAA.bathy()` possible even off-line.
-`read.bathy()` allows import of data into `R`, and this data can be
-located on a drive ; an internet connection is therefore not mandatory.
-This is a good way to import data that have been saved locally on your
-drive, and may be faster than re-downloading data from the NOAA server
-at the beginning of each `R` session. If the user is building maps
-routinely, we propose two functions to create a local database that can
-be accessed from within `R`. These functions are `setSQL()` and
-`subsetSQL()`.
+`get_noaa()` is the easiest way to load data into `R`, but it depends on
+the NOAA download protocol, and one must have an internet connection.
+However, setting the `keep` argument to `TRUE` will save on disk the
+data downloaded from the NOAA servers when the function is called for
+the first time. Any subsequent call to `get_noaa()` with the same list
+of arguments (*i.e.* same longitudes, latitudes and resolution) will
+preferentially load the dataset saved on disk in the current working
+directory. This allows the users to run scripts without having to query
+the NOAA servers and download the same data again and again, making the
+use of `get_noaa()` possible even off-line. `read_bathy()` allows import
+of data into `R`, and this data can be located on a drive ; an internet
+connection is therefore not mandatory. This is a good way to import data
+that have been saved locally on your drive, and may be faster than
+re-downloading data from the NOAA server at the beginning of each `R`
+session. If the user is building maps routinely, we propose two
+functions to create a local database that can be accessed from within
+`R`. These functions are `set_sql()` and
+`subset_sql()`.
 
-| Function            | Job                               | Input                                      | Output                       | Internet |
-| ------------------- | --------------------------------- | ------------------------------------------ | ---------------------------- | -------- |
-| `getNOAA.bathy()`   | Downloads data from NOAA servers  | Coordinates of bounding box and resolution | Data matrix of class `bathy` | yes      |
-| `readGEBCO.bathy()` | Imports data from a GEBCO file    | External NetCDF file                       | Data matrix of class `bathy` | no       |
-| `read.bathy()`      | Imports xyz data                  | External xyz file                          | Data matrix of class `bathy` | no       |
-| `setSQL()`          | Creates a local SQL database      | External xyz file                          | SQL database                 | no       |
-| `subsetSQL()`       | Queries a local SQL database      | Bounding box and resolution                | Data matrix of class `bathy` | no       |
-| `as.xyz()`          | Converts `bathy` to xyz           | `bathy` object                             | xyz table                    | no       |
-| `as.bathy()`        | Converts xyz or raster to `bathy` | xyz table or raster object                 | `bathy` object               | no       |
+| Function             | Job                               | Input                                      | Output                       | Internet |
+| -------------------- | --------------------------------- | ------------------------------------------ | ---------------------------- | -------- |
+| `get_noaa()`         | Downloads data from NOAA servers  | Coordinates of bounding box and resolution | Data matrix of class `bathy` | yes      |
+| `read_gebco_bathy()` | Imports data from a GEBCO file    | External NetCDF file                       | Data matrix of class `bathy` | no       |
+| `read_bathy()`       | Imports xyz data                  | External xyz file                          | Data matrix of class `bathy` | no       |
+| `set_sql()`          | Creates a local SQL database      | External xyz file                          | SQL database                 | no       |
+| `subset_sql()`       | Queries a local SQL database      | Bounding box and resolution                | Data matrix of class `bathy` | no       |
+| `as_xyz()`           | Converts `bathy` to xyz           | `bathy` object                             | xyz table                    | no       |
+| `as_bathy()`         | Converts xyz or raster to `bathy` | xyz table or raster object                 | `bathy` object               | no       |
 
 ### Importing bathymetric data from GEBCO
 
-`readGEBCO.bathy()` provides a data source alternative to the
+`read_gebco_bathy()` provides a data source alternative to the
 NOAA-hosted ETOPO1 data . The GEBCO data, hosted on the British
 Oceanographic Data Center server (<http://www.gebco.net>), is available
 at the 30 second and 1 minute resolutions. Both types can be imported
-using `readGEBCO.bathy()`, using the `ncdf4` package to load netCDF data
-into `R`. A third database type, GEBCO\_08 SID, is available from the
-website. This database contains a Source IDentifier (SID) specifying
+using `read_gebco_bathy()`, using the `ncdf4` package to load netCDF
+data into `R`. A third database type, GEBCO\_08 SID, is available from
+the website. This database contains a Source IDentifier (SID) specifying
 which grid cells have depth information based on soundings; it does not
-contain bathymetry or topography data. The function `readGEBCO.bathy()`
+contain bathymetry or topography data. The function `read_gebco_bathy()`
 can read this type of database as well, and only the SID information
 will be included in the object of class `bathy`. Therefore, to display a
 map with both the bathymetry and the SID information, you will have to
@@ -51,11 +51,11 @@ Sea including Corsica and Sardinia:
 
 ``` r
 # the bathymetry data
-med <- readGEBCO.bathy("gebco_08_7_38_10_43_corsica.nc")
+med <- read_gebco_bathy("gebco_08_7_38_10_43_corsica.nc")
 summary(med)
 
 # the SID data
-sid <- readGEBCO.bathy("gebco_SID_7_38_10_43_corsica.nc")
+sid <- read_gebco_bathy("gebco_SID_7_38_10_43_corsica.nc")
 summary(sid)
 
 # a pretty custom color palette
@@ -73,7 +73,7 @@ contour(as.numeric(rownames(sid)), as.numeric(colnames(sid)),
 
 Because the resolution of GEBCO data is rather fine, we offer the
 possibility of downsizing the dataset with the `resolution` argument of
-`readGEBCO.bathy()`. This argument specifies the resolution of the
+`read_gebco_bathy()`. This argument specifies the resolution of the
 object of class `bathy` the user gets after importing GEBCO data in `R`.
 `resolution` is in units of the selected database: in ``GEBCO_1min'',
 `resolution` is in minutes; in``GEBCO\_08’’, `resolution` is in 30
@@ -186,17 +186,17 @@ quality to produce this vignette. The quality of the original map
 produced in `R` is much higher. Since the emodnet files have a
 resolution of 15 seconds, producing a map at such a large scale is time
 consumming. We thus recommend reading the \``Working with big files''
-section of the`marmap-DataAnalysis\` vignette for strategies to deal
+section of the`marmap-data-analysis\` vignette for strategies to deal
 with such big datasets.
 
 ### Getting bathymetric data from an xyz file
 
-`read.bathy()` will read xyz data from any source. It can import
+`read_bathy()` will read xyz data from any source. It can import
 bathymetric data for non rectangular areas or with lots of missing data
 as is often the case for custom datasets acquired by various types of
 sonar systems (*e.g.* Multibeam Echo Sounders). Alternatively, xyz files
 can be imported in `R` using `read.table()` and transformed to `bathy`
-objects with `as.bathy()`. Here, we will get ETOPO1 data hosted on the
+objects with `as_bathy()`. Here, we will get ETOPO1 data hosted on the
 NOAA GEODAS server . To get the data, use the following link:
 [http://www.ngdc.noaa.gov/mgg/gdas/gd\_designagrid.html](http://www.ngdc.noaa.gov/mgg/gdas/gd_designagrid.md).
 
@@ -207,7 +207,7 @@ longitude: 155E) for a grid cell size of 10 minute, and choose `XYZ
 (lon,lat,depth)'' as the`Output Grid Format’‘, `No Header'' as
 the`Output Grid Header’‘, and either of the space, tab of comma as the
 column delimiter (either can be used, but ``comma'' is the default
-import format of `read.bathy()`). Choose``omit empty grid cells’’ to
+import format of `read_bathy()`). Choose``omit empty grid cells’’ to
 reduce memory usage. Submit your job, and retrieved your data. You will
 get a zipped folder, in which you will find (in a subfolder) a .xyz file
 with your data. Place it, for example, in your work folder.
@@ -218,23 +218,22 @@ minute would result in a file size of about 20 mb.
 
 Launch `R`. Navigate to your working directory (for example, with
 `setwd()`). Then laod the `marmap` package with `library(marmap2)` and
-your xyz data (we will call it `png.xyz`) with `read.bathy()`. This
-converts your data into an `R` object of `class bathy`.
-`summary.bathy()` helps you check the data ; because `bathy` is a
-`class`, and `R` an object-oriented language, you just have to use
-`summary()`, because `R` will recognize that you are feeding `summary()`
-an object of `class bathy`. This is also true for `plot.bathy()` and
-`plot()`.
+your xyz data (we will call it `png.xyz`) with `read_bathy()`. This
+converts your data into an `R` object of `class bathy`. `summary()`
+helps you check the data ; because `bathy` is a `class`, and `R` an
+object-oriented language, you just have to use `summary()`, because `R`
+will recognize that you are feeding `summary()` an object of `class
+bathy`. This is also true for `plot()` and `plot()`.
 
 ``` r
 library(marmap2)
-papoue <- read.bathy('png.xyz', header = FALSE, sep = "\t")
+papoue <- read_bathy('png.xyz', header = FALSE, sep = "\t")
 summary(papoue)
 ```
 
 ### Getting bathymetric data from NOAA: local SQL data{-}base
 
-`setSQL()` and `subsetSQL()` create and query a local SQL database for
+`set_sql()` and `subset_sql()` create and query a local SQL database for
 bathymetric data. These tools are made for routine use with no internet
 connection. The full ETOPO1 database, or a subset (for example), can be
 downloaded on your computer, and used to set an SQL database, which size
@@ -248,27 +247,27 @@ it. Here is a simple example on how to set up and use an SQL database
 for `marmap`.
 
 Use a local file with xyz data (we can re-use the `png.xyz` that we
-created above for use with `read.bathy()`), and submit it to `setSQL()`.
-Make sure that no file called `bathy_db` is present in your working
-directory (since we will use the default value for the `db.name`
-argument of `setSQL` and `subsetSQL`).
+created above for use with `read_bathy()`), and submit it to
+`set_sql()`. Make sure that no file called `bathy_db` is present in your
+working directory (since we will use the default value for the `db.name`
+argument of `set_sql` and `subset_sql`).
 
 ``` r
-setSQL(bathy = "png.xyz", header = FALSE, sep = "\t")
+set_sql(bathy = "png.xyz", header = FALSE, sep = "\t")
 ```
 
 This will created a file `bathy_db` in your working directory, which
 size is about the size of (or larger than) your original data. If you
 want to create a database for frequent use, you just need to do this
-once. `subsetSQL()` will know where to get the data in future R
-sessions. If `setSQL()` worked properly, it will return `TRUE`. If there
-is a problem (e.g. database connection already open, database file
+once. `subset_sql()` will know where to get the data in future R
+sessions. If `set_sql()` worked properly, it will return `TRUE`. If
+there is a problem (e.g. database connection already open, database file
 already created …) it will return `FALSE`. Lets query a subset of the
 png dataset, and check that it is indeed what we asked for with the
-`summary.bathy()` function:
+`summary()` function:
 
 ``` r
-test <- subsetSQL(min_lon = 145, max_lon = 150,
+test <- subset_sql(min_lon = 145, max_lon = 150,
                   min_lat = -2, max_lat = 0)
 summary(test)
 ```

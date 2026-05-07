@@ -4,115 +4,85 @@
 
 <!-- end list -->
 
-  - `mar_get_area()` `get.area()` : Get projected surface area
-  - `mar_get_box()` `get.box()` : Get bathymetric information of a belt
-    transect
-  - `mar_get_depth()` `get.depth()` : Get depth data by clicking on a
-    map
-  - `mar_get_gebco()` : Download bathymetry from the GEBCO download
-    service
-  - `mar_get_noaa()` `mar_get_NOAA()` : Download bathymetry from NOAA
-    ETOPO 2022
-  - `mar_get_noaa_bathy()` `getNOAA.bathy()` : Import bathymetric data
-    from the NOAA server
-  - `mar_get_sample()` `get.sample()` : Get sample data by clicking on a
-    map
-  - `mar_get_transect()` `get.transect()` : Compute approximate cross
-    section along a depth transect
-  - `mar_read_bathy()` `read.bathy()` : Read bathymetric data in XYZ
-    format
-  - `mar_read_gebco_bathy()` `readGEBCO.bathy()` : Read bathymetric data
-    from a GEBCO file
-  - `mar_set_sql()` `setSQL()` `mar_subset_sql()` `subsetSQL()` :
-    Creating and querying local SQL database for bathymetric data
+  - `get_noaa()` : Download bathymetry from NOAA ETOPO 2022
+  - `get_gebco()` : Download bathymetry from the GEBCO download service
+  - `read_bathy()` : Read bathymetric data in XYZ format
+  - `read_gebco_bathy()` : Read bathymetric data from a GEBCO file
+  - `set_sql()` `subset_sql()` : Creating and querying local SQL
+    database for bathymetric data
 
 ## Bathy conversion and validation
 
 <!-- end list -->
 
-  - `mar_as_bathy()` `as.bathy()` : Convert to bathymetric data in an
-    object of class bathy
-  - `mar_as_xyz()` `as.xyz()` : Convert to xyz format
-  - `mar_as_raster()` `as.raster()` : Convert bathymetric data to a
-    raster layer
-  - `mar_as_spatial_grid_data_frame()` `as.SpatialGridDataFrame()` :
-    Convert bathymetric data to a spatial grid
-  - `mar_bathy_to_spatraster()` `mar_as_terra_bathy()`
-    `as_terra_bathy()` `bathy_to_spatraster()` : Convert a bathy object
-    to a terra SpatRaster
-  - `mar_is_bathy()` `is.bathy()` : Test whether an object is of class
+  - `as_bathy()` : Convert to bathymetric data in an object of class
     bathy
-  - `mar_check_bathy()` `check.bathy()` : Sort bathymetric data matrix
-    by increasing latitude and longitude
+  - `as_xyz()` : Convert to xyz format
+  - `as_raster()` : Convert bathymetric data to a raster layer
+  - `as_spatial_grid_data_frame()` : Convert bathymetric data to a
+    spatial grid
+  - `bathy_to_spatraster()` : Convert a bathy object to a terra
+    SpatRaster
+  - `is_bathy()` : Test whether an object is of class bathy
+  - `check_bathy()` : Sort bathymetric data matrix by increasing
+    latitude and longitude
 
 ## Plotting
 
 <!-- end list -->
 
-  - `plot(<bathy>)` `mar_plot_bathy()` : Ploting bathymetric data
-  - `plot(<buffer>)` `mar_plot_buffer()` : Plots a circular buffer and
-    or its outline
-  - `mar_plot_profile()` `plotProfile()` : Ploting bathymetric data
-    along a transect or path
-  - `mar_plot_area()` `plotArea()` : Plotting projected surface areas
-  - `mar_palette_bathy()` `palette.bathy()` : Builds a bathymetry-
-    and/or topography-constrained color palette
-  - `etopo` `mar_etopo_colors()` `mar_scale_fill_etopo()`
-    `mar_scale_color_etopo()` `etopo.colors()` `scale_fill_etopo()`
-    `scale_color_etopo()` : Etopo colours
-  - `mar_col2alpha()` `col2alpha()` : Adds alpha transparency to a
-    (vector of) color(s)
-  - `mar_scale_bathy()` `scaleBathy()` : Adds a scale to a map
-  - `fortify(<bathy>)` `mar_fortify_bathy()` : Extract bathymetry data
-    in a data.frame
-  - `autoplot(<bathy>)` `mar_autoplot_bathy()` : Ploting bathymetric
-    data with ggplot
+  - `plot_bathy()` : Ploting bathymetric data
+  - `plot_buffer()` : Plots a circular buffer and or its outline
+  - `plot_profile()` : Ploting bathymetric data along a transect or path
+  - `plot_area()` : Plotting projected surface areas
+  - `palette_bathy()` : Builds a bathymetry- and/or
+    topography-constrained color palette
+  - `etopo` `etopo_colors()` `scale_fill_etopo()` `scale_color_etopo()`
+    : Etopo colours
+  - `color_to_alpha()` : Adds alpha transparency to a (vector of)
+    color(s)
+  - `scale_bathy()` : Adds a scale to a map
+  - `fortify_bathy()` : Extract bathymetry data in a data.frame
+  - `autoplot_bathy()` : Ploting bathymetric data with ggplot
 
 ## Spatial analysis
 
 <!-- end list -->
 
-  - `mar_get_depth()` `get.depth()` : Get depth data by clicking on a
-    map
-  - `mar_get_sample()` `get.sample()` : Get sample data by clicking on a
-    map
-  - `mar_get_transect()` `get.transect()` : Compute approximate cross
-    section along a depth transect
-  - `mar_path_profile()` `path.profile()` : Geographic coordinates,
-    kilometric distance and depth along a path
-  - `mar_get_area()` `get.area()` : Get projected surface area
-  - `mar_distance_to_isobath()` `dist2isobath()` : Computes the shortest
-    great circle distance between any point and a given isobath
-  - `mar_least_cost_distance()` `lc.dist()` : Computes least cost
-    distances between two or more locations
-  - `mar_least_cost_distance2()` `lc.dist2()` : Computes least cost
-    distances between two or more locations
+  - `get_depth()` : Get depth data by clicking on a map
+  - `get_sample()` : Get sample data by clicking on a map
+  - `get_transect()` : Compute approximate cross section along a depth
+    transect
+  - `get_box()` : Get bathymetric information of a belt transect
+  - `path_profile()` : Geographic coordinates, kilometric distance and
+    depth along a path
+  - `get_area()` : Get projected surface area
+  - `distance_to_isobath()` : Computes the shortest great circle
+    distance between any point and a given isobath
+  - `least_cost_distance()` : Computes least cost distances between two
+    or more locations
+  - `least_cost_distance2()` : Computes least cost distances between two
+    or more locations
 
 ## Utilities
 
 <!-- end list -->
 
-  - `mar_subset_bathy()` `subsetBathy()` : Creates bathy objects from
-    larger bathy objects
-  - `mar_collate_bathy()` `collate.bathy()` : Collates two bathy
-    matrices with data from either sides of the antimeridian
-  - `mar_griddify()` `griddify()` : Fill a grid with irregularly spaced
-    data
-  - `mar_antimeridian_box()` `antimeridian.box()` : Adds a box to maps
-    including antimeridian
-  - `mar_create_buffer()` `create.buffer()` `print(<buffer>)`
-    `mar_print_buffer()` : Create a buffer of specified radius around
-    one or several points
-  - `mar_outline_buffer()` `outline.buffer()` : Get a composite buffer
-    in a format suitable for plotting its outline
-  - `mar_combine_buffers()` `combine.buffers()` : Create a new, (non
-    circular) composite buffer from a list of existing buffers.
-  - `mar_lines_gc()` `linesGC()` : Add Great Circle lines on a map
-  - `mar_space_pies()` `space.pies()` : Automatic placement of piecharts
-    on maps
-  - `mar_diag_bathy()` `diag.bathy()` : Finds matrix diagonal for
-    non-square matrices
-  - `mar_transition_matrix()` `trans.mat()` : Transition matrix
+  - `subset_bathy()` : Creates bathy objects from larger bathy objects
+  - `collate_bathy()` : Collates two bathy matrices with data from
+    either sides of the antimeridian
+  - `griddify()` : Fill a grid with irregularly spaced data
+  - `antimeridian_box()` : Adds a box to maps including antimeridian
+  - `create_buffer()` `print_buffer()` : Create a buffer of specified
+    radius around one or several points
+  - `outline_buffer()` : Get a composite buffer in a format suitable for
+    plotting its outline
+  - `combine_buffers()` : Create a new, (non circular) composite buffer
+    from a list of existing buffers.
+  - `lines_gc()` : Add Great Circle lines on a map
+  - `space_pies()` : Automatic placement of piecharts on maps
+  - `diag_bathy()` : Finds matrix diagonal for non-square matrices
+  - `transition_matrix()` : Transition matrix
 
 ## Data
 
@@ -120,9 +90,8 @@
 
   - `aleutians` : Bathymetric data for the Aleutians (Alaska)
   - `celt` : Bathymetric data for the North Est Atlantic
-  - `etopo` `mar_etopo_colors()` `mar_scale_fill_etopo()`
-    `mar_scale_color_etopo()` `etopo.colors()` `scale_fill_etopo()`
-    `scale_color_etopo()` : Etopo colours
+  - `etopo` `etopo_colors()` `scale_fill_etopo()` `scale_color_etopo()`
+    : Etopo colours
   - `florida` : Bathymetric data around Florida, USA
   - `hawaii` `hawaii.sites` : Bathymetric data for Hawaii, USA
   - `irregular` : Irregularly spaced bathymetric data.
@@ -138,6 +107,6 @@
   - `marmap2` `marmap2-package` : Import, plot and analyze bathymetric
     and topographic data
 
-  - `summary(<bathy>)` `mar_summary_bathy()` :
+  - `summary_bathy()` :
     
     Summary of bathymetric data of class `bathy`

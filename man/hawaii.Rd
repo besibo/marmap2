@@ -3,7 +3,6 @@
 \docType{data}
 \name{hawaii}
 \alias{hawaii}
-\alias{hawaii.sites}
 \title{Bathymetric data for Hawaii, USA}
 \usage{
 data(hawaii)
@@ -17,7 +16,7 @@ data(hawaii.sites)
 Bathymetric object of class \code{bathy} created from NOAA GEODAS data and arbitrary locations around the main Hawaiian islands.
 }
 \details{
-\code{hawaii} contains data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}) and transformed into an object of class \code{bathy} by \code{mar_read_bathy}.
+\code{hawaii} contains data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}) and transformed into an object of class \code{bathy} by \code{read_bathy}.
 \code{hawaii.sites} is a 2-columns data.frame containing longitude and latitude of 6 locations spread at sea around Hawaii.
 }
 \examples{
@@ -30,7 +29,7 @@ Bathymetric object of class \code{bathy} created from NOAA GEODAS data and arbit
 	summary(hawaii)
 
 \dontrun{
-## use of mar_plot_bathy to produce a bathymetric map
+## use of plot_bathy to produce a bathymetric map
 # creation of a color palette
 	pal <- colorRampPalette(c("black","darkblue","blue","lightblue"))
 
@@ -42,11 +41,11 @@ Bathymetric object of class \code{bathy} created from NOAA GEODAS data and arbit
 	map("worldHires",res=0,fill=TRUE,col=rgb(.8,.95,.8,.7),add=TRUE)
 
 # Adding hawaii.sites location on the map
-	points(hawaii.sites,pch=21,col="yellow",bg=mar_col2alpha("yellow",.9),cex=1.2)
+	points(hawaii.sites,pch=21,col="yellow",bg=color_to_alpha("yellow",.9),cex=1.2)
 }
 }
 \seealso{
-\code{\link{mar_plot_bathy}}, \code{\link{mar_summary_bathy}}
+\code{\link{plot_bathy}}, \code{\link{summary_bathy}}
 }
 \author{
 see \url{https://www.ncei.noaa.gov/maps/grid-extract/}

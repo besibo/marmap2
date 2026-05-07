@@ -16,11 +16,11 @@ A bathymetric object of class `bathy` with 539 rows and 659 columns.
 
 Data imported from the NOAA Grid Extract webpage
 (<https://www.ncei.noaa.gov/maps/grid-extract/>) and transformed into an
-object of class `bathy` by `mar_read_bathy`.
+object of class `bathy` by `read_bathy`.
 
 ## See also
 
-`mar_plot_bathy`, `mar_summary_bathy`
+`plot_bathy`, `summary_bathy`
 
 ## Author
 
@@ -36,7 +36,7 @@ data(florida)
 class(florida)
 summary(florida)
 
-# test mar_plot_bathy
+# test plot_bathy
 plot(florida,asp=1)
 plot(florida,asp=1,image=TRUE,drawlabels=TRUE,land=TRUE,n=40)
 ```

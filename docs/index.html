@@ -69,7 +69,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/besibo/marmap2" class="external-link">marmap2</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">bathy</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mar_get_noaa.html">mar_get_noaa</a></span><span class="op">(</span></span>
+<span><span class="va">bathy</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_noaa.html">get_noaa</a></span><span class="op">(</span></span>
 <span>  lon1 <span class="op">=</span> <span class="op">-</span><span class="fl">6</span>, lon2 <span class="op">=</span> <span class="op">-</span><span class="fl">5</span>,</span>
 <span>  lat1 <span class="op">=</span> <span class="fl">49</span>, lat2 <span class="op">=</span> <span class="fl">50</span>,</span>
 <span>  resolution <span class="op">=</span> <span class="fl">1</span></span>
@@ -78,7 +78,7 @@
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bathy</span>, image <span class="op">=</span> <span class="cn">TRUE</span>, land <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>The package also includes an importer for the official GEBCO download service:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">gebco</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mar_get_gebco.html">mar_get_gebco</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">gebco</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_gebco.html">get_gebco</a></span><span class="op">(</span></span>
 <span>  lon1 <span class="op">=</span> <span class="op">-</span><span class="fl">6</span>, lon2 <span class="op">=</span> <span class="op">-</span><span class="fl">5</span>,</span>
 <span>  lat1 <span class="op">=</span> <span class="fl">49</span>, lat2 <span class="op">=</span> <span class="fl">50</span>,</span>
 <span>  resolution <span class="op">=</span> <span class="fl">1</span></span>

@@ -7,7 +7,7 @@ tidier function names, updated documentation and newer data import workflows.
 ```r
 library(marmap2)
 
-bathy <- mar_get_noaa(
+bathy <- get_noaa(
   lon1 = -6, lon2 = -5,
   lat1 = 49, lat2 = 50,
   resolution = 1
@@ -19,7 +19,7 @@ plot(bathy, image = TRUE, land = TRUE)
 The package also includes an importer for the official GEBCO download service:
 
 ```r
-gebco <- mar_get_gebco(
+gebco <- get_gebco(
   lon1 = -6, lon2 = -5,
   lat1 = 49, lat2 = 50,
   resolution = 1

@@ -53,11 +53,11 @@
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Data imported from the NOAA Grid Extract webpage (<a href="https://www.ncei.noaa.gov/maps/grid-extract/" class="external-link">https://www.ncei.noaa.gov/maps/grid-extract/</a>) and transformed into an object of class <code>bathy</code> by <code>mar_as_bathy</code>.</p>
+    <p>Data imported from the NOAA Grid Extract webpage (<a href="https://www.ncei.noaa.gov/maps/grid-extract/" class="external-link">https://www.ncei.noaa.gov/maps/grid-extract/</a>) and transformed into an object of class <code>bathy</code> by <code>as_bathy</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="mar_as_bathy.html">mar_as_bathy</a></code>, <code><a href="mar_read_bathy.html">mar_read_bathy</a></code>, <code><a href="mar_antimeridian_box.html">mar_antimeridian_box</a></code></p></div>
+    <div class="dont-index"><p><code><a href="as_bathy.html">as_bathy</a></code>, <code><a href="read_bathy.html">read_bathy</a></code>, <code><a href="antimeridian_box.html">antimeridian_box</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -73,12 +73,12 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">aleutians</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">aleutians</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># test mar_plot_bathy</span></span>
+<span><span class="co"># test plot_bathy</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">aleutians</span>,image <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>     bpal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">aleutians</span><span class="op">)</span>,<span class="st">"grey"</span><span class="op">)</span>,</span>
 <span>                 <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">aleutians</span><span class="op">)</span>,<span class="fl">0</span>,<span class="st">"darkblue"</span>,<span class="st">"lightblue"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>     land <span class="op">=</span> <span class="cn">TRUE</span>, lwd <span class="op">=</span> <span class="fl">0.1</span>, axes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="mar_antimeridian_box.html">mar_antimeridian_box</a></span><span class="op">(</span><span class="va">aleutians</span>, <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="antimeridian_box.html">antimeridian_box</a></span><span class="op">(</span><span class="va">aleutians</span>, <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

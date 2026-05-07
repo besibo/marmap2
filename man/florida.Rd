@@ -14,7 +14,7 @@ A bathymetric object of class \code{bathy} with 539 rows and 659 columns.
 Bathymetric object of class \code{bathy} created from NOAA GEODAS data.
 }
 \details{
-Data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}) and transformed into an object of class \code{bathy} by \code{mar_read_bathy}.
+Data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}) and transformed into an object of class \code{bathy} by \code{read_bathy}.
 }
 \examples{
 # load florida data
@@ -24,12 +24,12 @@ data(florida)
 class(florida)
 summary(florida)
 
-# test mar_plot_bathy
+# test plot_bathy
 plot(florida,asp=1)
 plot(florida,asp=1,image=TRUE,drawlabels=TRUE,land=TRUE,n=40)
 }
 \seealso{
-\code{\link{mar_plot_bathy}}, \code{\link{mar_summary_bathy}}
+\code{\link{plot_bathy}}, \code{\link{summary_bathy}}
 }
 \author{
 see \url{https://www.ncei.noaa.gov/maps/grid-extract/}

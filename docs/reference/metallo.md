@@ -34,7 +34,7 @@ endemism in the NW Atlantic. Marine Ecology Progress Series 397:25-35.
 ``` r
 # load NW Atlantic data and convert to class bathy
 data(nw.atlantic,metallo)
-atl <- mar_as_bathy(nw.atlantic)
+atl <- as_bathy(nw.atlantic)
 
 ## the function plot below plots:
 ## - the coastline in blue,

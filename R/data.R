@@ -9,7 +9,7 @@
 #' data(aleutians)
 #'
 #' @details
-#' Data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}) and transformed into an object of class \code{bathy} by \code{mar_as_bathy}.
+#' Data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}) and transformed into an object of class \code{bathy} by \code{as_bathy}.
 #'
 #' @return
 #' A text file.
@@ -18,7 +18,7 @@
 #' see \url{https://www.ncei.noaa.gov/maps/grid-extract/}
 #'
 #' @seealso
-#' \code{\link{mar_as_bathy}}, \code{\link{mar_read_bathy}}, \code{\link{mar_antimeridian_box}}
+#' \code{\link{as_bathy}}, \code{\link{read_bathy}}, \code{\link{antimeridian_box}}
 #'
 #' @examples
 #' # load celt data
@@ -28,12 +28,12 @@
 #' class(aleutians)
 #' summary(aleutians)
 #'
-#' # test mar_plot_bathy
+#' # test plot_bathy
 #' plot(aleutians,image = TRUE,
 #'      bpal = list(c(0,max(aleutians),"grey"),
 #'                  c(min(aleutians),0,"darkblue","lightblue")),
 #'      land = TRUE, lwd = 0.1, axes = FALSE)
-#' mar_antimeridian_box(aleutians, 10)
+#' antimeridian_box(aleutians, 10)
 NULL
 
 #' Bathymetric data for the North Est Atlantic
@@ -47,7 +47,7 @@ NULL
 #' data(celt)
 #'
 #' @details
-#' Data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}) and transformed into an object of class \code{bathy} by \code{mar_as_bathy}.
+#' Data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}) and transformed into an object of class \code{bathy} by \code{as_bathy}.
 #'
 #' @return
 #' A text file.
@@ -56,7 +56,7 @@ NULL
 #' see \url{https://www.ncei.noaa.gov/maps/grid-extract/}
 #'
 #' @seealso
-#' \code{\link{mar_as_bathy}}, \code{\link{mar_read_bathy}}
+#' \code{\link{as_bathy}}, \code{\link{read_bathy}}
 #'
 #' @examples
 #' # load celt data
@@ -66,7 +66,7 @@ NULL
 #' class(celt)
 #' summary(celt)
 #'
-#' # test mar_plot_bathy
+#' # test plot_bathy
 #' plot(celt, deep=-300, shallow=-50, step=25)
 NULL
 
@@ -81,7 +81,7 @@ NULL
 #' data(florida)
 #'
 #' @details
-#' Data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}) and transformed into an object of class \code{bathy} by \code{mar_read_bathy}.
+#' Data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}) and transformed into an object of class \code{bathy} by \code{read_bathy}.
 #'
 #' @return
 #' A bathymetric object of class \code{bathy} with 539 rows and 659 columns.
@@ -90,7 +90,7 @@ NULL
 #' see \url{https://www.ncei.noaa.gov/maps/grid-extract/}
 #'
 #' @seealso
-#' \code{\link{mar_plot_bathy}}, \code{\link{mar_summary_bathy}}
+#' \code{\link{plot_bathy}}, \code{\link{summary_bathy}}
 #'
 #' @examples
 #' # load florida data
@@ -100,7 +100,7 @@ NULL
 #' class(florida)
 #' summary(florida)
 #'
-#' # test mar_plot_bathy
+#' # test plot_bathy
 #' plot(florida,asp=1)
 #' plot(florida,asp=1,image=TRUE,drawlabels=TRUE,land=TRUE,n=40)
 NULL
@@ -111,14 +111,13 @@ NULL
 #' Bathymetric object of class \code{bathy} created from NOAA GEODAS data and arbitrary locations around the main Hawaiian islands.
 #'
 #' @name hawaii
-#' @aliases hawaii.sites
 #' @docType data
 #' @usage
 #' data(hawaii)
 #' data(hawaii.sites)
 #'
 #' @details
-#' \code{hawaii} contains data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}) and transformed into an object of class \code{bathy} by \code{mar_read_bathy}.
+#' \code{hawaii} contains data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}) and transformed into an object of class \code{bathy} by \code{read_bathy}.
 #' \code{hawaii.sites} is a 2-columns data.frame containing longitude and latitude of 6 locations spread at sea around Hawaii.
 #'
 #' @return
@@ -129,7 +128,7 @@ NULL
 #' see \url{https://www.ncei.noaa.gov/maps/grid-extract/}
 #'
 #' @seealso
-#' \code{\link{mar_plot_bathy}}, \code{\link{mar_summary_bathy}}
+#' \code{\link{plot_bathy}}, \code{\link{summary_bathy}}
 #'
 #' @examples
 #' # load hawaii data
@@ -141,7 +140,7 @@ NULL
 #' 	summary(hawaii)
 #'
 #' \dontrun{
-#' ## use of mar_plot_bathy to produce a bathymetric map
+#' ## use of plot_bathy to produce a bathymetric map
 #' # creation of a color palette
 #' 	pal <- colorRampPalette(c("black","darkblue","blue","lightblue"))
 #'
@@ -153,7 +152,7 @@ NULL
 #' 	map("worldHires",res=0,fill=TRUE,col=rgb(.8,.95,.8,.7),add=TRUE)
 #'
 #' # Adding hawaii.sites location on the map
-#' 	points(hawaii.sites,pch=21,col="yellow",bg=mar_col2alpha("yellow",.9),cex=1.2)
+#' 	points(hawaii.sites,pch=21,col="yellow",bg=color_to_alpha("yellow",.9),cex=1.2)
 #' }
 NULL
 
@@ -174,23 +173,23 @@ NULL
 #' Data modified form a dataset kindly provided by Noah Lottig from the university of Wisconsin \url{https://limnology.wisc.edu/staff/lottig-noah/} in the framework of the North Temperate Lakes Long Term Ecological Research program \url{https://lter.limnology.wisc.edu}
 #'
 #' @seealso
-#' \code{\link{mar_griddify}}
+#' \code{\link{griddify}}
 #'
 #' @examples
 #' # load data
 #' data(irregular)
 #'
-#' # use mar_griddify
-#' reg <- mar_griddify(irregular, nlon = 40, nlat = 60)
+#' # use griddify
+#' reg <- griddify(irregular, nlon = 40, nlat = 60)
 #'
 #' # switch to class "bathy"
 #' class(reg)
-#' bat <- mar_as_bathy(reg)
+#' bat <- as_bathy(reg)
 #' summary(bat)
 #'
 #' # Plot the new bathy object along with the original data
 #' plot(bat, image = TRUE, lwd = 0.1)
-#' points(irregular$lon, irregular$lat, pch = 19, cex = 0.3, col = mar_col2alpha(3))
+#' points(irregular$lon, irregular$lat, pch = 19, cex = 0.3, col = color_to_alpha(3))
 NULL
 
 #' Coral sampling information from the North West Atlantic
@@ -218,7 +217,7 @@ NULL
 #' @examples
 #' # load NW Atlantic data and convert to class bathy
 #' data(nw.atlantic,metallo)
-#' atl <- mar_as_bathy(nw.atlantic)
+#' atl <- as_bathy(nw.atlantic)
 #'
 #' ## the function plot below plots:
 #' ## - the coastline in blue,
@@ -266,7 +265,7 @@ NULL
 #' data(nw.atlantic)
 #'
 #' @details
-#' Data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}). To prepare data from NOAA, fill the custom grid form, and choose "XYZ (lon,lat,depth)" as the "Output Grid Format", "No Header" as the "Output Grid Header", and either of the space, tab or comma as the column delimiter (either can be used, but "comma" is the default import format of \code{mar_read_bathy}). Choose "omit empty grid cells" to reduce memory usage.
+#' Data imported from the NOAA Grid Extract webpage (\url{https://www.ncei.noaa.gov/maps/grid-extract/}). To prepare data from NOAA, fill the custom grid form, and choose "XYZ (lon,lat,depth)" as the "Output Grid Format", "No Header" as the "Output Grid Header", and either of the space, tab or comma as the column delimiter (either can be used, but "comma" is the default import format of \code{read_bathy}). Choose "omit empty grid cells" to reduce memory usage.
 #'
 #' @return
 #' A three-columns data.frame containing longitude, latitude and depth/elevation data.
@@ -275,20 +274,20 @@ NULL
 #' see \url{https://www.ncei.noaa.gov/maps/grid-extract/}
 #'
 #' @seealso
-#' \code{\link{mar_plot_bathy}}, \code{\link{mar_summary_bathy}}
+#' \code{\link{plot_bathy}}, \code{\link{summary_bathy}}
 #'
 #' @examples
 #' # load NW Atlantic data
 #' data(nw.atlantic)
 #'
-#' # use mar_as_bathy
-#' atl <- mar_as_bathy(nw.atlantic)
+#' # use as_bathy
+#' atl <- as_bathy(nw.atlantic)
 #'
 #' # class "bathy"
 #' class(atl)
 #' summary(atl)
 #'
-#' # test mar_plot_bathy
+#' # test plot_bathy
 #' plot(atl, deep=-8000, shallow=-1000, step=1000)
 NULL
 
@@ -317,7 +316,7 @@ NULL
 #' @examples
 #' # load NW Atlantic data and convert to class bathy
 #' data(nw.atlantic,nw.atlantic.coast)
-#' atl <- mar_as_bathy(nw.atlantic)
+#' atl <- as_bathy(nw.atlantic)
 #'
 #' ## the function plot below plots only isobaths:
 #' ## - isobaths between 8000-4000 in light grey,

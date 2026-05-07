@@ -16,11 +16,11 @@ A text file.
 
 Data imported from the NOAA Grid Extract webpage
 (<https://www.ncei.noaa.gov/maps/grid-extract/>) and transformed into an
-object of class `bathy` by `mar_as_bathy`.
+object of class `bathy` by `as_bathy`.
 
 ## See also
 
-`mar_as_bathy`, `mar_read_bathy`
+`as_bathy`, `read_bathy`
 
 ## Author
 
@@ -36,6 +36,6 @@ data(celt)
 class(celt)
 summary(celt)
 
-# test mar_plot_bathy
+# test plot_bathy
 plot(celt, deep=-300, shallow=-50, step=25)
 ```

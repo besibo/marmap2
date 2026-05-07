@@ -19,7 +19,7 @@ Sampling locations (longitude, latitude, depth in meters) for the deep-sea octoc
 \examples{
 # load NW Atlantic data and convert to class bathy
 data(nw.atlantic,metallo)
-atl <- mar_as_bathy(nw.atlantic)
+atl <- as_bathy(nw.atlantic)
 
 ## the function plot below plots:
 ## - the coastline in blue,

@@ -22,31 +22,31 @@ bathymetric maps of Papua New Guinea.
 
 Launch R. Navigate to your working directory (for example, with
 `setwd()`). Then launch the `marmap` package. The simplest way to get
-bathymetric data into R for use with `marmap` is to use the
-`getNOAA.bathy()` function. It queries the ETOPO 2022 dataset hosted on
-the NOAA server, based on coordinates and a resolution given by the user
-(please note that this function depends on the availability of the NOAA
-server). In one line, we can get the data into R and start plotting:
+bathymetric data into R for use with `marmap` is to use the `get_noaa()`
+function. It queries the ETOPO 2022 dataset hosted on the NOAA server,
+based on coordinates and a resolution given by the user (please note
+that this function depends on the availability of the NOAA server). In
+one line, we can get the data into R and start plotting:
 
 ``` r
 library(marmap2)
-papoue <- getNOAA.bathy(lon1 = 140, lon2 = 155,
+papoue <- get_noaa(lon1 = 140, lon2 = 155,
             lat1 = -13, lat2 = 0, resolution = 10)
 ```
 
 When the argument `keep` (defaults to `FALSE`) is set to `TRUE`, the
 downloaded data are saved into a file within your current working
 directory. If an identical query is performed several times (*i.e.*
-using identical latitudes, longitudes and resolution), `getNOAA.bathy()`
-will load data from the file previously written to the disk instead of
+using identical latitudes, longitudes and resolution), `get_noaa()` will
+load data from the file previously written to the disk instead of
 querying the NOAA database again. This behavior should be used
 preferentially to reduce the number of uncessary queries to the NOAA
 website and to reduce data load time.
 
-`summary.bathy()` helps you check the data ; because `bathy` is a class,
-and R an object-oriented language, you just have to use `summary()`. R
-will recognize that you are feeding `summary()` an object of class
-`bathy`. This is also true for `plot.bathy()` and `plot()`.
+`summary()` helps you check the data ; because `bathy` is a class, and R
+an object-oriented language, you just have to use `summary()`. R will
+recognize that you are feeding `summary()` an object of class `bathy`.
+This is also true for `plot()` and `plot()`.
 
 ``` r
 summary(papoue)
@@ -63,20 +63,20 @@ resolution is a bit rough, but enough to demonstrate how `marmap` works
 plot(papoue)
 ```
 
-We can now use some of the options of `plot.bathy()` to make the map
-more informative. First, we can plot a heat map, using the built in
-color palette. We can also add a scale in kilometers.
+We can now use some of the options of `plot()` to make the map more
+informative. First, we can plot a heat map, using the built in color
+palette. We can also add a scale in kilometers.
 
 ``` r
 plot(papoue, image = TRUE)
-scaleBathy(papoue, deg = 2, x = "bottomleft", inset = 5)
+scale_bathy(papoue, deg = 2, x = "bottomleft", inset = 5)
 ```
 
 The `bpal` options allows you to use a custom color palette, which can
 be easily prepared with the R function `colorRampPalette()`. We store
 the color ramp in the object called `blues`, and when we call it in
-`plot.bathy()`, we specify how many colors need to be used in the
-palette (here 100).
+`plot()`, we specify how many colors need to be used in the palette
+(here 100).
 
 ``` r
 blues <- colorRampPalette(c("red","purple","blue",
@@ -84,13 +84,12 @@ blues <- colorRampPalette(c("red","purple","blue",
 plot(papoue, image = TRUE, bpal = blues(100))
 ```
 
-For maps using the `image` option of `plot.bathy()`, you might see that
-the PDF rendering of your map is slightly different from the way it
-looks in R: the small space between cells becomes visible. This is
-probably due to the way your system handles PDFs. A simple way around
-this phenomenon is to export the map in a raster (rather than vector)
-format. You can use the `tiff()`, `jpeg()`, `bmp()` or `png()` functions
-available in R.
+For maps using the `image` option of `plot()`, you might see that the
+PDF rendering of your map is slightly different from the way it looks in
+R: the small space between cells becomes visible. This is probably due
+to the way your system handles PDFs. A simple way around this phenomenon
+is to export the map in a raster (rather than vector) format. You can
+use the `tiff()`, `jpeg()`, `bmp()` or `png()` functions available in R.
 
 This map looks a little crowded ; let’s dim the isobaths (dark grey
 color and lighter line width), and strengthen the coastline (black color
@@ -109,13 +108,12 @@ plot(papoue, image = TRUE, bpal = blues(100),
      drawlabel = c(FALSE, FALSE, FALSE))
 ```
 
-The `bpal` argument of `plot.bathy()` also accepts a list of
-depth/altitude slices associated with a set of colors for each slice.
-This method makes it possible to easily produce publication-quality
-maps. For instance, using the `papoue` dataset downloaded at full
-resolution (*i.e.* with the `resolution` argument of the
-`getNOAA.bathy()` function set to 1) we can easily produce a
-high-resolution map:
+The `bpal` argument of `plot()` also accepts a list of depth/altitude
+slices associated with a set of colors for each slice. This method makes
+it possible to easily produce publication-quality maps. For instance,
+using the `papoue` dataset downloaded at full resolution (*i.e.* with
+the `resolution` argument of the `get_noaa()` function set to 1) we can
+easily produce a high-resolution map:
 
 ``` r
 # Creating a custom palette of blues
@@ -146,28 +144,27 @@ and the western (-180 to -165) portions of the area of interest. For
 example, if you try to download bathymetric data for the Aleutians in
 one step on the GEBCO website (<http://www.gebco.net>), an error message
 tells you \``The Westernmost is more Easterly than the Easternmost.
-Please amend your search query''.`getNOAA()`has an argument to deal with
-the antemeridian region. For the Aleutians, you would use
-the`antimeridian`argument.`summary.bathy()`can interpret antimeridian
-areas as well. When you plot your antimeridian region, the default
-behavior of`plot.bathy()`is to scale longitudes from 0 to 360 degrees
-(170E to 170W would be displayed as 170, 190 instead of 170, -170). You
-can use the argument`axes=FALSE`in`plot.bathy()`and add correct labels
-with`antimeridian.box()`. We have set the default behavior
-of`plot.bathy()\` in this way to remind the user that the scale of the
-bathy object, in the antimeridian region, goes from 0 to 360; if you
-need to plot points on the map, you need to take this into account
-(*i.e.* a point at -170 longitude must be plotted using -170 + 360 =
-190, not 170 nor -170).
+Please amend your search query''.`get\_noaa()`has an argument to deal
+with the antemeridian region. For the Aleutians, you would use
+the`antimeridian`argument.`summary()`can interpret antimeridian areas as
+well. When you plot your antimeridian region, the default behavior
+of`plot()`is to scale longitudes from 0 to 360 degrees (170E to 170W
+would be displayed as 170, 190 instead of 170, -170). You can use the
+argument`axes=FALSE`in`plot()`and add correct labels
+with`antimeridian\_box()`. We have set the default behavior of`plot()\`
+in this way to remind the user that the scale of the bathy object, in
+the antimeridian region, goes from 0 to 360; if you need to plot points
+on the map, you need to take this into account (*i.e.* a point at -170
+longitude must be plotted using -170 + 360 = 190, not 170 nor -170).
 
 ``` r
-aleu <- getNOAA.bathy(165, -145, 50, 65, resolution = 5,
+aleu <- get_noaa(165, -145, 50, 65, resolution = 5,
                       antimeridian = TRUE)
 plot(aleu, image = TRUE, land = TRUE, axes = FALSE, lwd=0.1,
      bpal = list(c(0, max(aleu), grey(.7), grey(.9), grey(.95)),
                  c(min(aleu), 0, "darkblue", "lightblue")))
 plot(aleu, n = 1, lwd = 0.5, add = TRUE)
-antimeridian.box(aleu)
+antimeridian_box(aleu)
 ```
 
 ![](figures/aleu.png)
@@ -178,7 +175,7 @@ summary(aleu)
 
 Alternatively, it is possible to import two compatible `bathy` objects
 (for instance from GEBCO), one for the eastern part and one for the
-western part of the area of interest. The function `collate.bathy()`
+western part of the area of interest. The function `collate_bathy()`
 takes care of the stitching process: relabelling longitudes in the 0-360
 degrees range, removing duplicated data (*i.e.* the data for longitude
 180 is often present once in each individual dataset and thus needs to
@@ -189,7 +186,7 @@ the antimeridian region is as simple as:
 ``` r
 a <- getGEBCO.bathy("east.nc")
 b <- getGEBCO.bathy("west.nc")
-stitched <- collate.bathy(a,b)
+stitched <- collate_bathy(a,b)
 ```
 
 #### Irregularly-spaced data
@@ -220,7 +217,7 @@ class(reg)
 Then, we transform this object into a `bathy` object for easy plotting:
 
 ``` r
-bat <- as.bathy(reg)
+bat <- as_bathy(reg)
 class(bat)
 
 # Plot the new bathy object

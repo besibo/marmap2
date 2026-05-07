@@ -19,13 +19,13 @@ columns. `hawaii.sites`: data.frame (6 rows, 2 columns)
 
 `hawaii` contains data imported from the NOAA Grid Extract webpage
 (<https://www.ncei.noaa.gov/maps/grid-extract/>) and transformed into an
-object of class `bathy` by `mar_read_bathy`. `hawaii.sites` is a
-2-columns data.frame containing longitude and latitude of 6 locations
-spread at sea around Hawaii.
+object of class `bathy` by `read_bathy`. `hawaii.sites` is a 2-columns
+data.frame containing longitude and latitude of 6 locations spread at
+sea around Hawaii.
 
 ## See also
 
-`mar_plot_bathy`, `mar_summary_bathy`
+`plot_bathy`, `summary_bathy`
 
 ## Author
 
@@ -43,7 +43,7 @@ see <https://www.ncei.noaa.gov/maps/grid-extract/>
   summary(hawaii)
 
 if (FALSE) { # \dontrun{
-## use of mar_plot_bathy to produce a bathymetric map
+## use of plot_bathy to produce a bathymetric map
 # creation of a color palette
   pal <- colorRampPalette(c("black","darkblue","blue","lightblue"))
 
@@ -55,6 +55,6 @@ if (FALSE) { # \dontrun{
   map("worldHires",res=0,fill=TRUE,col=rgb(.8,.95,.8,.7),add=TRUE)
 
 # Adding hawaii.sites location on the map
-  points(hawaii.sites,pch=21,col="yellow",bg=mar_col2alpha("yellow",.9),cex=1.2)
+  points(hawaii.sites,pch=21,col="yellow",bg=color_to_alpha("yellow",.9),cex=1.2)
 } # }
 ```

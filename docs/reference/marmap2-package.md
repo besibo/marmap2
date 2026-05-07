@@ -34,6 +34,8 @@ Useful links:
 
   - <https://github.com/besibo/marmap2>
 
+  - <https://besibo.github.io/marmap2/>
+
   - Report bugs at <https://github.com/besibo/marmap2/issues>
 
 ## Author

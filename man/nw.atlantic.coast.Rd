@@ -19,7 +19,7 @@ Coastline data for the NW Atlantic was obtained using the NOAA Coastline Extract
 \examples{
 # load NW Atlantic data and convert to class bathy
 data(nw.atlantic,nw.atlantic.coast)
-atl <- mar_as_bathy(nw.atlantic)
+atl <- as_bathy(nw.atlantic)
 
 ## the function plot below plots only isobaths:
 ## - isobaths between 8000-4000 in light grey,
