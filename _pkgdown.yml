@@ -1,0 +1,96 @@
+url: https://besibo.github.io/marmap2/
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  bslib:
+    primary: "#126782"
+
+home:
+  title: Import, plot and analyse bathymetric data in R
+  sidebar:
+    structure: [links, license, community, citation, authors, dev]
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [search, github]
+  components:
+    intro:
+      text: Get started
+      href: articles/marmap.html
+
+articles:
+  - title: Vignettes
+    navbar: ~
+    contents:
+      - marmap
+      - marmap-import-export
+      - marmap-data-analysis
+
+reference:
+  - title: Data import
+    contents:
+      - starts_with("mar_get_")
+      - mar_read_bathy
+      - mar_read_gebco_bathy
+      - mar_set_sql
+      - mar_subset_sql
+  - title: Bathy conversion and validation
+    contents:
+      - mar_as_bathy
+      - mar_as_xyz
+      - mar_as_raster
+      - mar_as_spatial_grid_data_frame
+      - mar_bathy_to_spatraster
+      - mar_is_bathy
+      - mar_check_bathy
+  - title: Plotting
+    contents:
+      - mar_plot_bathy
+      - plot.buffer
+      - mar_plot_profile
+      - mar_plot_area
+      - mar_palette_bathy
+      - mar_etopo_colors
+      - mar_col2alpha
+      - starts_with("mar_scale_")
+      - fortify.bathy
+      - mar_autoplot_bathy
+  - title: Spatial analysis
+    contents:
+      - mar_get_depth
+      - mar_get_sample
+      - mar_get_transect
+      - mar_path_profile
+      - mar_get_area
+      - mar_distance_to_isobath
+      - starts_with("mar_least_cost_")
+  - title: Utilities
+    contents:
+      - mar_subset_bathy
+      - mar_collate_bathy
+      - mar_griddify
+      - mar_antimeridian_box
+      - mar_create_buffer
+      - mar_outline_buffer
+      - mar_combine_buffers
+      - mar_lines_gc
+      - mar_space_pies
+      - mar_diag_bathy
+      - mar_transition_matrix
+  - title: Data
+    contents:
+      - aleutians
+      - celt
+      - etopo
+      - florida
+      - hawaii
+      - irregular
+      - metallo
+      - nw.atlantic
+      - nw.atlantic.coast
+  - title: Package
+    contents:
+      - marmap2-package
+      - summary.bathy
