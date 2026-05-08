@@ -25,12 +25,14 @@ options(width = 60, continue = "  ")
 
 | Function | Job | Input | Output | Internet |
 |---|---|---|---|---|
-| `get_noaa()` | Downloads data from NOAA servers | Coordinates of bounding box and resolution | Data matrix of class `bathy` | yes |
+| `get_noaa()` | Downloads data from NOAA servers | Coordinates of bounding box and resolution | Tibble by default, or `bathy` with `class = "bathy"` | yes |
 | `read_gebco_bathy()` | Imports data from a GEBCO file | External NetCDF file | Data matrix of class `bathy` | no |
 | `read_bathy()` | Imports xyz data | External xyz file | Data matrix of class `bathy` | no |
 | `set_sql()` | Creates a local SQL database | External xyz file | SQL database | no |
 | `subset_sql()` | Queries a local SQL database | Bounding box and resolution | Data matrix of class `bathy` | no |
 | `as_xyz()` | Converts `bathy` to xyz | `bathy` object | xyz table | no |
+| `bathy_to_tbl()` | Converts `bathy` to a tibble | `bathy` object | tibble | no |
+| `tbl_to_bathy()` | Converts a tibble to `bathy` | long table | `bathy` object | no |
 | `as_bathy()` | Converts xyz or raster to `bathy` | xyz table or raster object | `bathy` object | no |
 
 

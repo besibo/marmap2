@@ -36,7 +36,8 @@ Launch R. Navigate to your working directory (for example, with `setwd()`). Then
 ```{r, eval=FALSE, echo=TRUE}
 library(marmap2)
 papoue <- get_noaa(lon1 = 140, lon2 = 155,
-			lat1 = -13, lat2 = 0, resolution = 10)
+			lat1 = -13, lat2 = 0, resolution = 10,
+			class = "bathy")
 ```
 
 
@@ -121,7 +122,7 @@ The antimeridian (or antemeridian) is the 180th meridian and is located about in
 
 ```{r, eval=FALSE}
 aleu <- get_noaa(165, -145, 50, 65, resolution = 5,
-                      antimeridian = TRUE)
+                 class = "bathy", antimeridian = TRUE)
 plot(aleu, image = TRUE, land = TRUE, axes = FALSE, lwd=0.1,
      bpal = list(c(0, max(aleu), grey(.7), grey(.9), grey(.95)),
                  c(min(aleu), 0, "darkblue", "lightblue")))

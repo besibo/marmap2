@@ -10,7 +10,8 @@ database :
 ``` r
 library(marmap2)
 papoue <- get_noaa(lon1 = 140, lon2 = 155,
-            lat1 = -13, lat2 = 0, resolution = 4)
+            lat1 = -13, lat2 = 0, resolution = 4,
+            class = "bathy")
 ```
 
 We can map these data using `plot()`:
@@ -549,7 +550,8 @@ world:
 library(raster)
 
 # Get data for the whole world. Careful: ca. 21 Mo!
-world <- get_noaa(-180, 180, -90, 90, res = 15, keep = TRUE)
+world <- get_noaa(-180, 180, -90, 90, resolution = 15,
+                  class = "bathy", keep = TRUE)
 
 # Switch to raster
 world.ras <- marmap::as_raster(world)

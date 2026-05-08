@@ -6,8 +6,19 @@ image service.
 ## Usage
 
 ``` r
-get_noaa(lon1, lon2, lat1, lat2, resolution = 4, keep = FALSE,
-  antimeridian = FALSE, path = NULL)
+get_noaa(
+  lon1 = NULL,
+  lon2 = NULL,
+  lat1 = NULL,
+  lat2 = NULL,
+  resolution = 4,
+  class = c("tbl", "bathy"),
+  keep = FALSE,
+  antimeridian = FALSE,
+  path = NULL,
+  lon = NULL,
+  lat = NULL
+)
 ```
 
 ## Arguments
@@ -32,6 +43,12 @@ get_noaa(lon1, lon2, lat1, lat2, resolution = 4, keep = FALSE,
     
     Requested grid resolution in arc-minutes.
 
+  - class:
+    
+    Character. Class of the returned object. Use `"tbl"` (default) to
+    return a tibble with columns `lon`, `lat`, and `depth`; use
+    `"bathy"` to return a historical matrix of class `bathy`.
+
   - keep:
     
     Whether to write the downloaded xyz table to disk.
@@ -44,6 +61,17 @@ get_noaa(lon1, lon2, lat1, lat2, resolution = 4, keep = FALSE,
     
     Directory used for cached csv files when `keep = TRUE`.
 
+  - lon:
+    
+    Numeric vector of length 2 giving the longitude bounds. This is an
+    alternative to `lon1` and `lon2`.
+
+  - lat:
+    
+    Numeric vector of length 2 giving the latitude bounds. This is an
+    alternative to `lat1` and `lat2`.
+
 ## Value
 
-An object of class `bathy`.
+A tibble by default, or an object of class `bathy` when `class =
+"bathy"`.

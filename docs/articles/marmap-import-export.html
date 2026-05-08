@@ -99,7 +99,7 @@
 <td><code><a href="../reference/get_noaa.html">get_noaa()</a></code></td>
 <td>Downloads data from NOAA servers</td>
 <td>Coordinates of bounding box and resolution</td>
-<td>Data matrix of class <code>bathy</code>
+<td>Tibble by default, or <code>bathy</code> with <code>class = "bathy"</code>
 </td>
 <td>yes</td>
 </tr>
@@ -140,6 +140,23 @@
 <td>
 <code>bathy</code> object</td>
 <td>xyz table</td>
+<td>no</td>
+</tr>
+<tr class="odd">
+<td><code><a href="../reference/bathy_to_tbl.html">bathy_to_tbl()</a></code></td>
+<td>Converts <code>bathy</code> to a tibble</td>
+<td>
+<code>bathy</code> object</td>
+<td>tibble</td>
+<td>no</td>
+</tr>
+<tr class="even">
+<td><code><a href="../reference/bathy_to_tbl.html">tbl_to_bathy()</a></code></td>
+<td>Converts a tibble to <code>bathy</code>
+</td>
+<td>long table</td>
+<td>
+<code>bathy</code> object</td>
 <td>no</td>
 </tr>
 <tr class="odd">

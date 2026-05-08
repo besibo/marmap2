@@ -31,7 +31,8 @@ one line, we can get the data into R and start plotting:
 ``` r
 library(marmap2)
 papoue <- get_noaa(lon1 = 140, lon2 = 155,
-            lat1 = -13, lat2 = 0, resolution = 10)
+            lat1 = -13, lat2 = 0, resolution = 10,
+            class = "bathy")
 ```
 
 When the argument `keep` (defaults to `FALSE`) is set to `TRUE`, the
@@ -159,7 +160,7 @@ longitude must be plotted using -170 + 360 = 190, not 170 nor -170).
 
 ``` r
 aleu <- get_noaa(165, -145, 50, 65, resolution = 5,
-                      antimeridian = TRUE)
+                 class = "bathy", antimeridian = TRUE)
 plot(aleu, image = TRUE, land = TRUE, axes = FALSE, lwd=0.1,
      bpal = list(c(0, max(aleu), grey(.7), grey(.9), grey(.95)),
                  c(min(aleu), 0, "darkblue", "lightblue")))

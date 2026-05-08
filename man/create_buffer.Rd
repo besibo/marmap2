@@ -17,6 +17,8 @@ print_buffer(x, ...)
 \item{radius}{\code{numeric}. Radius of the buffer in the same unit as the \code{bathy} object (i.e. usually decimal degrees) when \code{km=FALSE} (default) or in kilometers when \code{radius=TRUE}.}
 
 \item{km}{\code{logical}. If \code{TRUE}, the \code{radius} should be provided in kilometers. When \code{FALSE} (default) the radius is in the same unit as the \code{bathy} object (i.e. usually decimal degrees).}
+
+\item{...}{further arguments passed to or from other methods.}
 }
 \value{
 An object of class \code{bathy} of the same size as \code{mat} containing only \code{NA}s outside of the buffer and values of depth/altitude (taken from \code{mat}) within the buffer.

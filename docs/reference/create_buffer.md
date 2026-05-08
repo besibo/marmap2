@@ -34,6 +34,10 @@ print_buffer(x, ...)
     When `FALSE` (default) the radius is in the same unit as the `bathy`
     object (i.e. usually decimal degrees).
 
+  - ...:
+    
+    further arguments passed to or from other methods.
+
 ## Value
 
 An object of class `bathy` of the same size as `mat` containing only

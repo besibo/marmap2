@@ -16,7 +16,8 @@ Author: Eric Pante [aut], Benoit Simon-Bouhet [aut, cre], Jean-Olivier Irisson [
 Maintainer: Benoit Simon-Bouhet <besibo@gmail.com>
 Depends: R (>= 2.10)
 Imports: DBI, RSQLite, curl, gdistance, geosphere, sp, raster, ncdf4,
-        plotrix, shape, reshape2, adehabitatMA, ggplot2, methods
+        plotrix, shape, reshape2, adehabitatMA, ggplot2, methods, rlang,
+        tibble, sf
 Suggests: maps, mapdata, lattice, mapproj, pkgdown, quarto, terra
 BugReports: https://github.com/besibo/marmap2/issues
 Description: Import bathymetric and hypsometric data from the NOAA (National Oceanic and Atmospheric Administration, <https://www.ncei.noaa.gov/products/etopo-global-relief-model>), GEBCO (General Bathymetric Chart of the Oceans, <https://www.gebco.net>) and other sources, plot xyz data to prepare publication-ready figures, analyze xyz data to extract transects, get depth / altitude based on geographical coordinates, or calculate z-constrained least-cost paths.

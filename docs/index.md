@@ -11,7 +11,8 @@ library(marmap2)
 bathy <- get_noaa(
   lon1 = -6, lon2 = -5,
   lat1 = 49, lat2 = 50,
-  resolution = 1
+  resolution = 1,
+  class = "bathy"
 )
 
 plot(bathy, image = TRUE, land = TRUE)
@@ -24,6 +25,7 @@ service:
 gebco <- get_gebco(
   lon1 = -6, lon2 = -5,
   lat1 = 49, lat2 = 50,
-  resolution = 1
+  resolution = 1,
+  class = "bathy"
 )
 ```

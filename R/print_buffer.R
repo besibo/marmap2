@@ -24,5 +24,6 @@ print.buffer <- function(x, ...){
 }
 
 #' @rdname create_buffer
+#' @param ... further arguments passed to or from other methods.
 #' @export
 print_buffer <- print.buffer

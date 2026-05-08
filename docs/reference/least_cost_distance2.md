@@ -1,12 +1,18 @@
 # Computes least cost distances between two or more locations
 
-Computes least cost distances between two or more
-locations
+Computes least cost distances between two or more locations
 
 ## Usage
 
 ``` r
-least_cost_distance2(trans, loc, res = c("dist", "path"), unit = "meter", speed = 8, round = 0)
+least_cost_distance2(
+  trans,
+  loc,
+  res = c("dist", "path"),
+  unit = "meter",
+  speed = 8,
+  round = 0
+)
 ```
 
 ## Arguments

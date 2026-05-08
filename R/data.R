@@ -111,6 +111,7 @@ NULL
 #' Bathymetric object of class \code{bathy} created from NOAA GEODAS data and arbitrary locations around the main Hawaiian islands.
 #'
 #' @name hawaii
+#' @aliases hawaii.sites
 #' @docType data
 #' @usage
 #' data(hawaii)

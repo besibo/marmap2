@@ -5,11 +5,13 @@
 \title{Download bathymetry from the GEBCO download service}
 \usage{
 get_gebco(
-  lon1,
-  lon2,
-  lat1,
-  lat2,
+  lon1 = NULL,
+  lon2 = NULL,
+  lat1 = NULL,
+  lat2 = NULL,
   resolution = 1,
+  class = c("tbl", "bathy"),
+  antimeridian = FALSE,
   keep = FALSE,
   path = NULL,
   base_url = "https://download.gebco.net",
@@ -18,7 +20,9 @@ get_gebco(
   format_id = 1,
   poll_interval = 2,
   timeout = 300,
-  quiet = FALSE
+  quiet = FALSE,
+  lon = NULL,
+  lat = NULL
 )
 }
 \arguments{
@@ -32,8 +36,19 @@ get_gebco(
 
 \item{resolution}{Output grid spacing in arc-minutes. Defaults to \code{1}.
 The GEBCO global NetCDF subset is downloaded at its native 15 arc-second
-resolution, then thinned locally when \code{resolution > 0.25}. Values lower
-than \code{0.25} return the native GEBCO global grid resolution.}
+resolution, then resampled locally with nearest-neighbour selection when
+\code{resolution > 0.25}. Values lower than \code{0.25} return the native
+GEBCO global grid resolution.}
+
+\item{class}{Character. Class of the returned object. Use \code{"tbl"}
+(default) to return a tibble with columns \code{lon}, \code{lat}, and
+\code{depth}; use \code{"bathy"} to return a historical matrix of class
+\code{bathy}.}
+
+\item{antimeridian}{Logical. If \code{TRUE}, the requested longitudinal range
+is interpreted as crossing the antimeridian. The function downloads two
+GEBCO subsets and stitches them into one \code{bathy} object. The order of
+\code{lon1} and \code{lon2} does not matter.}
 
 \item{keep}{Logical. If \code{TRUE}, the xyz table returned as a
 \code{bathy} object is also written as a csv file in \code{path}.}
@@ -63,14 +78,21 @@ bathymetry from the latest global GEBCO grid.}
 processed.}
 
 \item{quiet}{Logical. If \code{FALSE}, progress messages are displayed.}
+
+\item{lon}{Numeric vector of length 2 giving the longitude bounds. This is an
+alternative to \code{lon1} and \code{lon2}.}
+
+\item{lat}{Numeric vector of length 2 giving the latitude bounds. This is an
+alternative to \code{lat1} and \code{lat2}.}
 }
 \value{
-An object of class \code{bathy}. If \code{keep = TRUE}, a csv copy of the
-downloaded xyz table is written to \code{path}.
+A tibble by default, or an object of class \code{bathy} when
+\code{class = "bathy"}. If \code{keep = TRUE}, a csv copy of the downloaded
+xyz table is written to \code{path}.
 }
 \description{
 Downloads a user-defined geographic subset from the official GEBCO download
-service and returns it as an object of class \code{bathy}.
+service and returns it as a tibble or an object of class \code{bathy}.
 }
 \details{
 \code{get_gebco} uses the workflow implemented by the official GEBCO
@@ -79,16 +101,17 @@ a small JSON basket to \code{/api/queue}, polls
 \code{/api/queue/status/\{basketId\}} until the basket is ready, downloads the
 resulting zip archive from \code{/api/queue/download/\{basketId\}}, extracts
 the NetCDF file, reads the \code{lat}, \code{lon}, and \code{elevation}
-variables, and converts them to a \code{bathy} object.
+variables, and converts them to the requested output class.
 
 The current global GEBCO grids are served by the GEBCO download service at
 their native resolution of 15 arc-seconds, i.e. 0.25 arc-minutes or
 0.0041667 decimal degrees. This corresponds to approximately 463 m at the
 equator. The \code{resolution} argument is expressed in arc-minutes for
 consistency with \code{\link{get_noaa}}, but it is not sent to the GEBCO
-API: the NetCDF file is downloaded at native resolution, then thinned locally
-if \code{resolution} is larger than 0.25. Values smaller than 0.25 therefore
-do not increase the spatial resolution and return the native grid.
+API: the NetCDF file is downloaded at native resolution, then resampled
+locally with nearest-neighbour selection on a regular grid if
+\code{resolution} is larger than 0.25. Values smaller than 0.25 therefore do
+not increase the spatial resolution and return the native grid.
 
 GEBCO also exposes some higher-resolution regional or experimental products
 through the same download service, for example polar grids or beta
@@ -99,15 +122,20 @@ currently designed for global longitude/latitude bathymetry layers whose
 NetCDF variables are named \code{lon}, \code{lat}, and \code{elevation}.
 
 The GEBCO download service expects \code{left <= right}; areas crossing the
-antimeridian are therefore not handled by this importer. Split such requests
-into two calls, one on each side of the antimeridian.
+antimeridian are therefore downloaded as two geographic subsets, one from the
+eastern longitude bound to 180 degrees and one from -180 degrees to the
+western longitude bound. The two subsets are then stitched into a single
+\code{bathy} object whose longitudes are expressed in the 0-360 degree range.
+As in \code{\link{get_noaa}}, the order of \code{lon1}/\code{lon2} and
+\code{lat1}/\code{lat2} does not matter: the function sorts the coordinate
+bounds internally before submitting requests to GEBCO.
 }
 \examples{
 \dontrun{
 # Download a one-degree subset from the official GEBCO service
 b <- get_gebco(
-  lon1 = -6, lon2 = -5,
-  lat1 = 49, lat2 = 50,
+  lon = c(-6, -5),
+  lat = c(49, 50),
   resolution = 1
 )
 

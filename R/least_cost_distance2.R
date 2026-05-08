@@ -4,8 +4,6 @@
 #' Computes least cost distances between two or more locations
 #'
 #' @rdname least_cost_distance2
-#' @usage
-#' least_cost_distance2(trans, loc, res = c("dist", "path"), unit = "meter", speed = 8, round = 0)
 #' @param trans transition object as computed by \code{transition_matrix}
 #' @param loc A two-columns matrix or data.frame containing latitude and longitude for 2 or more locations.
 #' @param res either \code{"dist"} or \code{"path"}. See details.
@@ -71,7 +69,14 @@
 #'                  main="Path between locations 1 & 3\nProfile with min depth set to -200m")
 #' }
 #' @export
-least_cost_distance2 <- function(trans, loc, res = c("dist", "path"), unit = "meter", speed = 8, round = 0) {
+least_cost_distance2 <- function(
+    trans,
+    loc,
+    res = c("dist", "path"),
+    unit = "meter",
+    speed = 8,
+    round = 0
+) {
 
 	# require(gdistance)
 	# require(sp)
@@ -122,4 +127,3 @@ least_cost_distance2 <- function(trans, loc, res = c("dist", "path"), unit = "me
 	}
 
 }
-

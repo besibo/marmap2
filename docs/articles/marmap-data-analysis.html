@@ -84,7 +84,8 @@
 <div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/besibo/marmap2" class="external-link">marmap2</a></span><span class="op">)</span></span>
 <span><span class="va">papoue</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_noaa.html">get_noaa</a></span><span class="op">(</span>lon1 <span class="op">=</span> <span class="fl">140</span>, lon2 <span class="op">=</span> <span class="fl">155</span>,</span>
-<span>            lat1 <span class="op">=</span> <span class="op">-</span><span class="fl">13</span>, lat2 <span class="op">=</span> <span class="fl">0</span>, resolution <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<span>            lat1 <span class="op">=</span> <span class="op">-</span><span class="fl">13</span>, lat2 <span class="op">=</span> <span class="fl">0</span>, resolution <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>            class <span class="op">=</span> <span class="st">"bathy"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>We can map these data using <code><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot()</a></code>:</p>
 <div class="cell">
@@ -439,7 +440,8 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Get data for the whole world. Careful: ca. 21 Mo!</span></span>
-<span><span class="va">world</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_noaa.html">get_noaa</a></span><span class="op">(</span><span class="op">-</span><span class="fl">180</span>, <span class="fl">180</span>, <span class="op">-</span><span class="fl">90</span>, <span class="fl">90</span>, res <span class="op">=</span> <span class="fl">15</span>, keep <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">world</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_noaa.html">get_noaa</a></span><span class="op">(</span><span class="op">-</span><span class="fl">180</span>, <span class="fl">180</span>, <span class="op">-</span><span class="fl">90</span>, <span class="fl">90</span>, resolution <span class="op">=</span> <span class="fl">15</span>,</span>
+<span>                  class <span class="op">=</span> <span class="st">"bathy"</span>, keep <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Switch to raster</span></span>
 <span><span class="va">world.ras</span> <span class="op">&lt;-</span> <span class="fu">marmap</span><span class="fu">::</span><span class="fu">as_raster</span><span class="op">(</span><span class="va">world</span><span class="op">)</span></span>

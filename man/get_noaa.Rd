@@ -4,8 +4,19 @@
 \alias{get_noaa}
 \title{Download bathymetry from NOAA ETOPO 2022}
 \usage{
-get_noaa(lon1, lon2, lat1, lat2, resolution = 4, keep = FALSE,
-  antimeridian = FALSE, path = NULL)
+get_noaa(
+  lon1 = NULL,
+  lon2 = NULL,
+  lat1 = NULL,
+  lat2 = NULL,
+  resolution = 4,
+  class = c("tbl", "bathy"),
+  keep = FALSE,
+  antimeridian = FALSE,
+  path = NULL,
+  lon = NULL,
+  lat = NULL
+)
 }
 \arguments{
 \item{lon1}{Western or first longitude bound in decimal degrees.}
@@ -18,14 +29,26 @@ get_noaa(lon1, lon2, lat1, lat2, resolution = 4, keep = FALSE,
 
 \item{resolution}{Requested grid resolution in arc-minutes.}
 
+\item{class}{Character. Class of the returned object. Use \code{"tbl"}
+(default) to return a tibble with columns \code{lon}, \code{lat}, and
+\code{depth}; use \code{"bathy"} to return a historical matrix of class
+\code{bathy}.}
+
 \item{keep}{Whether to write the downloaded xyz table to disk.}
 
 \item{antimeridian}{Whether the requested region crosses the antimeridian.}
 
 \item{path}{Directory used for cached csv files when \code{keep = TRUE}.}
+
+\item{lon}{Numeric vector of length 2 giving the longitude bounds. This is an
+alternative to \code{lon1} and \code{lon2}.}
+
+\item{lat}{Numeric vector of length 2 giving the latitude bounds. This is an
+alternative to \code{lat1} and \code{lat2}.}
 }
 \value{
-An object of class \code{bathy}.
+A tibble by default, or an object of class \code{bathy} when
+\code{class = "bathy"}.
 }
 \description{
 Prototype replacement for \code{get_noaa()} using the NOAA ArcGIS

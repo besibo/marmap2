@@ -18,6 +18,9 @@
   - `as_bathy()` : Convert to bathymetric data in an object of class
     bathy
   - `as_xyz()` : Convert to xyz format
+  - `bathy_to_tbl()` `tbl_to_bathy()` : Convert between bathy objects
+    and tibbles
+  - `as_sf()` : Convert bathymetric data to sf
   - `as_raster()` : Convert bathymetric data to a raster layer
   - `as_spatial_grid_data_frame()` : Convert bathymetric data to a
     spatial grid
@@ -37,13 +40,18 @@
   - `plot_area()` : Plotting projected surface areas
   - `palette_bathy()` : Builds a bathymetry- and/or
     topography-constrained color palette
-  - `etopo` `etopo_colors()` `scale_fill_etopo()` `scale_color_etopo()`
-    : Etopo colours
   - `color_to_alpha()` : Adds alpha transparency to a (vector of)
     color(s)
   - `scale_bathy()` : Adds a scale to a map
-  - `fortify_bathy()` : Extract bathymetry data in a data.frame
-  - `autoplot_bathy()` : Ploting bathymetric data with ggplot
+  - `scale_fill_bathy()` `bathy_palette()` `bathy_palettes()` :
+    Bathymetry colour scales for ggplot2
+  - `geom_bathy()` : Plot bathymetric grids with ggplot2 and sf
+    coordinates
+  - `geom_coastline()` : Draw the coastline from bathymetric data
+  - `geom_sf_antimeridian()` : Plot sf bathymetry around the
+    antimeridian
+  - `coord_sf_antimeridian()` : Coordinate system for sf data around the
+    antimeridian
 
 ## Spatial analysis
 
@@ -90,8 +98,6 @@
 
   - `aleutians` : Bathymetric data for the Aleutians (Alaska)
   - `celt` : Bathymetric data for the North Est Atlantic
-  - `etopo` `etopo_colors()` `scale_fill_etopo()` `scale_color_etopo()`
-    : Etopo colours
   - `florida` : Bathymetric data around Florida, USA
   - `hawaii` `hawaii.sites` : Bathymetric data for Hawaii, USA
   - `irregular` : Irregularly spaced bathymetric data.

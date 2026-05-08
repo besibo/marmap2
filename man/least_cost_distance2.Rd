@@ -4,7 +4,14 @@
 \alias{least_cost_distance2}
 \title{Computes least cost distances between two or more locations}
 \usage{
-least_cost_distance2(trans, loc, res = c("dist", "path"), unit = "meter", speed = 8, round = 0)
+least_cost_distance2(
+  trans,
+  loc,
+  res = c("dist", "path"),
+  unit = "meter",
+  speed = 8,
+  round = 0
+)
 }
 \arguments{
 \item{trans}{transition object as computed by \code{transition_matrix}}

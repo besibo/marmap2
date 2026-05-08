@@ -41,6 +41,8 @@ reference:
     contents:
       - as_bathy
       - as_xyz
+      - bathy_to_tbl
+      - as_sf
       - as_raster
       - as_spatial_grid_data_frame
       - bathy_to_spatraster
@@ -53,11 +55,12 @@ reference:
       - plot_profile
       - plot_area
       - palette_bathy
-      - etopo_colors
       - color_to_alpha
       - starts_with("scale_")
-      - fortify_bathy
-      - autoplot_bathy
+      - geom_bathy
+      - geom_coastline
+      - geom_sf_antimeridian
+      - coord_sf_antimeridian
   - title: Spatial analysis
     contents:
       - get_depth
@@ -85,7 +88,6 @@ reference:
     contents:
       - aleutians
       - celt
-      - etopo
       - florida
       - hawaii
       - irregular

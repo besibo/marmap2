@@ -3,6 +3,7 @@
 \docType{data}
 \name{hawaii}
 \alias{hawaii}
+\alias{hawaii.sites}
 \title{Bathymetric data for Hawaii, USA}
 \usage{
 data(hawaii)

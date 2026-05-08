@@ -5,32 +5,48 @@
 #' ETOPO 2022 image service.
 #'
 #' @rdname get_noaa
-#' @usage
-#' get_noaa(lon1, lon2, lat1, lat2, resolution = 4, keep = FALSE,
-#'   antimeridian = FALSE, path = NULL)
 #' @param lon1 Western or first longitude bound in decimal degrees.
 #' @param lon2 Eastern or second longitude bound in decimal degrees.
 #' @param lat1 Southern or first latitude bound in decimal degrees.
 #' @param lat2 Northern or second latitude bound in decimal degrees.
+#' @param lon Numeric vector of length 2 giving the longitude bounds. This is an
+#'   alternative to \code{lon1} and \code{lon2}.
+#' @param lat Numeric vector of length 2 giving the latitude bounds. This is an
+#'   alternative to \code{lat1} and \code{lat2}.
 #' @param resolution Requested grid resolution in arc-minutes.
+#' @param class Character. Class of the returned object. Use \code{"tbl"}
+#'   (default) to return a tibble with columns \code{lon}, \code{lat}, and
+#'   \code{depth}; use \code{"bathy"} to return a historical matrix of class
+#'   \code{bathy}.
 #' @param keep Whether to write the downloaded xyz table to disk.
 #' @param antimeridian Whether the requested region crosses the antimeridian.
 #' @param path Directory used for cached csv files when \code{keep = TRUE}.
 #'
 #' @return
-#' An object of class \code{bathy}.
+#' A tibble by default, or an object of class \code{bathy} when
+#' \code{class = "bathy"}.
 #' @export
 get_noaa <-
   function(
-    lon1,
-    lon2,
-    lat1,
-    lat2,
+    lon1 = NULL,
+    lon2 = NULL,
+    lat1 = NULL,
+    lat2 = NULL,
     resolution = 4,
+    class = c("tbl", "bathy"),
     keep = FALSE,
     antimeridian = FALSE,
-    path = NULL
+    path = NULL,
+    lon = NULL,
+    lat = NULL
   ) {
+    output_class <- match.arg(class)
+    bounds <- resolve_lon_lat_args(lon1, lon2, lat1, lat2, lon, lat)
+    lon1 <- bounds$lon1
+    lon2 <- bounds$lon2
+    lat1 <- bounds$lat1
+    lat2 <- bounds$lat2
+
     if (lon1 == lon2) {
       stop("The longitudinal range defined by lon1 and lon2 is incorrect")
     }
@@ -204,8 +220,11 @@ get_noaa <-
     # If file exists in PATH, load it,
     if (FILE %in% list.files(path = path)) {
       message("File already exists ; loading \'", FILE, "\'", sep = "")
-      exisiting.bathy <- read_bathy(paste0(path, "/", FILE), header = TRUE)
-      return(exisiting.bathy)
+      existing_bathy <- read_bathy(paste0(path, "/", FILE), header = TRUE)
+      if (identical(output_class, "tbl")) {
+        return(bathy_to_tbl(existing_bathy))
+      }
+      return(existing_bathy)
     } else {
       # otherwise, fetch it on NOAA server
 
@@ -249,7 +268,9 @@ get_noaa <-
         )
       }
 
+      if (identical(output_class, "tbl")) {
+        return(bathy_to_tbl(bath2))
+      }
       return(bath2)
     }
   }
-

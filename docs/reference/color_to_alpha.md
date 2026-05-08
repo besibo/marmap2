@@ -46,13 +46,17 @@ plot(dat,pch=19,col="red")
 plot(dat,pch=19,col=color_to_alpha("red",.3))
 
 # Same color for all points but with increasing alpha (decreasing transparency)
-plot(dat,pch=19,col=color_to_alpha(rep("red",4000),seq(0,1,len=4000)))
+plot(dat, pch = 19,
+     col = color_to_alpha(rep("red", 4000), seq(0, 1, len = 4000)))
 
 # Two colors, same alpha
-plot(dat,pch=19,col=color_to_alpha(rep(c("red","purple"),each=2000),.2))
+plot(dat, pch = 19,
+     col = color_to_alpha(rep(c("red", "purple"), each = 2000), .2))
 
 # Four colors, gradient of transparency for each color
-plot(dat,pch=19,col=color_to_alpha(rep(c("blue","purple","red","orange"),each=1000),seq(.1,.6,len=1000)))
+cols <- rep(c("blue", "purple", "red", "orange"), each = 1000)
+alpha <- seq(.1, .6, len = 1000)
+plot(dat, pch = 19, col = color_to_alpha(cols, alpha))
 
 # Alpha transparency applied to a gradient of colors
 plot(dat,pch=19,col=color_to_alpha(rainbow(4000),.5))
