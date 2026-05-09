@@ -373,17 +373,31 @@ get_gebco <- function(
     lon <- lon_axis$values
     lat <- lat_axis$values
 
-    if (identical(dim(elevation), c(length(original_lat), length(original_lon)))) {
+    elevation_dim_names <- vapply(nc$var$elevation$dim, `[[`, character(1), "name")
+    elevation_dim_names <- tolower(elevation_dim_names)
+    elevation_orientation <- NULL
+
+    if (identical(elevation_dim_names, c("lat", "lon"))) {
       elevation <- elevation[lat_index, lon_index, drop = FALSE]
-    } else if (identical(dim(elevation), c(length(original_lon), length(original_lat)))) {
+      elevation_orientation <- "lat_lon"
+    } else if (identical(elevation_dim_names, c("lon", "lat"))) {
       elevation <- elevation[lon_index, lat_index, drop = FALSE]
+      elevation_orientation <- "lon_lat"
+    } else if (!identical(length(original_lat), length(original_lon)) &&
+        identical(dim(elevation), c(length(original_lat), length(original_lon)))) {
+      elevation <- elevation[lat_index, lon_index, drop = FALSE]
+      elevation_orientation <- "lat_lon"
+    } else if (!identical(length(original_lat), length(original_lon)) &&
+        identical(dim(elevation), c(length(original_lon), length(original_lat)))) {
+      elevation <- elevation[lon_index, lat_index, drop = FALSE]
+      elevation_orientation <- "lon_lat"
     } else {
       stop("The GEBCO elevation grid dimensions do not match lon/lat.", call. = FALSE)
     }
 
-    if (identical(dim(elevation), c(length(lat), length(lon)))) {
+    if (identical(elevation_orientation, "lat_lon")) {
       z <- as.vector(t(elevation))
-    } else if (identical(dim(elevation), c(length(lon), length(lat)))) {
+    } else if (identical(elevation_orientation, "lon_lat")) {
       z <- as.vector(elevation)
     } else {
       stop("The GEBCO elevation grid dimensions do not match lon/lat.", call. = FALSE)

@@ -14,6 +14,8 @@ geom_bathy(
   geom = c("tile", "raster"),
   crs = 4326,
   antimeridian = FALSE,
+  coord = c("sf", "fixed"),
+  asp = 1,
   x_breaks = ggplot2::waiver(),
   expand = TRUE,
   na.rm = FALSE,
@@ -51,8 +53,17 @@ fallback and may emit an informational message.}
 layers. Defaults to \code{4326}, i.e. WGS84 longitude/latitude.}
 
 \item{antimeridian}{Logical. If \code{TRUE}, uses
-\code{\link{coord_sf_antimeridian}} so longitude labels beyond 180 degrees
-are displayed as western longitudes.}
+longitude labels adapted to data crossing the antimeridian.}
+
+\item{coord}{Character. Coordinate system to add. \code{"sf"} uses
+\code{\link[ggplot2:coord_sf]{ggplot2::coord_sf}} or
+\code{\link{coord_sf_antimeridian}} and is the default. \code{"fixed"} uses
+\code{\link[ggplot2:coord_fixed]{ggplot2::coord_fixed}} with formatted
+geographic axis labels.}
+
+\item{asp}{Numeric. Aspect ratio used when \code{coord = "fixed"}. The
+default \code{1} matches \code{\link{plot_bathy}} and gives longitude and
+latitude degrees the same graphical scale.}
 
 \item{x_breaks}{Breaks used for the x axis when \code{antimeridian = TRUE}.
 The default lets ggplot2 choose breaks automatically.}

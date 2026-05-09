@@ -31,8 +31,15 @@
 #'   \code{\link[ggplot2:coord_sf]{ggplot2::coord_sf}} for non-\code{sf}
 #'   layers. Defaults to \code{4326}, i.e. WGS84 longitude/latitude.
 #' @param antimeridian Logical. If \code{TRUE}, uses
-#'   \code{\link{coord_sf_antimeridian}} so longitude labels beyond 180 degrees
-#'   are displayed as western longitudes.
+#'   longitude labels adapted to data crossing the antimeridian.
+#' @param coord Character. Coordinate system to add. \code{"sf"} uses
+#'   \code{\link[ggplot2:coord_sf]{ggplot2::coord_sf}} or
+#'   \code{\link{coord_sf_antimeridian}} and is the default. \code{"fixed"} uses
+#'   \code{\link[ggplot2:coord_fixed]{ggplot2::coord_fixed}} with formatted
+#'   geographic axis labels.
+#' @param asp Numeric. Aspect ratio used when \code{coord = "fixed"}. The
+#'   default \code{1} matches \code{\link{plot_bathy}} and gives longitude and
+#'   latitude degrees the same graphical scale.
 #' @param x_breaks Breaks used for the x axis when \code{antimeridian = TRUE}.
 #'   The default lets ggplot2 choose breaks automatically.
 #' @param expand Logical or character vector passed to
@@ -71,6 +78,8 @@ geom_bathy <- function(
     geom = c("tile", "raster"),
     crs = 4326,
     antimeridian = FALSE,
+    coord = c("sf", "fixed"),
+    asp = 1,
     x_breaks = ggplot2::waiver(),
     expand = TRUE,
     na.rm = FALSE,
@@ -78,6 +87,7 @@ geom_bathy <- function(
     inherit.aes = TRUE
 ) {
   geom <- match.arg(geom)
+  coord <- match.arg(coord)
   mapping <- bathy_mapping(mapping, lon, lat, depth)
 
   layer_data <- if (is.null(data)) {
@@ -127,20 +137,29 @@ geom_bathy <- function(
     )
   )
 
-  crs <- sf::st_crs(crs)
-  coord <- if (isTRUE(antimeridian)) {
-    coord_sf_antimeridian(
-      crs = crs,
-      default_crs = crs,
+  coordinates <- if (identical(coord, "fixed")) {
+    bathy_fixed_coordinates(
+      antimeridian = antimeridian,
+      asp = asp,
       x_breaks = x_breaks,
-      expand = expand,
-      default = TRUE
+      expand = expand
     )
   } else {
-    ggplot2::coord_sf(crs = crs, default_crs = crs, expand = expand, default = TRUE)
+    crs <- sf::st_crs(crs)
+    if (isTRUE(antimeridian)) {
+      coord_sf_antimeridian(
+        crs = crs,
+        default_crs = crs,
+        x_breaks = x_breaks,
+        expand = expand,
+        default = TRUE
+      )
+    } else {
+      ggplot2::coord_sf(crs = crs, default_crs = crs, expand = expand, default = TRUE)
+    }
   }
 
-  list(layer, coord)
+  list(layer, coordinates, ggplot2::labs(x = "Longitude", y = "Latitude"))
 }
 
 bathy_mapping <- function(mapping, lon, lat, depth) {
@@ -195,4 +214,39 @@ prepare_bathy_layer_data <- function(data, lon, lat, depth) {
   }
 
   data
+}
+
+bathy_fixed_coordinates <- function(antimeridian, asp, x_breaks, expand) {
+  if (!is.numeric(asp) || length(asp) != 1 || is.na(asp) || asp <= 0) {
+    stop("asp must be a single positive number.", call. = FALSE)
+  }
+
+  x_scale <- ggplot2::scale_x_continuous(
+    breaks = x_breaks,
+    labels = if (isTRUE(antimeridian)) label_longitude_360 else label_longitude
+  )
+  y_scale <- ggplot2::scale_y_continuous(labels = label_latitude)
+  coord <- ggplot2::coord_fixed(ratio = asp, expand = expand, default = TRUE)
+
+  list(x_scale, y_scale, coord)
+}
+
+label_longitude <- function(x) {
+  lon <- ifelse(x > 180, x - 360, x)
+  lon <- ifelse(lon < -180, lon + 360, lon)
+  out <- ifelse(abs(lon) == 180, "180\u00b0",
+    ifelse(lon == 0, "0\u00b0",
+      ifelse(lon > 0, paste0(abs(lon), "\u00b0E"), paste0(abs(lon), "\u00b0W"))
+    )
+  )
+  out[is.na(x)] <- NA_character_
+  out
+}
+
+label_latitude <- function(x) {
+  out <- ifelse(x == 0, "0\u00b0",
+    ifelse(x > 0, paste0(abs(x), "\u00b0N"), paste0(abs(x), "\u00b0S"))
+  )
+  out[is.na(x)] <- NA_character_
+  out
 }
