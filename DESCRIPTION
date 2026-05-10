@@ -1,7 +1,7 @@
 Package: marmap2
 Type: Package
 Title: Import, Plot and Analyze Bathymetric and Topographic Data
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: c(person(given = "Eric",
                     family = "Pante",
                     role = "aut"),
