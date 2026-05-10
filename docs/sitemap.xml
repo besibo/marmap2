@@ -12,6 +12,7 @@
 <url><loc>https://besibo.github.io/marmap2/reference/as_raster.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/as_sf.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/as_spatial_grid_data_frame.html</loc></url>
+<url><loc>https://besibo.github.io/marmap2/reference/as_spatraster.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/as_xyz.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/bathy_to_spatraster.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/bathy_to_tbl.html</loc></url>
@@ -37,6 +38,7 @@
 <url><loc>https://besibo.github.io/marmap2/reference/get_transect.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/griddify.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/hawaii.html</loc></url>
+<url><loc>https://besibo.github.io/marmap2/reference/hawaii.sites.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/index.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/irregular.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/is_bathy.html</loc></url>
@@ -54,6 +56,8 @@
 <url><loc>https://besibo.github.io/marmap2/reference/plot_bathy.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/plot_buffer.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/plot_profile.html</loc></url>
+<url><loc>https://besibo.github.io/marmap2/reference/print_buffer.html</loc></url>
+<url><loc>https://besibo.github.io/marmap2/reference/project_bathy.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/read_bathy.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/read_gebco_bathy.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/scale_bathy.html</loc></url>

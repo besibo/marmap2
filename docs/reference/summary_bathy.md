@@ -29,7 +29,7 @@ on the depth data (e.g. min, max, median...), and a preview of the data.
 
 ## See also
 
-`read_bathy`, `plot_bathy`
+`read_bathy`, `as_bathy`, `bathy_to_tbl`
 
 ## Author
 
@@ -38,15 +38,26 @@ Eric Pante and Benoit Simon-Bouhet
 ## Examples
 
 ``` r
-# load NW Atlantic data
-data(nw.atlantic)
+xyz <- data.frame(
+  lon = rep(c(-5, -4, -3), each = 3),
+  lat = rep(c(48, 49, 50), times = 3),
+  depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+)
 
-# use as_bathy
-atl <- as_bathy(nw.atlantic)
-
-# class bathy
-class(atl)
-
-# summarize data of class bathy
-summary(atl)
+bathy <- as_bathy(xyz)
+summary(bathy)
+#> Bathymetric data of class 'bathy', with 3 rows and 3 columns
+#> Latitudinal range: 48 to 50 (48 N to 50 N)
+#> Longitudinal range: -5 to -3 (5 W to 3 W)
+#> Cell size: 60 minute(s)
+#> 
+#> Depth statistics:
+#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#>    -160    -140    -110    -110     -80     -60 
+#> 
+#> First 5 columns and rows of the bathymetric matrix:
+#>      48   49   50
+#> -5  -80  -70  -60
+#> -4 -120 -110 -100
+#> -3 -160 -150 -140
 ```

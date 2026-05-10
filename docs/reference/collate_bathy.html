@@ -15,14 +15,7 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/marmap.html">Get started</a></li>
-<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/marmap.html">Making and using bathymetric maps in R with marmap</a></li>
-    <li><a class="dropdown-item" href="../articles/marmap-import-export.html">Data import and export strategies in marmap</a></li>
-    <li><a class="dropdown-item" href="../articles/marmap-data-analysis.html">Analysing bathymetric data in R with marmap</a></li>
-  </ul></li>
+      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/besibo/marmap2/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -61,16 +54,23 @@
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A single matrix of class <code>bathy</code> that can be interpreted by <code>plot_bathy</code>. When plotting collated data (with longitudes 0 to 180 and 180 to 360 degrees), plots can be modified to display the conventional coordinate system (with longitudes 0 to 180 and -180 to 0 degrees) using function <code><a href="antimeridian_box.html">antimeridian_box()</a></code>.</p>
+    <p>A single matrix of class <code>bathy</code>. When plotting collated data with
+<code><a href="geom_bathy.html">geom_bathy</a></code>, use <code>antimeridian = TRUE</code> to display western
+longitude labels beyond 180 degrees.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function is meant to be used with <code><a href="read_bathy.html">read_bathy()</a></code> or <code><a href="read_gebco_bathy.html">read_gebco_bathy()</a></code>, when data is downloaded from either sides of the antimeridian line (180 degrees longitude). If, for example, data is downloaded from GEBCO for longitudes of 170E-180 and 180-170W, <code>collate_bathy()</code> will create a single matrix of class <code>bathy</code> with a coordinate system going from 170 to 190 degrees longitude.</p>
+    <p>This function is used internally by import functions when data are
+downloaded from both sides of the antimeridian line (180 degrees longitude).
+If, for example, data are downloaded for longitudes 170E-180 and 180-170W,
+<code>collate_bathy()</code> creates a single matrix of class <code>bathy</code> with a
+coordinate system going from 170 to 190 degrees longitude.</p>
 <p><code><a href="get_noaa.html">get_noaa()</a></code> deals with data from both sides of the antimeridian and does not need further processing with <code>collate_bathy()</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="get_noaa.html">get_noaa</a></code>, <code><a href="summary_bathy.html">summary_bathy</a></code>, <code><a href="plot_bathy.html">plot_bathy</a></code>, <code><a href="antimeridian_box.html">antimeridian_box</a></code></p></div>
+    <div class="dont-index"><p><code><a href="get_noaa.html">get_noaa</a></code>, <code><a href="get_gebco.html">get_gebco</a></code>, <code><a href="geom_bathy.html">geom_bathy</a></code>,
+<code><a href="summary_bathy.html">summary_bathy</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -79,21 +79,26 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co">## faking two datasets using aleutians, for this example</span></span>
-<span><span class="co">## "a" and "b" simulate two datasets downloaded from GEBCO, for ex.</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">aleutians</span><span class="op">)</span></span>
-<span>  <span class="va">aleutians</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">181</span>,<span class="op">]</span> <span class="op">-&gt;</span> <span class="va">a</span> ; <span class="st">"bathy"</span> <span class="op">-&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span>
-<span>  <span class="va">aleutians</span><span class="op">[</span><span class="fl">182</span><span class="op">:</span><span class="fl">601</span>,<span class="op">]</span> <span class="op">-&gt;</span> <span class="va">b</span> ; <span class="st">"bathy"</span> <span class="op">-&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span>
-<span>  <span class="op">-</span><span class="op">(</span><span class="fl">360</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">## check these objects with summary(): pay attention of the Longitudinal range</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">aleutians</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">## merge datasets:</span></span>
-<span>  <span class="fu">collate_bathy</span><span class="op">(</span><span class="va">a</span>,<span class="va">b</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">collated</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">collated</span><span class="op">)</span> <span class="co"># should be identical to summary(aleutians)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">east</span> <span class="op">&lt;-</span> <span class="fu"><a href="as_bathy.html">as_bathy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  lon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">178</span>, <span class="fl">179</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">11</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  depth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">10</span>, <span class="op">-</span><span class="fl">20</span>, <span class="op">-</span><span class="fl">30</span>, <span class="op">-</span><span class="fl">40</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">west</span> <span class="op">&lt;-</span> <span class="fu"><a href="as_bathy.html">as_bathy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  lon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">180</span>, <span class="op">-</span><span class="fl">179</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">11</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  depth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">50</span>, <span class="op">-</span><span class="fl">60</span>, <span class="op">-</span><span class="fl">70</span>, <span class="op">-</span><span class="fl">80</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">collate_bathy</span><span class="op">(</span><span class="va">east</span>, <span class="va">west</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      10  11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 178 -10 -20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 179 -30 -40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 180 -50 -60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 181 -70 -80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bathy"</span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

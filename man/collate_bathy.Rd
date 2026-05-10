@@ -12,35 +12,39 @@ collate_bathy(east,west)
 \item{west}{matrix of class \code{bathy} with western data (East of antimeridian)}
 }
 \value{
-A single matrix of class \code{bathy} that can be interpreted by \code{plot_bathy}. When plotting collated data (with longitudes 0 to 180 and 180 to 360 degrees), plots can be modified to display the conventional coordinate system (with longitudes 0 to 180 and -180 to 0 degrees) using function \code{antimeridian_box()}.
+A single matrix of class \code{bathy}. When plotting collated data with
+\code{\link{geom_bathy}}, use \code{antimeridian = TRUE} to display western
+longitude labels beyond 180 degrees.
 }
 \description{
 Collates two bathy matrices, one with longitude 0 to 180 degrees East, and the other with longitude 0 to 180 degrees West
 }
 \details{
-This function is meant to be used with \code{read_bathy()} or \code{read_gebco_bathy()}, when data is downloaded from either sides of the antimeridian line (180 degrees longitude). If, for example, data is downloaded from GEBCO for longitudes of 170E-180 and 180-170W, \code{collate_bathy()} will create a single matrix of class \code{bathy} with a coordinate system going from 170 to 190 degrees longitude.
+This function is used internally by import functions when data are
+downloaded from both sides of the antimeridian line (180 degrees longitude).
+If, for example, data are downloaded for longitudes 170E-180 and 180-170W,
+\code{collate_bathy()} creates a single matrix of class \code{bathy} with a
+coordinate system going from 170 to 190 degrees longitude.
 
 \code{get_noaa()} deals with data from both sides of the antimeridian and does not need further processing with \code{collate_bathy()}.
 }
 \examples{
-## faking two datasets using aleutians, for this example
-## "a" and "b" simulate two datasets downloaded from GEBCO, for ex.
-	data(aleutians)
-	aleutians[1:181,] -> a ; "bathy" -> class(a)
-	aleutians[182:601,] -> b ; "bathy" -> class(b)
-	-(360-as.numeric(rownames(b))) -> rownames(b)
+east <- as_bathy(data.frame(
+  lon = rep(c(178, 179), each = 2),
+  lat = rep(c(10, 11), times = 2),
+  depth = c(-10, -20, -30, -40)
+))
+west <- as_bathy(data.frame(
+  lon = rep(c(-180, -179), each = 2),
+  lat = rep(c(10, 11), times = 2),
+  depth = c(-50, -60, -70, -80)
+))
 
-## check these objects with summary(): pay attention of the Longitudinal range
-	summary(aleutians)
-	summary(a)
-	summary(b)
-
-## merge datasets:
-	collate_bathy(a,b) -> collated
-	summary(collated) # should be identical to summary(aleutians)
+collate_bathy(east, west)
 }
 \seealso{
-\code{\link{get_noaa}}, \code{\link{summary_bathy}}, \code{\link{plot_bathy}}, \code{\link{antimeridian_box}}
+\code{\link{get_noaa}}, \code{\link{get_gebco}}, \code{\link{geom_bathy}},
+\code{\link{summary_bathy}}
 }
 \author{
 Eric Pante

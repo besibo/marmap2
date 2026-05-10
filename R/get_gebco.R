@@ -92,8 +92,8 @@
 #' and land at 15 arc-second intervals. \url{https://www.gebco.net/}
 #'
 #' @seealso
-#' \code{\link{get_noaa}}, \code{\link{read_gebco_bathy}},
-#' \code{\link{read_bathy}}, \code{\link{as_bathy}}
+#' \code{\link{get_noaa}}, \code{\link{read_bathy}},
+#' \code{\link{as_bathy}}, \code{\link{geom_bathy}}
 #'
 #' @examples
 #' \dontrun{
@@ -104,7 +104,6 @@
 #'   resolution = 1
 #' )
 #'
-#' plot(b, image = TRUE, land = TRUE)
 #' }
 #' @importFrom curl curl_fetch_memory new_handle handle_setheaders handle_setopt
 #' @export

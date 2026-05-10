@@ -1,30 +1,121 @@
 #' Download bathymetry from NOAA ETOPO 2022
 #'
 #' @description
-#' Prototype replacement for \code{get_noaa()} using the NOAA ArcGIS
-#' ETOPO 2022 image service.
+#' Imports bathymetric and topographic data from the NOAA ETOPO 2022 image
+#' service, given coordinate bounds and a requested spatial resolution.
+#'
+#' @details
+#' \code{get_noaa()} queries the ETOPO 2022 database hosted by NOAA, using the
+#' coordinates of the area of interest and the desired resolution. The function
+#' uses the NOAA ArcGIS image service and returns a long tibble by default, or a
+#' matrix of class \code{bathy} when \code{class = "bathy"}.
+#'
+#' The \code{resolution} argument is expressed in arc-minutes. The function uses
+#' the 15 arc-second ETOPO 2022 layer for \code{resolution = 0.25}, the
+#' 30 arc-second layer for \code{resolution = 0.5}, and the 60 arc-second layer
+#' for coarser resolutions. Values lower than \code{0.5} are rounded to
+#' \code{0.25}; values between \code{0.5} and \code{1} are rounded to
+#' \code{0.5}.
+#'
+#' Users can optionally write the downloaded data to disk with
+#' \code{keep = TRUE}. If an identical query is performed later, using the same
+#' longitudes, latitudes, resolution, and antimeridian setting, \code{get_noaa()}
+#' will load the local file instead of querying the NOAA server again. This
+#' behaviour should be used preferentially to reduce unnecessary queries to the
+#' NOAA service and to reduce data loading time. If several identical queries
+#' should be forced to download fresh data, the cached csv file must be renamed,
+#' removed, or moved outside \code{path}.
+#'
+#' \code{get_noaa()} can download bathymetric data around the antimeridian when
+#' \code{antimeridian = TRUE}. The antimeridian is the 180th meridian, located
+#' in the Pacific Ocean, east of New Zealand and Fiji and west of Hawaii and
+#' Tonga. For a pair of longitude values such as \code{-150} and \code{150},
+#' two different areas can be requested: the 60 degree-wide area centered on the
+#' antimeridian when \code{antimeridian = TRUE}, or the 300 degree-wide area
+#' centered on the prime meridian when \code{antimeridian = FALSE}. Data around
+#' the antimeridian require two distinct NOAA queries, so \code{keep = TRUE} can
+#' be especially useful in this case.
+#'
+#' The order of longitude and latitude bounds does not matter: \code{get_noaa()}
+#' sorts the coordinate bounds internally before querying NOAA. Longitude and
+#' latitude bounds can be supplied either as \code{lon1}, \code{lon2},
+#' \code{lat1}, \code{lat2}, or with the shorter vector syntax
+#' \code{lon = c(lon1, lon2)} and \code{lat = c(lat1, lat2)}.
 #'
 #' @rdname get_noaa
-#' @param lon1 Western or first longitude bound in decimal degrees.
-#' @param lon2 Eastern or second longitude bound in decimal degrees.
-#' @param lat1 Southern or first latitude bound in decimal degrees.
-#' @param lat2 Northern or second latitude bound in decimal degrees.
+#' @param lon1 First longitude bound of the area for which bathymetric data will
+#'   be downloaded, in decimal degrees.
+#' @param lon2 Second longitude bound of the area for which bathymetric data will
+#'   be downloaded, in decimal degrees.
+#' @param lat1 First latitude bound of the area for which bathymetric data will
+#'   be downloaded, in decimal degrees.
+#' @param lat2 Second latitude bound of the area for which bathymetric data will
+#'   be downloaded, in decimal degrees.
 #' @param lon Numeric vector of length 2 giving the longitude bounds. This is an
 #'   alternative to \code{lon1} and \code{lon2}.
 #' @param lat Numeric vector of length 2 giving the latitude bounds. This is an
 #'   alternative to \code{lat1} and \code{lat2}.
-#' @param resolution Requested grid resolution in arc-minutes.
+#' @param resolution Requested grid resolution in arc-minutes. Defaults to
+#'   \code{4}.
 #' @param class Character. Class of the returned object. Use \code{"tbl"}
 #'   (default) to return a tibble with columns \code{lon}, \code{lat}, and
 #'   \code{depth}; use \code{"bathy"} to return a historical matrix of class
 #'   \code{bathy}.
-#' @param keep Whether to write the downloaded xyz table to disk.
-#' @param antimeridian Whether the requested region crosses the antimeridian.
-#' @param path Directory used for cached csv files when \code{keep = TRUE}.
+#' @param keep Logical. Whether to write the downloaded xyz table to disk.
+#'   Defaults to \code{FALSE}.
+#' @param antimeridian Logical. Whether the requested region crosses the
+#'   antimeridian, longitude 180 or -180.
+#' @param path Directory used for cached csv files when \code{keep = TRUE}, and
+#'   where \code{get_noaa()} looks for already downloaded matching data. Defaults
+#'   to the current working directory.
 #'
 #' @return
 #' A tibble by default, or an object of class \code{bathy} when
-#' \code{class = "bathy"}.
+#' \code{class = "bathy"}. If \code{keep = TRUE}, a csv file containing the
+#' downloaded xyz table is written to \code{path}. This file is named using the
+#' format \code{marmap_coord_COORDINATES_res_RESOLUTION.csv}, with coordinates
+#' separated by semicolons; antimeridian requests add the \code{_anti} suffix.
+#'
+#' @references
+#' NOAA National Centers for Environmental Information. 2022: ETOPO 2022
+#' 15 Arc-Second Global Relief Model. NOAA National Centers for Environmental
+#' Information. \doi{10.25921/fd45-gt74}
+#'
+#' @seealso
+#' \code{\link{get_gebco}}, \code{\link{read_bathy}},
+#' \code{\link{bathy_to_tbl}}, \code{\link{tbl_to_bathy}},
+#' \code{\link{geom_bathy}}
+#'
+#' @examples
+#' \dontrun{
+#' # Query NOAA ETOPO 2022 for the North Atlantic at 10 arc-minutes.
+#' atl <- get_noaa(
+#'   lon = c(-20, -90),
+#'   lat = c(50, 20),
+#'   resolution = 10,
+#'   class = "tbl"
+#' )
+#'
+#' # Same query using explicit lon1/lon2/lat1/lat2 arguments.
+#' atl_tbl <- get_noaa(
+#'   lon1 = -20, lon2 = -90,
+#'   lat1 = 50, lat2 = 20,
+#'   resolution = 10
+#' )
+#'
+#' # Download speed for a 10 x 10 degree area at 30 arc-minutes.
+#' system.time(get_noaa(lon = c(0, 10), lat = c(0, 10), resolution = 30))
+#'
+#' # Antimeridian request around the Aleutian Islands.
+#' aleu <- get_noaa(
+#'   lon = c(165, -145),
+#'   lat = c(50, 65),
+#'   resolution = 5,
+#'   antimeridian = TRUE,
+#'   class = "tbl",
+#'   keep = TRUE
+#' )
+#' }
 #' @export
 get_noaa <-
   function(

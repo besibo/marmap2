@@ -41,17 +41,18 @@ An object of class `sf` with point geometries.
 
 ## See also
 
-`bathy_to_tbl`, `tbl_to_bathy`, `bathy_to_spatraster`
+`bathy_to_tbl`, `tbl_to_bathy`, `as_spatraster`, `project_bathy`
 
 ## Examples
 
 ``` r
-data(celt)
+xyz <- data.frame(
+  lon = rep(c(-5, -4, -3), each = 3),
+  lat = rep(c(48, 49, 50), times = 3),
+  depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+)
 
-celt_sf <- as_sf(celt)
-class(celt_sf)
-
-celt_tbl <- bathy_to_tbl(celt)
-celt_sf2 <- as_sf(celt_tbl)
-class(celt_sf2)
+xyz_sf <- as_sf(xyz)
+class(xyz_sf)
+#> [1] "sf"         "data.frame"
 ```

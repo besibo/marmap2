@@ -8,7 +8,7 @@
 \usage{
 scale_fill_bathy(
   palette_ocean = "ocean_blues",
-  palette_land = "grey80",
+  palette_land = "land_earth",
   limits = NULL,
   mode = c("rescale", "truncate"),
   na.value = "grey90",

@@ -175,7 +175,7 @@ oceans and land at 15 arc-second intervals. <https://www.gebco.net/>
 
 ## See also
 
-`get_noaa`, `read_gebco_bathy`, `read_bathy`, `as_bathy`
+`get_noaa`, `read_bathy`, `as_bathy`, `geom_bathy`
 
 ## Examples
 
@@ -188,6 +188,5 @@ b <- get_gebco(
   resolution = 1
 )
 
-plot(b, image = TRUE, land = TRUE)
 } # }
 ```

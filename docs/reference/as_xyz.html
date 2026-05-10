@@ -15,14 +15,7 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/marmap.html">Get started</a></li>
-<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/marmap.html">Making and using bathymetric maps in R with marmap</a></li>
-    <li><a class="dropdown-item" href="../articles/marmap-import-export.html">Data import and export strategies in marmap</a></li>
-    <li><a class="dropdown-item" href="../articles/marmap-data-analysis.html">Analysing bathymetric data in R with marmap</a></li>
-  </ul></li>
+      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/besibo/marmap2/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -61,11 +54,14 @@
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The use of <code>as_bathy</code> and <code>as_xyz</code> allows to swicth back and forth between the long format (xyz) and the wide format of class <code>bathy</code> suitable for plotting bathymetric maps, computing least cost distances, etc. <code>as_xyz</code> is especially usefull for exporting xyz files when data are obtained using <code>subset_sql</code>, i.e. bathymetric matrices of class <code>bathy</code>.</p>
+    <p>The use of <code>as_bathy</code> and <code>as_xyz</code> allows switching back and forth
+between the long xyz format and the historical matrix format of class
+<code>bathy</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="as_bathy.html">as_bathy</a></code>, <code><a href="summary_bathy.html">summary_bathy</a></code></p></div>
+    <div class="dont-index"><p><code><a href="as_bathy.html">as_bathy</a></code>, <code><a href="bathy_to_tbl.html">bathy_to_tbl</a></code>,
+<code><a href="bathy_to_tbl.html">tbl_to_bathy</a></code>, <code><a href="summary_bathy.html">summary_bathy</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -74,18 +70,25 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># load celt data</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">celt</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">celt</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">celt</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">celt</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">celt</span>,deep<span class="op">=</span> <span class="op">-</span><span class="fl">300</span>,shallow<span class="op">=</span> <span class="op">-</span><span class="fl">25</span>,step<span class="op">=</span><span class="fl">25</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># use as_xyz</span></span>
-<span><span class="va">celt2</span> <span class="op">&lt;-</span> <span class="fu">as_xyz</span><span class="op">(</span><span class="va">celt</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">celt2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">celt2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">celt2</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">xyz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  lon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="op">-</span><span class="fl">4</span>, <span class="op">-</span><span class="fl">3</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">48</span>, <span class="fl">49</span>, <span class="fl">50</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  depth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">80</span>, <span class="op">-</span><span class="fl">70</span>, <span class="op">-</span><span class="fl">60</span>, <span class="op">-</span><span class="fl">120</span>, <span class="op">-</span><span class="fl">110</span>, <span class="op">-</span><span class="fl">100</span>, <span class="op">-</span><span class="fl">160</span>, <span class="op">-</span><span class="fl">150</span>, <span class="op">-</span><span class="fl">140</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">bathy</span> <span class="op">&lt;-</span> <span class="fu"><a href="as_bathy.html">as_bathy</a></span><span class="op">(</span><span class="va">xyz</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">as_xyz</span><span class="op">(</span><span class="va">bathy</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   V1 V2   V3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -5 50  -60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -4 50 -100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -3 50 -140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 -5 49  -70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 -4 49 -110</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 -3 49 -150</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 -5 48  -80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8 -4 48 -120</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9 -3 48 -160</span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

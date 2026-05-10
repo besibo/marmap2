@@ -5,6 +5,8 @@ object, or a `bathy` object. The data are kept as regular x/y/z data, so
 other ggplot2 layers such as `ggplot2::geom_contour` can be added to the
 same plot. A `ggplot2::coord_sf` coordinate system is added
 automatically, or `coord_sf_antimeridian` when `antimeridian = TRUE`.
+Projected tibbles returned by `project_bathy` are detected automatically
+and plotted with `ggplot2::coord_sf` using their projected CRS.
 
 ## Usage
 
@@ -19,6 +21,8 @@ geom_bathy(
   geom = c("tile", "raster"),
   crs = 4326,
   antimeridian = FALSE,
+  coord = c("auto", "sf", "fixed"),
+  asp = 1,
   x_breaks = ggplot2::waiver(),
   expand = TRUE,
   na.rm = FALSE,
@@ -64,8 +68,21 @@ geom_bathy(
 
   - antimeridian:
     
-    Logical. If `TRUE`, uses `coord_sf_antimeridian` so longitude labels
-    beyond 180 degrees are displayed as western longitudes.
+    Logical. If `TRUE`, uses longitude labels adapted to data crossing
+    the antimeridian.
+
+  - coord:
+    
+    Character. Coordinate system to add. `"auto"` is the default and
+    uses `"sf"` for geographic and projected bathymetry. Projected
+    tibbles returned by `project_bathy` are detected automatically and
+    their destination CRS is used. `"sf"` uses `ggplot2::coord_sf` or
+    `coord_sf_antimeridian`. `"fixed"` uses `ggplot2::coord_fixed`.
+
+  - asp:
+    
+    Numeric. Aspect ratio used when `coord = "fixed"`. The default `1`
+    gives longitude and latitude degrees the same graphical scale.
 
   - x\_breaks:
     
@@ -93,13 +110,16 @@ A list of ggplot2 components that can be added to a plot with `+`.
 ## Examples
 
 ``` r
-data(celt)
-celt_tbl <- bathy_to_tbl(celt)
-
 if (FALSE) { # \dontrun{
 library(ggplot2)
 
-celt_tbl |>
+xyz <- data.frame(
+  lon = rep(c(-5, -4, -3), each = 3),
+  lat = rep(c(48, 49, 50), times = 3),
+  depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+)
+
+xyz |>
   ggplot() +
   geom_bathy() +
   geom_contour(aes(lon, lat, z = depth), color = "white")

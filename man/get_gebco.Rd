@@ -139,7 +139,6 @@ b <- get_gebco(
   resolution = 1
 )
 
-plot(b, image = TRUE, land = TRUE)
 }
 }
 \references{
@@ -147,6 +146,6 @@ GEBCO Compilation Group. GEBCO Grid, a continuous terrain model for oceans
 and land at 15 arc-second intervals. \url{https://www.gebco.net/}
 }
 \seealso{
-\code{\link{get_noaa}}, \code{\link{read_gebco_bathy}},
-\code{\link{read_bathy}}, \code{\link{as_bathy}}
+\code{\link{get_noaa}}, \code{\link{read_bathy}},
+\code{\link{as_bathy}}, \code{\link{geom_bathy}}
 }

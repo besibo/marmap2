@@ -1,7 +1,7 @@
 # Download bathymetry from NOAA ETOPO 2022
 
-Prototype replacement for `get_noaa()` using the NOAA ArcGIS ETOPO 2022
-image service.
+Imports bathymetric and topographic data from the NOAA ETOPO 2022 image
+service, given coordinate bounds and a requested spatial resolution.
 
 ## Usage
 
@@ -25,23 +25,27 @@ get_noaa(
 
   - lon1:
     
-    Western or first longitude bound in decimal degrees.
+    First longitude bound of the area for which bathymetric data will be
+    downloaded, in decimal degrees.
 
   - lon2:
     
-    Eastern or second longitude bound in decimal degrees.
+    Second longitude bound of the area for which bathymetric data will
+    be downloaded, in decimal degrees.
 
   - lat1:
     
-    Southern or first latitude bound in decimal degrees.
+    First latitude bound of the area for which bathymetric data will be
+    downloaded, in decimal degrees.
 
   - lat2:
     
-    Northern or second latitude bound in decimal degrees.
+    Second latitude bound of the area for which bathymetric data will be
+    downloaded, in decimal degrees.
 
   - resolution:
     
-    Requested grid resolution in arc-minutes.
+    Requested grid resolution in arc-minutes. Defaults to `4`.
 
   - class:
     
@@ -51,15 +55,19 @@ get_noaa(
 
   - keep:
     
-    Whether to write the downloaded xyz table to disk.
+    Logical. Whether to write the downloaded xyz table to disk. Defaults
+    to `FALSE`.
 
   - antimeridian:
     
-    Whether the requested region crosses the antimeridian.
+    Logical. Whether the requested region crosses the antimeridian,
+    longitude 180 or -180.
 
   - path:
     
-    Directory used for cached csv files when `keep = TRUE`.
+    Directory used for cached csv files when `keep = TRUE`, and where
+    `get_noaa()` looks for already downloaded matching data. Defaults to
+    the current working directory.
 
   - lon:
     
@@ -74,4 +82,90 @@ get_noaa(
 ## Value
 
 A tibble by default, or an object of class `bathy` when `class =
-"bathy"`.
+"bathy"`. If `keep = TRUE`, a csv file containing the downloaded xyz
+table is written to `path`. This file is named using the format
+`marmap_coord_COORDINATES_res_RESOLUTION.csv`, with coordinates
+separated by semicolons; antimeridian requests add the `_anti` suffix.
+
+## Details
+
+`get_noaa()` queries the ETOPO 2022 database hosted by NOAA, using the
+coordinates of the area of interest and the desired resolution. The
+function uses the NOAA ArcGIS image service and returns a long tibble by
+default, or a matrix of class `bathy` when `class = "bathy"`.
+
+The `resolution` argument is expressed in arc-minutes. The function uses
+the 15 arc-second ETOPO 2022 layer for `resolution = 0.25`, the 30
+arc-second layer for `resolution = 0.5`, and the 60 arc-second layer for
+coarser resolutions. Values lower than `0.5` are rounded to `0.25`;
+values between `0.5` and `1` are rounded to `0.5`.
+
+Users can optionally write the downloaded data to disk with `keep =
+TRUE`. If an identical query is performed later, using the same
+longitudes, latitudes, resolution, and antimeridian setting,
+`get_noaa()` will load the local file instead of querying the NOAA
+server again. This behaviour should be used preferentially to reduce
+unnecessary queries to the NOAA service and to reduce data loading time.
+If several identical queries should be forced to download fresh data,
+the cached csv file must be renamed, removed, or moved outside `path`.
+
+`get_noaa()` can download bathymetric data around the antimeridian when
+`antimeridian = TRUE`. The antimeridian is the 180th meridian, located
+in the Pacific Ocean, east of New Zealand and Fiji and west of Hawaii
+and Tonga. For a pair of longitude values such as `-150` and `150`, two
+different areas can be requested: the 60 degree-wide area centered on
+the antimeridian when `antimeridian = TRUE`, or the 300 degree-wide area
+centered on the prime meridian when `antimeridian = FALSE`. Data around
+the antimeridian require two distinct NOAA queries, so `keep = TRUE` can
+be especially useful in this case.
+
+The order of longitude and latitude bounds does not matter: `get_noaa()`
+sorts the coordinate bounds internally before querying NOAA. Longitude
+and latitude bounds can be supplied either as `lon1`, `lon2`, `lat1`,
+`lat2`, or with the shorter vector syntax `lon = c(lon1, lon2)` and `lat
+= c(lat1, lat2)`.
+
+## References
+
+NOAA National Centers for Environmental Information. 2022: ETOPO 2022 15
+Arc-Second Global Relief Model. NOAA National Centers for Environmental
+Information.
+[doi:10.25921/fd45-gt74](https://doi.org/10.25921/fd45-gt74)
+
+## See also
+
+`get_gebco`, `read_bathy`, `bathy_to_tbl`, `tbl_to_bathy`, `geom_bathy`
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+# Query NOAA ETOPO 2022 for the North Atlantic at 10 arc-minutes.
+atl <- get_noaa(
+  lon = c(-20, -90),
+  lat = c(50, 20),
+  resolution = 10,
+  class = "tbl"
+)
+
+# Same query using explicit lon1/lon2/lat1/lat2 arguments.
+atl_tbl <- get_noaa(
+  lon1 = -20, lon2 = -90,
+  lat1 = 50, lat2 = 20,
+  resolution = 10
+)
+
+# Download speed for a 10 x 10 degree area at 30 arc-minutes.
+system.time(get_noaa(lon = c(0, 10), lat = c(0, 10), resolution = 30))
+
+# Antimeridian request around the Aleutian Islands.
+aleu <- get_noaa(
+  lon = c(165, -145),
+  lat = c(50, 65),
+  resolution = 5,
+  antimeridian = TRUE,
+  class = "tbl",
+  keep = TRUE
+)
+} # }
+```

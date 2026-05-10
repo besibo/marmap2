@@ -14,20 +14,18 @@
 #' Eric Pante and Benoit Simon-Bouhet
 #'
 #' @seealso
-#' \code{\link{read_bathy}}, \code{\link{plot_bathy}}
+#' \code{\link{read_bathy}}, \code{\link{as_bathy}},
+#' \code{\link{bathy_to_tbl}}
 #'
 #' @examples
-#' # load NW Atlantic data
-#' data(nw.atlantic)
+#' xyz <- data.frame(
+#'   lon = rep(c(-5, -4, -3), each = 3),
+#'   lat = rep(c(48, 49, 50), times = 3),
+#'   depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+#' )
 #'
-#' # use as_bathy
-#' atl <- as_bathy(nw.atlantic)
-#'
-#' # class bathy
-#' class(atl)
-#'
-#' # summarize data of class bathy
-#' summary(atl)
+#' bathy <- as_bathy(xyz)
+#' summary(bathy)
 #' @name summary_bathy
 NULL
 
@@ -60,7 +58,7 @@ summary.bathy = function(object, ...){
 	print(summary(as.vector(object), ...))
 	message("")
 	message("First 5 columns and rows of the bathymetric matrix:")
-	object[1:5, 1:5]
+	object[seq_len(min(5, nrow(object))), seq_len(min(5, ncol(object))), drop = FALSE]
 }
 
 #' @rdname summary_bathy

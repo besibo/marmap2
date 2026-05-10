@@ -1,37 +1,39 @@
 #' Convert to bathymetric data in an object of class bathy
 #'
 #' @description
-#' Reads either an object of class \code{RasterLayer}, \code{SpatialGridDataFrame} or a three-column data.frame containing longitude (x), latitude (y) and depth (z) data and converts it to a matrix of class bathy.
+#' Converts a three-column data frame containing longitude, latitude and depth
+#' values to a matrix of class \code{bathy}.
 #'
 #' @rdname as_bathy
 #' @usage
 #' as_bathy(x)
-#' @param x Object of \code{RasterLayer} or \code{SpatialGridDataFrame}, or a three-column data.frame with longitude (x), latitude (y) and depth (z) (no default)
+#' @param x Three-column data frame with longitude, latitude and depth values.
 #'
 #' @details
-#' \code{x} can contain data downloaded from the NOAA GEODAS Grid Translator webpage (http://www.ngdc.noaa.gov/mgg/gdas/gd_designagrid.html) in the form of an xyz table. The function \code{as_bathy} can also be used to transform objects of class \code{raster} (see package \code{raster}) and \code{SpatialGridDataFrame} (see package \code{sp}).
+#' The first column is interpreted as longitude, the second as latitude, and
+#' the third as depth or elevation.
 #'
 #' @return
-#' The output of \code{as_bathy} is a matrix of class \code{bathy}, which dimensions and resolution are identical to the original object. The class \code{bathy} has its own methods for summarizing and ploting the data.
+#' The output of \code{as_bathy} is a matrix of class \code{bathy}, with
+#' longitude stored in row names and latitude stored in column names.
 #'
 #' @author
 #' Benoit Simon-Bouhet
 #'
 #' @seealso
-#' \code{\link{summary_bathy}}, \code{\link{plot_bathy}}, \code{\link{read_bathy}}, \code{\link{as_xyz}}, \code{\link{as_raster}}, \code{\link{as_spatial_grid_data_frame}}.
+#' \code{\link{summary_bathy}}, \code{\link{read_bathy}},
+#' \code{\link{as_xyz}}, \code{\link{bathy_to_tbl}}, \code{\link{tbl_to_bathy}}.
 #'
 #' @examples
-#' # load NW Atlantic data
-#' data(nw.atlantic)
+#' xyz <- data.frame(
+#'   lon = rep(c(-5, -4, -3), each = 3),
+#'   lat = rep(c(48, 49, 50), times = 3),
+#'   depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+#' )
 #'
-#' # use as_bathy
-#' atl <- as_bathy(nw.atlantic)
-#'
-#' # class "bathy"
-#' class(atl)
-#'
-#' # summarize data of class "bathy"
-#' summary(atl)
+#' bathy <- as_bathy(xyz)
+#' class(bathy)
+#' summary(bathy)
 #' @export
 as_bathy <- function(x){
 
@@ -80,4 +82,3 @@ as_bathy <- function(x){
 	return(ordered.mat)
 
 }
-

@@ -18,20 +18,18 @@ Information on the geographic bounds of the dataset (minimum and maximum latitud
 Summary of bathymetric data of class \code{bathy}. Provides geographic bounds and resolution (in minutes) of the dataset, statistics on depth data, and a preview of the bathymetric matrix.
 }
 \examples{
-# load NW Atlantic data
-data(nw.atlantic)
+xyz <- data.frame(
+  lon = rep(c(-5, -4, -3), each = 3),
+  lat = rep(c(48, 49, 50), times = 3),
+  depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+)
 
-# use as_bathy
-atl <- as_bathy(nw.atlantic)
-
-# class bathy
-class(atl)
-
-# summarize data of class bathy
-summary(atl)
+bathy <- as_bathy(xyz)
+summary(bathy)
 }
 \seealso{
-\code{\link{read_bathy}}, \code{\link{plot_bathy}}
+\code{\link{read_bathy}}, \code{\link{as_bathy}},
+\code{\link{bathy_to_tbl}}
 }
 \author{
 Eric Pante and Benoit Simon-Bouhet

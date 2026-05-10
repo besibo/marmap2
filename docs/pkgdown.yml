@@ -1,11 +1,8 @@
 pandoc: '2.4'
 pkgdown: 2.2.0
 pkgdown_sha: ~
-articles:
-  marmap-data-analysis: marmap-data-analysis.html
-  marmap-import-export: marmap-import-export.html
-  marmap: marmap.html
-last_built: 2026-05-08T22:46Z
+articles: {}
+last_built: 2026-05-10T10:04Z
 urls:
   reference: https://besibo.github.io/marmap2/reference
   article: https://besibo.github.io/marmap2/articles

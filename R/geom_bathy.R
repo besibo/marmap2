@@ -6,7 +6,9 @@
 #' other ggplot2 layers such as \code{\link[ggplot2:geom_contour]{ggplot2::geom_contour}}
 #' can be added to the same plot. A \code{\link[ggplot2:coord_sf]{ggplot2::coord_sf}}
 #' coordinate system is added automatically, or \code{\link{coord_sf_antimeridian}}
-#' when \code{antimeridian = TRUE}.
+#' when \code{antimeridian = TRUE}. Projected tibbles returned by
+#' \code{\link{project_bathy}} are detected automatically and plotted with
+#' \code{\link[ggplot2:coord_sf]{ggplot2::coord_sf}} using their projected CRS.
 #'
 #' @param mapping Set of aesthetic mappings created by
 #'   \code{\link[ggplot2:aes]{ggplot2::aes}}. If \code{x}, \code{y}, or
@@ -32,14 +34,16 @@
 #'   layers. Defaults to \code{4326}, i.e. WGS84 longitude/latitude.
 #' @param antimeridian Logical. If \code{TRUE}, uses
 #'   longitude labels adapted to data crossing the antimeridian.
-#' @param coord Character. Coordinate system to add. \code{"sf"} uses
+#' @param coord Character. Coordinate system to add. \code{"auto"} is the
+#'   default and uses \code{"sf"} for geographic and projected bathymetry.
+#'   Projected tibbles returned by \code{\link{project_bathy}} are detected
+#'   automatically and their destination CRS is used. \code{"sf"} uses
 #'   \code{\link[ggplot2:coord_sf]{ggplot2::coord_sf}} or
-#'   \code{\link{coord_sf_antimeridian}} and is the default. \code{"fixed"} uses
-#'   \code{\link[ggplot2:coord_fixed]{ggplot2::coord_fixed}} with formatted
-#'   geographic axis labels.
+#'   \code{\link{coord_sf_antimeridian}}. \code{"fixed"} uses
+#'   \code{\link[ggplot2:coord_fixed]{ggplot2::coord_fixed}}.
 #' @param asp Numeric. Aspect ratio used when \code{coord = "fixed"}. The
-#'   default \code{1} matches \code{\link{plot_bathy}} and gives longitude and
-#'   latitude degrees the same graphical scale.
+#'   default \code{1} gives longitude and latitude degrees the same graphical
+#'   scale.
 #' @param x_breaks Breaks used for the x axis when \code{antimeridian = TRUE}.
 #'   The default lets ggplot2 choose breaks automatically.
 #' @param expand Logical or character vector passed to
@@ -56,13 +60,16 @@
 #' \code{\link{as_sf}}, \code{\link{bathy_to_tbl}}
 #'
 #' @examples
-#' data(celt)
-#' celt_tbl <- bathy_to_tbl(celt)
-#'
 #' \dontrun{
 #' library(ggplot2)
 #'
-#' celt_tbl |>
+#' xyz <- data.frame(
+#'   lon = rep(c(-5, -4, -3), each = 3),
+#'   lat = rep(c(48, 49, 50), times = 3),
+#'   depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+#' )
+#'
+#' xyz |>
 #'   ggplot() +
 #'   geom_bathy() +
 #'   geom_contour(aes(lon, lat, z = depth), color = "white")
@@ -78,7 +85,7 @@ geom_bathy <- function(
     geom = c("tile", "raster"),
     crs = 4326,
     antimeridian = FALSE,
-    coord = c("sf", "fixed"),
+    coord = c("auto", "sf", "fixed"),
     asp = 1,
     x_breaks = ggplot2::waiver(),
     expand = TRUE,
@@ -137,29 +144,51 @@ geom_bathy <- function(
     )
   )
 
-  coordinates <- if (identical(coord, "fixed")) {
-    bathy_fixed_coordinates(
+  structure(
+    list(
+      layer = layer,
+      coord = coord,
+      crs = crs,
       antimeridian = antimeridian,
       asp = asp,
       x_breaks = x_breaks,
       expand = expand
-    )
-  } else {
-    crs <- sf::st_crs(crs)
-    if (isTRUE(antimeridian)) {
-      coord_sf_antimeridian(
-        crs = crs,
-        default_crs = crs,
-        x_breaks = x_breaks,
-        expand = expand,
-        default = TRUE
-      )
-    } else {
-      ggplot2::coord_sf(crs = crs, default_crs = crs, expand = expand, default = TRUE)
-    }
+    ),
+    class = "bathy_ggplot_components"
+  )
+}
+
+#' @importFrom ggplot2 ggplot_add
+#' @method ggplot_add bathy_ggplot_components
+#' @export
+ggplot_add.bathy_ggplot_components <- function(object, plot, ...) {
+  projected_data <- projected_bathy_data(plot$data, object$layer$data)
+  coord <- object$coord
+  if (identical(coord, "auto")) {
+    coord <- "sf"
+  }
+  crs <- object$crs
+  if (!is.null(projected_data) && identical(coord, "sf")) {
+    crs <- attr(projected_data, "crs_to", exact = TRUE)
   }
 
-  list(layer, coordinates, ggplot2::labs(x = "Longitude", y = "Latitude"))
+  coordinates <- bathy_coordinates(
+    coord = coord,
+    crs = crs,
+    antimeridian = object$antimeridian,
+    asp = object$asp,
+    x_breaks = object$x_breaks,
+    expand = object$expand
+  )
+  axis_labels <- ggplot2::labs(x = "Longitude", y = "Latitude")
+
+  plot <- plot + object$layer
+  for (component in coordinates) {
+    if (!is.null(component)) {
+      plot <- plot + component
+    }
+  }
+  plot + axis_labels
 }
 
 bathy_mapping <- function(mapping, lon, lat, depth) {
@@ -223,12 +252,50 @@ bathy_fixed_coordinates <- function(antimeridian, asp, x_breaks, expand) {
 
   x_scale <- ggplot2::scale_x_continuous(
     breaks = x_breaks,
-    labels = if (isTRUE(antimeridian)) label_longitude_360 else label_longitude
+    labels = if (isTRUE(antimeridian)) label_longitude_360 else ggplot2::waiver()
   )
-  y_scale <- ggplot2::scale_y_continuous(labels = label_latitude)
+  y_scale <- if (isTRUE(antimeridian)) {
+    ggplot2::scale_y_continuous(labels = label_latitude)
+  } else {
+    NULL
+  }
   coord <- ggplot2::coord_fixed(ratio = asp, expand = expand, default = TRUE)
 
   list(x_scale, y_scale, coord)
+}
+
+bathy_coordinates <- function(coord, crs, antimeridian, asp, x_breaks, expand) {
+  if (identical(coord, "fixed")) {
+    return(bathy_fixed_coordinates(
+      antimeridian = antimeridian,
+      asp = asp,
+      x_breaks = x_breaks,
+      expand = expand
+    ))
+  }
+
+  crs <- sf::st_crs(crs)
+  if (isTRUE(antimeridian)) {
+    return(list(coord_sf_antimeridian(
+      crs = crs,
+      default_crs = crs,
+      x_breaks = x_breaks,
+      expand = expand,
+      default = TRUE
+    )))
+  }
+
+  list(ggplot2::coord_sf(crs = crs, default_crs = crs, expand = expand, default = TRUE))
+}
+
+projected_bathy_data <- function(...) {
+  candidates <- list(...)
+  for (data in candidates) {
+    if (inherits(data, "projected_bathy") || !is.null(attr(data, "crs_to", exact = TRUE))) {
+      return(data)
+    }
+  }
+  NULL
 }
 
 label_longitude <- function(x) {

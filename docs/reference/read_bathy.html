@@ -15,14 +15,7 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/marmap.html">Get started</a></li>
-<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/marmap.html">Making and using bathymetric maps in R with marmap</a></li>
-    <li><a class="dropdown-item" href="../articles/marmap-import-export.html">Data import and export strategies in marmap</a></li>
-    <li><a class="dropdown-item" href="../articles/marmap-data-analysis.html">Analysing bathymetric data in R with marmap</a></li>
-  </ul></li>
+      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/besibo/marmap2/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -69,11 +62,13 @@
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>The output of <code>read_bathy</code> is a matrix of class <code>bathy</code>, which dimensions depends on the resolution of the grid uploaded from the NOAA GEODAS server (Grid Cell Size). The class <code>bathy</code> has its own methods for summarizing and ploting the data.</p>
+    <p>The output of <code>read_bathy</code> is a matrix of class <code>bathy</code>. Its
+dimensions depend on the resolution and extent of the input xyz table.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="summary_bathy.html">summary_bathy</a></code>, <code><a href="plot_bathy.html">plot_bathy</a></code>, <code><a href="read_gebco_bathy.html">read_gebco_bathy</a></code></p></div>
+    <div class="dont-index"><p><code><a href="summary_bathy.html">summary_bathy</a></code>, <code><a href="as_bathy.html">as_bathy</a></code>,
+<code><a href="bathy_to_tbl.html">bathy_to_tbl</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -82,23 +77,18 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># load NW Atlantic data</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">nw.atlantic</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># write example file to disk</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.table</a></span><span class="op">(</span><span class="va">nw.atlantic</span>, <span class="st">"NW_Atlantic.csv"</span>, sep<span class="op">=</span><span class="st">","</span>, quote<span class="op">=</span><span class="cn">FALSE</span>, row.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># use read_bathy</span></span>
-<span><span class="fu">read_bathy</span><span class="op">(</span><span class="st">"NW_Atlantic.csv"</span>, header<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">atl</span></span>
-<span></span>
-<span><span class="co"># remove temporary file</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/system.html" class="external-link">system</a></span><span class="op">(</span><span class="st">"rm NW_Atlantic.csv"</span><span class="op">)</span> <span class="co"># remove file, for unix-like systems</span></span>
-<span></span>
-<span><span class="co"># class "bathy"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">atl</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># summarize data of class "bathy"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">atl</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">xyz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  lon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="op">-</span><span class="fl">4</span>, <span class="op">-</span><span class="fl">3</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">48</span>, <span class="fl">49</span>, <span class="fl">50</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  depth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">80</span>, <span class="op">-</span><span class="fl">70</span>, <span class="op">-</span><span class="fl">60</span>, <span class="op">-</span><span class="fl">120</span>, <span class="op">-</span><span class="fl">110</span>, <span class="op">-</span><span class="fl">100</span>, <span class="op">-</span><span class="fl">160</span>, <span class="op">-</span><span class="fl">150</span>, <span class="op">-</span><span class="fl">140</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.table</a></span><span class="op">(</span><span class="va">xyz</span>, <span class="va">tmp</span>, sep <span class="op">=</span> <span class="st">","</span>, quote <span class="op">=</span> <span class="cn">FALSE</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">bathy</span> <span class="op">&lt;-</span> <span class="fu">read_bathy</span><span class="op">(</span><span class="va">tmp</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">bathy</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bathy"</span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

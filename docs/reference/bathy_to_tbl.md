@@ -40,11 +40,25 @@ class `bathy`.
 ## Examples
 
 ``` r
-data(celt)
+xyz <- data.frame(
+  lon = rep(c(-5, -4, -3), each = 3),
+  lat = rep(c(48, 49, 50), times = 3),
+  depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+)
 
-celt_tbl <- bathy_to_tbl(celt)
-celt_tbl
-
-celt_bathy <- tbl_to_bathy(celt_tbl)
-class(celt_bathy)
+bathy <- tbl_to_bathy(xyz)
+bathy_tbl <- bathy_to_tbl(bathy)
+bathy_tbl
+#> # A tibble: 9 × 3
+#>     lon   lat depth
+#>   <dbl> <dbl> <dbl>
+#> 1    -5    50   -60
+#> 2    -4    50  -100
+#> 3    -3    50  -140
+#> 4    -5    49   -70
+#> 5    -4    49  -110
+#> 6    -3    49  -150
+#> 7    -5    48   -80
+#> 8    -4    48  -120
+#> 9    -3    48  -160
 ```

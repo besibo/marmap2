@@ -39,9 +39,6 @@ gebco <- get_gebco(
   - `get_noaa()` : Download bathymetry from NOAA ETOPO 2022
   - `get_gebco()` : Download bathymetry from the GEBCO download service
   - `read_bathy()` : Read bathymetric data in XYZ format
-  - `read_gebco_bathy()` : Read bathymetric data from a GEBCO file
-  - `set_sql()` `subset_sql()` : Creating and querying local SQL
-    database for bathymetric data
 
 ## Bathy conversion and validation
 
@@ -53,11 +50,8 @@ gebco <- get_gebco(
   - `bathy_to_tbl()` `tbl_to_bathy()` : Convert between bathy objects
     and tibbles
   - `as_sf()` : Convert bathymetric data to sf
-  - `as_raster()` : Convert bathymetric data to a raster layer
-  - `as_spatial_grid_data_frame()` : Convert bathymetric data to a
-    spatial grid
-  - `bathy_to_spatraster()` : Convert a bathy object to a terra
-    SpatRaster
+  - `as_spatraster()` : Convert bathymetric data to a terra SpatRaster
+  - `project_bathy()` : Project bathymetric grids
   - `is_bathy()` : Test whether an object is of class bathy
   - `check_bathy()` : Sort bathymetric data matrix by increasing
     latitude and longitude
@@ -66,77 +60,22 @@ gebco <- get_gebco(
 
 <!-- end list -->
 
-  - `plot_bathy()` : Ploting bathymetric data
-  - `plot_buffer()` : Plots a circular buffer and or its outline
-  - `plot_profile()` : Ploting bathymetric data along a transect or path
-  - `plot_area()` : Plotting projected surface areas
-  - `palette_bathy()` : Builds a bathymetry- and/or
-    topography-constrained color palette
-  - `color_to_alpha()` : Adds alpha transparency to a (vector of)
-    color(s)
-  - `scale_bathy()` : Adds a scale to a map
-  - `scale_fill_bathy()` `bathy_palette()` `bathy_palettes()` :
-    Bathymetry colour scales for ggplot2
   - `geom_bathy()` : Plot bathymetric grids with ggplot2 and sf
     coordinates
   - `geom_coastline()` : Draw the coastline from bathymetric data
-  - `geom_sf_antimeridian()` : Plot sf bathymetry around the
-    antimeridian
   - `coord_sf_antimeridian()` : Coordinate system for sf data around the
     antimeridian
-
-## Spatial analysis
-
-<!-- end list -->
-
-  - `get_depth()` : Get depth data by clicking on a map
-  - `get_sample()` : Get sample data by clicking on a map
-  - `get_transect()` : Compute approximate cross section along a depth
-    transect
-  - `get_box()` : Get bathymetric information of a belt transect
-  - `path_profile()` : Geographic coordinates, kilometric distance and
-    depth along a path
-  - `get_area()` : Get projected surface area
-  - `distance_to_isobath()` : Computes the shortest great circle
-    distance between any point and a given isobath
-  - `least_cost_distance()` : Computes least cost distances between two
-    or more locations
-  - `least_cost_distance2()` : Computes least cost distances between two
-    or more locations
+  - `geom_sf_antimeridian()` : Plot sf bathymetry around the
+    antimeridian
+  - `scale_fill_bathy()` `bathy_palette()` `bathy_palettes()` :
+    Bathymetry colour scales for ggplot2
 
 ## Utilities
 
 <!-- end list -->
 
-  - `subset_bathy()` : Creates bathy objects from larger bathy objects
   - `collate_bathy()` : Collates two bathy matrices with data from
     either sides of the antimeridian
-  - `griddify()` : Fill a grid with irregularly spaced data
-  - `antimeridian_box()` : Adds a box to maps including antimeridian
-  - `create_buffer()` `print_buffer()` : Create a buffer of specified
-    radius around one or several points
-  - `outline_buffer()` : Get a composite buffer in a format suitable for
-    plotting its outline
-  - `combine_buffers()` : Create a new, (non circular) composite buffer
-    from a list of existing buffers.
-  - `lines_gc()` : Add Great Circle lines on a map
-  - `space_pies()` : Automatic placement of piecharts on maps
-  - `diag_bathy()` : Finds matrix diagonal for non-square matrices
-  - `transition_matrix()` : Transition matrix
-
-## Data
-
-<!-- end list -->
-
-  - `aleutians` : Bathymetric data for the Aleutians (Alaska)
-  - `celt` : Bathymetric data for the North Est Atlantic
-  - `florida` : Bathymetric data around Florida, USA
-  - `hawaii` `hawaii.sites` : Bathymetric data for Hawaii, USA
-  - `irregular` : Irregularly spaced bathymetric data.
-  - `nw.atlantic` : Coral sampling information from the North West
-    Atlantic
-  - `nw.atlantic` : Bathymetric data for the North West Atlantic
-  - `nw.atlantic.coast` : Coastline data for the North West Atlantic
 
 ## Package
 

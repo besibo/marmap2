@@ -14,7 +14,7 @@ geom_bathy(
   geom = c("tile", "raster"),
   crs = 4326,
   antimeridian = FALSE,
-  coord = c("sf", "fixed"),
+  coord = c("auto", "sf", "fixed"),
   asp = 1,
   x_breaks = ggplot2::waiver(),
   expand = TRUE,
@@ -55,15 +55,17 @@ layers. Defaults to \code{4326}, i.e. WGS84 longitude/latitude.}
 \item{antimeridian}{Logical. If \code{TRUE}, uses
 longitude labels adapted to data crossing the antimeridian.}
 
-\item{coord}{Character. Coordinate system to add. \code{"sf"} uses
+\item{coord}{Character. Coordinate system to add. \code{"auto"} is the
+default and uses \code{"sf"} for geographic and projected bathymetry.
+Projected tibbles returned by \code{\link{project_bathy}} are detected
+automatically and their destination CRS is used. \code{"sf"} uses
 \code{\link[ggplot2:coord_sf]{ggplot2::coord_sf}} or
-\code{\link{coord_sf_antimeridian}} and is the default. \code{"fixed"} uses
-\code{\link[ggplot2:coord_fixed]{ggplot2::coord_fixed}} with formatted
-geographic axis labels.}
+\code{\link{coord_sf_antimeridian}}. \code{"fixed"} uses
+\code{\link[ggplot2:coord_fixed]{ggplot2::coord_fixed}}.}
 
 \item{asp}{Numeric. Aspect ratio used when \code{coord = "fixed"}. The
-default \code{1} matches \code{\link{plot_bathy}} and gives longitude and
-latitude degrees the same graphical scale.}
+default \code{1} gives longitude and latitude degrees the same graphical
+scale.}
 
 \item{x_breaks}{Breaks used for the x axis when \code{antimeridian = TRUE}.
 The default lets ggplot2 choose breaks automatically.}
@@ -84,16 +86,21 @@ object, or a \code{bathy} object. The data are kept as regular x/y/z data, so
 other ggplot2 layers such as \code{\link[ggplot2:geom_contour]{ggplot2::geom_contour}}
 can be added to the same plot. A \code{\link[ggplot2:coord_sf]{ggplot2::coord_sf}}
 coordinate system is added automatically, or \code{\link{coord_sf_antimeridian}}
-when \code{antimeridian = TRUE}.
+when \code{antimeridian = TRUE}. Projected tibbles returned by
+\code{\link{project_bathy}} are detected automatically and plotted with
+\code{\link[ggplot2:coord_sf]{ggplot2::coord_sf}} using their projected CRS.
 }
 \examples{
-data(celt)
-celt_tbl <- bathy_to_tbl(celt)
-
 \dontrun{
 library(ggplot2)
 
-celt_tbl |>
+xyz <- data.frame(
+  lon = rep(c(-5, -4, -3), each = 3),
+  lat = rep(c(48, 49, 50), times = 3),
+  depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+)
+
+xyz |>
   ggplot() +
   geom_bathy() +
   geom_contour(aes(lon, lat, z = depth), color = "white")

@@ -13,20 +13,8 @@ home:
 
 navbar:
   structure:
-    left: [intro, reference, articles, news]
+    left: [reference, news]
     right: [search, github]
-  components:
-    intro:
-      text: Get started
-      href: articles/marmap.html
-
-articles:
-  - title: Vignettes
-    navbar: ~
-    contents:
-      - marmap
-      - marmap-import-export
-      - marmap-data-analysis
 
 reference:
   - title: Data import
@@ -34,66 +22,28 @@ reference:
       - get_noaa
       - get_gebco
       - read_bathy
-      - read_gebco_bathy
-      - set_sql
-      - subset_sql
   - title: Bathy conversion and validation
     contents:
       - as_bathy
       - as_xyz
       - bathy_to_tbl
       - as_sf
-      - as_raster
-      - as_spatial_grid_data_frame
-      - bathy_to_spatraster
+      - as_spatraster
+      - project_bathy
       - is_bathy
       - check_bathy
   - title: Plotting
     contents:
-      - plot_bathy
-      - plot_buffer
-      - plot_profile
-      - plot_area
-      - palette_bathy
-      - color_to_alpha
-      - starts_with("scale_")
       - geom_bathy
       - geom_coastline
-      - geom_sf_antimeridian
       - coord_sf_antimeridian
-  - title: Spatial analysis
-    contents:
-      - get_depth
-      - get_sample
-      - get_transect
-      - get_box
-      - path_profile
-      - get_area
-      - distance_to_isobath
-      - starts_with("least_cost_")
+      - geom_sf_antimeridian
+      - scale_fill_bathy
+      - bathy_palette
+      - bathy_palettes
   - title: Utilities
     contents:
-      - subset_bathy
       - collate_bathy
-      - griddify
-      - antimeridian_box
-      - create_buffer
-      - outline_buffer
-      - combine_buffers
-      - lines_gc
-      - space_pies
-      - diag_bathy
-      - transition_matrix
-  - title: Data
-    contents:
-      - aleutians
-      - celt
-      - florida
-      - hawaii
-      - irregular
-      - metallo
-      - nw.atlantic
-      - nw.atlantic.coast
   - title: Package
     contents:
       - marmap2-package

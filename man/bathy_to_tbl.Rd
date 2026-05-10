@@ -28,13 +28,15 @@ long tibble with longitude, latitude, and depth/elevation columns.
 \code{tbl_to_bathy()} converts a long table back to a \code{bathy} object.
 }
 \examples{
-data(celt)
+xyz <- data.frame(
+  lon = rep(c(-5, -4, -3), each = 3),
+  lat = rep(c(48, 49, 50), times = 3),
+  depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+)
 
-celt_tbl <- bathy_to_tbl(celt)
-celt_tbl
-
-celt_bathy <- tbl_to_bathy(celt_tbl)
-class(celt_bathy)
+bathy <- tbl_to_bathy(xyz)
+bathy_tbl <- bathy_to_tbl(bathy)
+bathy_tbl
 }
 \seealso{
 \code{\link{as_bathy}}, \code{\link{as_xyz}}, \code{\link{get_noaa}},

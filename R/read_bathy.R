@@ -12,32 +12,27 @@
 #' @param ... further arguments to be passed to \code{read.table()}
 #'
 #' @return
-#' The output of \code{read_bathy} is a matrix of class \code{bathy}, which dimensions depends on the resolution of the grid uploaded from the NOAA GEODAS server (Grid Cell Size). The class \code{bathy} has its own methods for summarizing and ploting the data.
+#' The output of \code{read_bathy} is a matrix of class \code{bathy}. Its
+#' dimensions depend on the resolution and extent of the input xyz table.
 #'
 #' @author
 #' Eric Pante
 #'
 #' @seealso
-#' \code{\link{summary_bathy}}, \code{\link{plot_bathy}}, \code{\link{read_gebco_bathy}}
+#' \code{\link{summary_bathy}}, \code{\link{as_bathy}},
+#' \code{\link{bathy_to_tbl}}
 #'
 #' @examples
-#' # load NW Atlantic data
-#' data(nw.atlantic)
+#' xyz <- data.frame(
+#'   lon = rep(c(-5, -4, -3), each = 3),
+#'   lat = rep(c(48, 49, 50), times = 3),
+#'   depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+#' )
 #'
-#' # write example file to disk
-#' write.table(nw.atlantic, "NW_Atlantic.csv", sep=",", quote=FALSE, row.names=FALSE)
-#'
-#' # use read_bathy
-#' read_bathy("NW_Atlantic.csv", header=TRUE) -> atl
-#'
-#' # remove temporary file
-#' system("rm NW_Atlantic.csv") # remove file, for unix-like systems
-#'
-#' # class "bathy"
-#' class(atl)
-#'
-#' # summarize data of class "bathy"
-#' summary(atl)
+#' tmp <- tempfile(fileext = ".csv")
+#' write.table(xyz, tmp, sep = ",", quote = FALSE, row.names = FALSE)
+#' bathy <- read_bathy(tmp, header = TRUE)
+#' class(bathy)
 #' @export
 read_bathy <- function(xyz, header=FALSE, sep=",", ...){
 
@@ -63,4 +58,3 @@ read_bathy <- function(xyz, header=FALSE, sep=",", ...){
     return(ordered.mat)
 	
 }
-

@@ -30,19 +30,14 @@ Eric Pante
 ## Examples
 
 ``` r
-# load NW Atlantic data
-data(nw.atlantic)
+xyz <- data.frame(
+  lon = rep(c(-5, -4, -3), each = 3),
+  lat = rep(c(48, 49, 50), times = 3),
+  depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+)
 
-# test class "bathy"
-is_bathy(nw.atlantic)
-
-# use as_bathy
-atl <- as_bathy(nw.atlantic)
-
-# class "bathy"
-class(atl)
-is_bathy(atl)
-
-# summarize data of class "bathy"
-summary(atl)
+is_bathy(xyz)
+#> [1] FALSE
+is_bathy(as_bathy(xyz))
+#> [1] TRUE
 ```

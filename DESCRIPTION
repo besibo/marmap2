@@ -15,15 +15,13 @@ Authors@R: c(person(given = "Eric",
 Author: Eric Pante [aut], Benoit Simon-Bouhet [aut, cre], Jean-Olivier Irisson [aut]
 Maintainer: Benoit Simon-Bouhet <besibo@gmail.com>
 Depends: R (>= 2.10)
-Imports: DBI, RSQLite, curl, gdistance, geosphere, sp, raster, ncdf4,
-        plotrix, shape, reshape2, adehabitatMA, ggplot2, methods, rlang,
-        tibble, sf
-Suggests: maps, mapdata, lattice, mapproj, pkgdown, quarto, terra
+Imports: curl, ggplot2, methods, ncdf4, raster, reshape2, rlang,
+        sf, tibble
+Suggests: pkgdown, terra
 BugReports: https://github.com/besibo/marmap2/issues
-Description: Import bathymetric and hypsometric data from the NOAA (National Oceanic and Atmospheric Administration, <https://www.ncei.noaa.gov/products/etopo-global-relief-model>), GEBCO (General Bathymetric Chart of the Oceans, <https://www.gebco.net>) and other sources, plot xyz data to prepare publication-ready figures, analyze xyz data to extract transects, get depth / altitude based on geographical coordinates, or calculate z-constrained least-cost paths.
+Description: Import bathymetric and hypsometric data from NOAA (National Oceanic and Atmospheric Administration, <https://www.ncei.noaa.gov/products/etopo-global-relief-model>) and GEBCO (General Bathymetric Chart of the Oceans, <https://www.gebco.net>), convert historical bathy matrices to modern tabular and spatial formats, and draw bathymetric maps with ggplot2.
 License: GPL (>= 3)
 URL: https://github.com/besibo/marmap2, https://besibo.github.io/marmap2/
-VignetteBuilder: quarto
 NeedsCompilation: no
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

@@ -1,16 +1,10 @@
 # Import, plot and analyze bathymetric and topographic data
 
 marmap2 is an experimental modernization of marmap, a package designed
-for downloading, plotting and manipulating bathymetric and topographic
-data in R. It can query the ETOPO 2022 bathymetry and topography
-database hosted by the NOAA, use simple latitude-longitude-depth data in
-ascii format, and take advantage of the advanced plotting tools
-available in R to build publication-quality bathymetric maps. Functions
-to query data (bathymetry, sampling information, etc...) are available
-interactively by clicking on marmap maps. Bathymetric and topographic
-data can also be used to calculate projected surface areas within
-specified depth/altitude intervals, and constrain the calculation of
-realistic shortest path distances.
+for downloading, converting and plotting bathymetric and topographic
+data in R. This development version currently focuses on a compact
+modern core: NOAA/GEBCO import, tibble-based workflows, conversion
+helpers, sf/terra interoperability, and ggplot2-based bathymetric maps.
 
 ## Details
 
@@ -20,7 +14,7 @@ realistic shortest path distances.
 | Type:    | Package    |
 | Version: | 0.0.0.9000 |
 
-Import, plot and analyze bathymetric and topographic data
+Import, convert and plot bathymetric and topographic data
 
 ## References
 

@@ -16,24 +16,23 @@ Three-column data.frame with a format similar to xyz files downloaded from the N
 Converts a matrix of class \code{bathy} into a three-column data.frame containing longitude, latitude and depth data.
 }
 \details{
-The use of \code{as_bathy} and \code{as_xyz} allows to swicth back and forth between the long format (xyz) and the wide format of class \code{bathy} suitable for plotting bathymetric maps, computing least cost distances, etc. \code{as_xyz} is especially usefull for exporting xyz files when data are obtained using \code{subset_sql}, i.e. bathymetric matrices of class \code{bathy}.
+The use of \code{as_bathy} and \code{as_xyz} allows switching back and forth
+between the long xyz format and the historical matrix format of class
+\code{bathy}.
 }
 \examples{
-# load celt data
-data(celt)
-dim(celt)
-class(celt)
-summary(celt)
-plot(celt,deep= -300,shallow= -25,step=25)
+xyz <- data.frame(
+  lon = rep(c(-5, -4, -3), each = 3),
+  lat = rep(c(48, 49, 50), times = 3),
+  depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+)
 
-# use as_xyz
-celt2 <- as_xyz(celt)
-dim(celt2)
-class(celt2)
-summary(celt2)
+bathy <- as_bathy(xyz)
+as_xyz(bathy)
 }
 \seealso{
-\code{\link{as_bathy}}, \code{\link{summary_bathy}}
+\code{\link{as_bathy}}, \code{\link{bathy_to_tbl}},
+\code{\link{tbl_to_bathy}}, \code{\link{summary_bathy}}
 }
 \author{
 Benoit Simon-Bouhet

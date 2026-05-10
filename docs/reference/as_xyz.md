@@ -25,16 +25,13 @@ contains depth/elevation data.
 
 ## Details
 
-The use of `as_bathy` and `as_xyz` allows to swicth back and forth
-between the long format (xyz) and the wide format of class `bathy`
-suitable for plotting bathymetric maps, computing least cost distances,
-etc. `as_xyz` is especially usefull for exporting xyz files when data
-are obtained using `subset_sql`, i.e. bathymetric matrices of class
+The use of `as_bathy` and `as_xyz` allows switching back and forth
+between the long xyz format and the historical matrix format of class
 `bathy`.
 
 ## See also
 
-`as_bathy`, `summary_bathy`
+`as_bathy`, `bathy_to_tbl`, `tbl_to_bathy`, `summary_bathy`
 
 ## Author
 
@@ -43,16 +40,22 @@ Benoit Simon-Bouhet
 ## Examples
 
 ``` r
-# load celt data
-data(celt)
-dim(celt)
-class(celt)
-summary(celt)
-plot(celt,deep= -300,shallow= -25,step=25)
+xyz <- data.frame(
+  lon = rep(c(-5, -4, -3), each = 3),
+  lat = rep(c(48, 49, 50), times = 3),
+  depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+)
 
-# use as_xyz
-celt2 <- as_xyz(celt)
-dim(celt2)
-class(celt2)
-summary(celt2)
+bathy <- as_bathy(xyz)
+as_xyz(bathy)
+#>   V1 V2   V3
+#> 1 -5 50  -60
+#> 2 -4 50 -100
+#> 3 -3 50 -140
+#> 4 -5 49  -70
+#> 5 -4 49 -110
+#> 6 -3 49 -150
+#> 7 -5 48  -80
+#> 8 -4 48 -120
+#> 9 -3 48 -160
 ```

@@ -15,14 +15,7 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/marmap.html">Get started</a></li>
-<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/marmap.html">Making and using bathymetric maps in R with marmap</a></li>
-    <li><a class="dropdown-item" href="../articles/marmap-import-export.html">Data import and export strategies in marmap</a></li>
-    <li><a class="dropdown-item" href="../articles/marmap-data-analysis.html">Analysing bathymetric data in R with marmap</a></li>
-  </ul></li>
+      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/besibo/marmap2/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -74,8 +67,30 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, ncol<span class="op">=</span><span class="fl">5</span>, dimnames<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">20</span><span class="op">:</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">a</span></span>
-<span><span class="fu">check_bathy</span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, ncol<span class="op">=</span><span class="fl">5</span>, dimnames<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">20</span><span class="op">:</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">a</span></span></span>
+<span class="r-in"><span><span class="fu">check_bathy</span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     1  2  3  4   5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  80 40 20 60 100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  79 39 19 59  99</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  78 38 18 58  98</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  77 37 17 57  97</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  76 36 16 56  96</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  75 35 15 55  95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  74 34 14 54  94</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  73 33 13 53  93</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  72 32 12 52  92</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 71 31 11 51  91</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 70 30 10 50  90</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 69 29  9 49  89</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 68 28  8 48  88</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 67 27  7 47  87</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 66 26  6 46  86</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 65 25  5 45  85</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 64 24  4 44  84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 63 23  3 43  83</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 62 22  2 42  82</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 61 21  1 41  81</span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
