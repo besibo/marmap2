@@ -46,7 +46,7 @@
 
 - [`marmap2`](https://besibo.github.io/marmap2/reference/marmap2-package.md)
   [`marmap2-package`](https://besibo.github.io/marmap2/reference/marmap2-package.md)
-  : Import, plot and analyze bathymetric and topographic data
+  : marmap2: Import, Plot, and Analyze Bathymetric and Topographic Data
 
 - [`summary_bathy()`](https://besibo.github.io/marmap2/reference/summary_bathy.md)
   :
