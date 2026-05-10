@@ -21,37 +21,41 @@ geom_sf_antimeridian(
 
 ## Arguments
 
-  - mapping:
-    
-    Set of aesthetic mappings created by `ggplot2::aes`.
+- mapping:
 
-  - data:
-    
-    Data to display in this layer. Defaults to the data inherited from
-    `ggplot2::ggplot`.
+  Set of aesthetic mappings created by
+  [`ggplot2::aes`](https://ggplot2.tidyverse.org/reference/aes.html).
 
-  - stat:
-    
-    Statistical transformation used by `ggplot2::geom_sf`. Defaults to
-    `"sf"`.
+- data:
 
-  - position:
-    
-    Position adjustment. Defaults to `"identity"`.
+  Data to display in this layer. Defaults to the data inherited from
+  [`ggplot2::ggplot`](https://ggplot2.tidyverse.org/reference/ggplot.html).
 
-  - ...:
-    
-    Additional arguments passed to `ggplot2::geom_sf`.
+- stat:
 
-  - x\_breaks:
-    
-    Breaks used for the x axis. The default lets ggplot2 choose breaks
-    automatically. This only affects the longitude axis labels added by
-    `coord_sf_antimeridian`.
+  Statistical transformation used by
+  [`ggplot2::geom_sf`](https://ggplot2.tidyverse.org/reference/ggsf.html).
+  Defaults to `"sf"`.
 
-  - na.rm, show.legend, inherit.aes:
-    
-    Arguments passed to `ggplot2::geom_sf`.
+- position:
+
+  Position adjustment. Defaults to `"identity"`.
+
+- ...:
+
+  Additional arguments passed to
+  [`ggplot2::geom_sf`](https://ggplot2.tidyverse.org/reference/ggsf.html).
+
+- x_breaks:
+
+  Breaks used for the x axis. The default lets ggplot2 choose breaks
+  automatically. This only affects the longitude axis labels added by
+  [`coord_sf_antimeridian`](https://besibo.github.io/marmap2/reference/coord_sf_antimeridian.md).
+
+- na.rm, show.legend, inherit.aes:
+
+  Arguments passed to
+  [`ggplot2::geom_sf`](https://ggplot2.tidyverse.org/reference/ggsf.html).
 
 ## Value
 
@@ -59,7 +63,9 @@ A list of ggplot2 components that can be added to a plot with `+`.
 
 ## See also
 
-`as_sf`, `ggplot2::geom_sf`, `coord_sf_antimeridian`
+[`as_sf`](https://besibo.github.io/marmap2/reference/as_sf.md),
+[`ggplot2::geom_sf`](https://ggplot2.tidyverse.org/reference/ggsf.html),
+[`coord_sf_antimeridian`](https://besibo.github.io/marmap2/reference/coord_sf_antimeridian.md)
 
 ## Examples
 

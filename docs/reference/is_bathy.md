@@ -10,10 +10,10 @@ is_bathy(xyz)
 
 ## Arguments
 
-  - xyz:
-    
-    three-column data.frame with longitude (x), latitude (y) and depth
-    (z) (no default)
+- xyz:
+
+  three-column data.frame with longitude (x), latitude (y) and depth (z)
+  (no default)
 
 ## Value
 
@@ -21,7 +21,9 @@ The function returns `TRUE` or `FALSE`
 
 ## See also
 
-`as_bathy`, `summary_bathy`, `read_bathy`
+[`as_bathy`](https://besibo.github.io/marmap2/reference/as_bathy.md),
+[`summary_bathy`](https://besibo.github.io/marmap2/reference/summary_bathy.md),
+[`read_bathy`](https://besibo.github.io/marmap2/reference/read_bathy.md)
 
 ## Author
 

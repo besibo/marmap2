@@ -9,7 +9,7 @@ helpers, sf/terra interoperability, and ggplot2-based bathymetric maps.
 ## Details
 
 |          |            |
-| -------- | ---------- |
+|----------|------------|
 | Package: | marmap2    |
 | Type:    | Package    |
 | Version: | 0.0.0.9000 |
@@ -26,11 +26,11 @@ e73051. doi:10.1371/journal.pone.0073051
 
 Useful links:
 
-  - <https://github.com/besibo/marmap2>
+- <https://github.com/besibo/marmap2>
 
-  - <https://besibo.github.io/marmap2/>
+- <https://besibo.github.io/marmap2/>
 
-  - Report bugs at <https://github.com/besibo/marmap2/issues>
+- Report bugs at <https://github.com/besibo/marmap2/issues>
 
 ## Author
 

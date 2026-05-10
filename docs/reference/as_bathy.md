@@ -11,9 +11,9 @@ as_bathy(x)
 
 ## Arguments
 
-  - x:
-    
-    Three-column data frame with longitude, latitude and depth values.
+- x:
+
+  Three-column data frame with longitude, latitude and depth values.
 
 ## Value
 
@@ -27,7 +27,11 @@ and the third as depth or elevation.
 
 ## See also
 
-`summary_bathy`, `read_bathy`, `as_xyz`, `bathy_to_tbl`, `tbl_to_bathy`.
+[`summary_bathy`](https://besibo.github.io/marmap2/reference/summary_bathy.md),
+[`read_bathy`](https://besibo.github.io/marmap2/reference/read_bathy.md),
+[`as_xyz`](https://besibo.github.io/marmap2/reference/as_xyz.md),
+[`bathy_to_tbl`](https://besibo.github.io/marmap2/reference/bathy_to_tbl.md),
+[`tbl_to_bathy`](https://besibo.github.io/marmap2/reference/bathy_to_tbl.md).
 
 ## Author
 

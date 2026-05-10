@@ -12,14 +12,14 @@ summary_bathy(object, ...)
 
 ## Arguments
 
-  - object:
-    
-    object of class `bathy`
+- object:
 
-  - ...:
-    
-    additional arguments affecting the summary produced (see `base`
-    function `summary`).
+  object of class `bathy`
+
+- ...:
+
+  additional arguments affecting the summary produced (see `base`
+  function `summary`).
 
 ## Value
 
@@ -29,7 +29,9 @@ on the depth data (e.g. min, max, median...), and a preview of the data.
 
 ## See also
 
-`read_bathy`, `as_bathy`, `bathy_to_tbl`
+[`read_bathy`](https://besibo.github.io/marmap2/reference/read_bathy.md),
+[`as_bathy`](https://besibo.github.io/marmap2/reference/as_bathy.md),
+[`bathy_to_tbl`](https://besibo.github.io/marmap2/reference/bathy_to_tbl.md)
 
 ## Author
 

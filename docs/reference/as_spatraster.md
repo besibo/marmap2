@@ -2,7 +2,7 @@
 
 Converts bathymetric data stored as a long table or as a historical
 `bathy` matrix to a modern
-`terra::SpatRaster`.
+[`terra::SpatRaster`](https://rspatial.github.io/terra/reference/SpatRaster-class.html).
 
 ## Usage
 
@@ -12,24 +12,26 @@ as_spatraster(x, crs = "EPSG:4326", lon = "lon", lat = "lat", depth = "depth")
 
 ## Arguments
 
-  - x:
-    
-    A data frame/tibble with longitude, latitude, and depth columns, or
-    an object inheriting from class `bathy`.
+- x:
 
-  - crs:
-    
-    Coordinate reference system assigned to the returned raster. Can be
-    a CRS string such as `"EPSG:4326"`, or a numeric EPSG code such as
-    `4326`. Defaults to `"EPSG:4326"`.
+  A data frame/tibble with longitude, latitude, and depth columns, or an
+  object inheriting from class `bathy`.
 
-  - lon, lat, depth:
-    
-    Column names used when `x` is a data frame/tibble.
+- crs:
+
+  Coordinate reference system assigned to the returned raster. Can be a
+  CRS string such as `"EPSG:4326"`, or a numeric EPSG code such as
+  `4326`. Defaults to `"EPSG:4326"`.
+
+- lon, lat, depth:
+
+  Column names used when `x` is a data frame/tibble.
 
 ## Value
 
-A `terra::SpatRaster` object.
+A
+[`terra::SpatRaster`](https://rspatial.github.io/terra/reference/SpatRaster-class.html)
+object.
 
 ## Details
 

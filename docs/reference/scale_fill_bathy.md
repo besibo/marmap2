@@ -4,15 +4,15 @@
 bathymetric and topographic rasters drawn with ggplot2. The ocean and
 land parts of the scale are selected independently:
 
-  - use a palette name to map a side with a colour gradient;
+- use a palette name to map a side with a colour gradient;
 
-  - use a single colour name or code to draw a side with a constant
-    colour;
+- use a single colour name or code to draw a side with a constant
+  colour;
 
-  - use `NULL` to leave a side undefined;
+- use `NULL` to leave a side undefined;
 
-  - use both `palette_ocean` and `palette_land` to map depths and
-    altitudes with separate palettes joined at sea level.
+- use both `palette_ocean` and `palette_land` to map depths and
+  altitudes with separate palettes joined at sea level.
 
 ## Usage
 
@@ -35,56 +35,58 @@ bathy_palettes(type = c("all", "ocean", "land"))
 
 ## Arguments
 
-  - palette\_ocean, palette\_land:
-    
-    Palette definition used for ocean values (`<= 0`) and land values
-    (`>= 0`), respectively. Can be a palette name, a single colour, a
-    vector of colours, a function taking `n` and returning colours, or
-    `NULL`.
+- palette_ocean, palette_land:
 
-  - limits:
-    
-    Numeric vector of length two. Limits of the fill scale. If `NULL`,
-    the scale limits are trained from the plotted data.
+  Palette definition used for ocean values (`<= 0`) and land values
+  (`>= 0`), respectively. Can be a palette name, a single colour, a
+  vector of colours, a function taking `n` and returning colours, or
+  `NULL`.
 
-  - mode:
-    
-    Character. Either `"rescale"` or `"truncate"`. With `"truncate"`,
-    the legend spans the data range but colours remain anchored to fixed
-    bathymetric/topographic reference depths, so the same depth or
-    altitude keeps the same colour across maps. With `"rescale"`, the
-    selected palette part is stretched over the plotted data range.
+- limits:
 
-  - na.value:
-    
-    Colour used for missing values.
+  Numeric vector of length two. Limits of the fill scale. If `NULL`, the
+  scale limits are trained from the plotted data.
 
-  - name:
-    
-    Scale name passed to `ggplot2::scale_fill_gradientn`.
+- mode:
 
-  - oob:
-    
-    Function used for out-of-bounds values. If `NULL`, values are
-    squished to the nearest scale limit.
+  Character. Either `"rescale"` or `"truncate"`. With `"truncate"`, the
+  legend spans the data range but colours remain anchored to fixed
+  bathymetric/topographic reference depths, so the same depth or
+  altitude keeps the same colour across maps. With `"rescale"`, the
+  selected palette part is stretched over the plotted data range.
 
-  - ...:
-    
-    Additional arguments passed to `ggplot2::scale_fill_gradientn`.
+- na.value:
 
-  - palette:
-    
-    Palette name, single colour, colour vector, or function taking `n`
-    and returning colours.
+  Colour used for missing values.
 
-  - n:
-    
-    Integer. Number of colours returned by `bathy_palette()`.
+- name:
 
-  - type:
-    
-    Character. Palette family to list. One of `"all"`, `"ocean"`, or
-    `"land"`.
+  Scale name passed to
+  [`ggplot2::scale_fill_gradientn`](https://ggplot2.tidyverse.org/reference/scale_gradient.html).
+
+- oob:
+
+  Function used for out-of-bounds values. If `NULL`, values are squished
+  to the nearest scale limit.
+
+- ...:
+
+  Additional arguments passed to
+  [`ggplot2::scale_fill_gradientn`](https://ggplot2.tidyverse.org/reference/scale_gradient.html).
+
+- palette:
+
+  Palette name, single colour, colour vector, or function taking `n` and
+  returning colours.
+
+- n:
+
+  Integer. Number of colours returned by `bathy_palette()`.
+
+- type:
+
+  Character. Palette family to list. One of `"all"`, `"ocean"`, or
+  `"land"`.
 
 ## Value
 
@@ -95,7 +97,8 @@ For `bathy_palette()`, a character vector of colours. For
 
 ## See also
 
-`geom_bathy`, `bathy_palette`, `bathy_palettes`
+[`geom_bathy`](https://besibo.github.io/marmap2/reference/geom_bathy.md),
+`bathy_palette`, `bathy_palettes`
 
 ## Examples
 

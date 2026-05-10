@@ -2,11 +2,9 @@
 
 ## Authors
 
-  - **Eric Pante**. Author.
+- **Benoît Simon-Bouhet**. Author, maintainer.
 
-  - **Benoit Simon-Bouhet**. Author, maintainer.
-
-  - **Jean-Olivier Irisson**. Author.
+- **Eric Pante**. Author.
 
 ## Citation
 

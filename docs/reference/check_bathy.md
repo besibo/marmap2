@@ -11,9 +11,9 @@ check_bathy(x)
 
 ## Arguments
 
-  - x:
-    
-    a matrix
+- x:
+
+  a matrix
 
 ## Value
 
@@ -29,7 +29,9 @@ through `as_bathy`).
 
 ## See also
 
-`read_bathy`, `as_bathy`, `get_noaa`
+[`read_bathy`](https://besibo.github.io/marmap2/reference/read_bathy.md),
+[`as_bathy`](https://besibo.github.io/marmap2/reference/as_bathy.md),
+[`get_noaa`](https://besibo.github.io/marmap2/reference/get_noaa.md)
 
 ## Author
 

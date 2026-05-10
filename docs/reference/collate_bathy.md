@@ -11,19 +11,20 @@ collate_bathy(east,west)
 
 ## Arguments
 
-  - east:
-    
-    matrix of class `bathy` with eastern data (West of antimeridian)
+- east:
 
-  - west:
-    
-    matrix of class `bathy` with western data (East of antimeridian)
+  matrix of class `bathy` with eastern data (West of antimeridian)
+
+- west:
+
+  matrix of class `bathy` with western data (East of antimeridian)
 
 ## Value
 
 A single matrix of class `bathy`. When plotting collated data with
-`geom_bathy`, use `antimeridian = TRUE` to display western longitude
-labels beyond 180 degrees.
+[`geom_bathy`](https://besibo.github.io/marmap2/reference/geom_bathy.md),
+use `antimeridian = TRUE` to display western longitude labels beyond 180
+degrees.
 
 ## Details
 
@@ -33,12 +34,16 @@ longitude). If, for example, data are downloaded for longitudes 170E-180
 and 180-170W, `collate_bathy()` creates a single matrix of class `bathy`
 with a coordinate system going from 170 to 190 degrees longitude.
 
-`get_noaa()` deals with data from both sides of the antimeridian and
-does not need further processing with `collate_bathy()`.
+[`get_noaa()`](https://besibo.github.io/marmap2/reference/get_noaa.md)
+deals with data from both sides of the antimeridian and does not need
+further processing with `collate_bathy()`.
 
 ## See also
 
-`get_noaa`, `get_gebco`, `geom_bathy`, `summary_bathy`
+[`get_noaa`](https://besibo.github.io/marmap2/reference/get_noaa.md),
+[`get_gebco`](https://besibo.github.io/marmap2/reference/get_gebco.md),
+[`geom_bathy`](https://besibo.github.io/marmap2/reference/geom_bathy.md),
+[`summary_bathy`](https://besibo.github.io/marmap2/reference/summary_bathy.md)
 
 ## Author
 

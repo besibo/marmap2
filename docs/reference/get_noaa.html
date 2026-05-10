@@ -9,7 +9,7 @@ service, given coordinate bounds and a requested spatial resolution."><meta prop
 
     <a class="navbar-brand me-2" href="../index.html">marmap2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,17 +41,17 @@ service, given coordinate bounds and a requested spatial resolution.</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_noaa</span><span class="op">(</span></span>
+<span>  lon <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  lat <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lon1 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lon2 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lat1 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lat2 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  resolution <span class="op">=</span> <span class="fl">4</span>,</span>
-<span>  class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tbl"</span>, <span class="st">"bathy"</span><span class="op">)</span>,</span>
-<span>  keep <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  antimeridian <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keep <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  path <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  lon <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  lat <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tbl"</span>, <span class="st">"bathy"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -59,24 +59,34 @@ service, given coordinate bounds and a requested spatial resolution.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-lon-">lon1<a class="anchor" aria-label="anchor" href="#arg-lon-"></a></dt>
+<dl><dt id="arg-lon">lon<a class="anchor" aria-label="anchor" href="#arg-lon"></a></dt>
+<dd><p>Numeric vector of length 2 giving the longitude bounds in decimal
+degrees. This is the recommended syntax.</p></dd>
+
+
+<dt id="arg-lat">lat<a class="anchor" aria-label="anchor" href="#arg-lat"></a></dt>
+<dd><p>Numeric vector of length 2 giving the latitude bounds in decimal
+degrees. This is the recommended syntax.</p></dd>
+
+
+<dt id="arg-lon-">lon1<a class="anchor" aria-label="anchor" href="#arg-lon-"></a></dt>
 <dd><p>First longitude bound of the area for which bathymetric data will
-be downloaded, in decimal degrees.</p></dd>
+be downloaded, in decimal degrees. Alternative to <code>lon</code>.</p></dd>
 
 
 <dt id="arg-lon-">lon2<a class="anchor" aria-label="anchor" href="#arg-lon-"></a></dt>
 <dd><p>Second longitude bound of the area for which bathymetric data will
-be downloaded, in decimal degrees.</p></dd>
+be downloaded, in decimal degrees. Alternative to <code>lon</code>.</p></dd>
 
 
 <dt id="arg-lat-">lat1<a class="anchor" aria-label="anchor" href="#arg-lat-"></a></dt>
 <dd><p>First latitude bound of the area for which bathymetric data will
-be downloaded, in decimal degrees.</p></dd>
+be downloaded, in decimal degrees. Alternative to <code>lat</code>.</p></dd>
 
 
 <dt id="arg-lat-">lat2<a class="anchor" aria-label="anchor" href="#arg-lat-"></a></dt>
 <dd><p>Second latitude bound of the area for which bathymetric data will
-be downloaded, in decimal degrees.</p></dd>
+be downloaded, in decimal degrees. Alternative to <code>lat</code>.</p></dd>
 
 
 <dt id="arg-resolution">resolution<a class="anchor" aria-label="anchor" href="#arg-resolution"></a></dt>
@@ -84,21 +94,14 @@ be downloaded, in decimal degrees.</p></dd>
 <code>4</code>.</p></dd>
 
 
-<dt id="arg-class">class<a class="anchor" aria-label="anchor" href="#arg-class"></a></dt>
-<dd><p>Character. Class of the returned object. Use <code>"tbl"</code>
-(default) to return a tibble with columns <code>lon</code>, <code>lat</code>, and
-<code>depth</code>; use <code>"bathy"</code> to return a historical matrix of class
-<code>bathy</code>.</p></dd>
+<dt id="arg-antimeridian">antimeridian<a class="anchor" aria-label="anchor" href="#arg-antimeridian"></a></dt>
+<dd><p>Logical. Whether the requested region crosses the
+antimeridian, longitude 180 or -180.</p></dd>
 
 
 <dt id="arg-keep">keep<a class="anchor" aria-label="anchor" href="#arg-keep"></a></dt>
 <dd><p>Logical. Whether to write the downloaded xyz table to disk.
 Defaults to <code>FALSE</code>.</p></dd>
-
-
-<dt id="arg-antimeridian">antimeridian<a class="anchor" aria-label="anchor" href="#arg-antimeridian"></a></dt>
-<dd><p>Logical. Whether the requested region crosses the
-antimeridian, longitude 180 or -180.</p></dd>
 
 
 <dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
@@ -107,14 +110,11 @@ where <code>get_noaa()</code> looks for already downloaded matching data. Defaul
 to the current working directory.</p></dd>
 
 
-<dt id="arg-lon">lon<a class="anchor" aria-label="anchor" href="#arg-lon"></a></dt>
-<dd><p>Numeric vector of length 2 giving the longitude bounds. This is an
-alternative to <code>lon1</code> and <code>lon2</code>.</p></dd>
-
-
-<dt id="arg-lat">lat<a class="anchor" aria-label="anchor" href="#arg-lat"></a></dt>
-<dd><p>Numeric vector of length 2 giving the latitude bounds. This is an
-alternative to <code>lat1</code> and <code>lat2</code>.</p></dd>
+<dt id="arg-class">class<a class="anchor" aria-label="anchor" href="#arg-class"></a></dt>
+<dd><p>Character. Class of the returned object. Use <code>"tbl"</code>
+(default) to return a tibble with columns <code>lon</code>, <code>lat</code>, and
+<code>depth</code>; use <code>"bathy"</code> to return a historical matrix of class
+<code>bathy</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -156,9 +156,10 @@ the antimeridian require two distinct NOAA queries, so <code>keep = TRUE</code> 
 be especially useful in this case.</p>
 <p>The order of longitude and latitude bounds does not matter: <code>get_noaa()</code>
 sorts the coordinate bounds internally before querying NOAA. Longitude and
-latitude bounds can be supplied either as <code>lon1</code>, <code>lon2</code>,
-<code>lat1</code>, <code>lat2</code>, or with the shorter vector syntax
-<code>lon = c(lon1, lon2)</code> and <code>lat = c(lat1, lat2)</code>.</p>
+latitude bounds should preferably be supplied with the vector syntax
+<code>lon = c(lon1, lon2)</code> and <code>lat = c(lat1, lat2)</code>. The explicit
+<code>lon1</code>, <code>lon2</code>, <code>lat1</code>, and <code>lat2</code> arguments remain
+available for compatibility with older code.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -180,8 +181,7 @@ Information. <a href="https://doi.org/10.25921/fd45-gt74" class="external-link">
 <span class="r-in"><span><span class="va">atl</span> <span class="op">&lt;-</span> <span class="fu">get_noaa</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  lon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">20</span>, <span class="op">-</span><span class="fl">90</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">20</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  resolution <span class="op">=</span> <span class="fl">10</span>,</span></span>
-<span class="r-in"><span>  class <span class="op">=</span> <span class="st">"tbl"</span></span></span>
+<span class="r-in"><span>  resolution <span class="op">=</span> <span class="fl">10</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Same query using explicit lon1/lon2/lat1/lat2 arguments.</span></span></span>
@@ -199,9 +199,7 @@ Information. <a href="https://doi.org/10.25921/fd45-gt74" class="external-link">
 <span class="r-in"><span>  lon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">165</span>, <span class="op">-</span><span class="fl">145</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">65</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  resolution <span class="op">=</span> <span class="fl">5</span>,</span></span>
-<span class="r-in"><span>  antimeridian <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  class <span class="op">=</span> <span class="st">"tbl"</span>,</span></span>
-<span class="r-in"><span>  keep <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  antimeridian <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
@@ -211,7 +209,7 @@ Information. <a href="https://doi.org/10.25921/fd45-gt74" class="external-link">
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Eric Pante, Benoit Simon-Bouhet, Jean-Olivier Irisson.</p>
+  <p>Developed by Benoît Simon-Bouhet, Eric Pante.</p>
 </div>
 
 <div class="pkgdown-footer-right">

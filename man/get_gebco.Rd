@@ -5,45 +5,43 @@
 \title{Download bathymetry from the GEBCO download service}
 \usage{
 get_gebco(
+  lon = NULL,
+  lat = NULL,
   lon1 = NULL,
   lon2 = NULL,
   lat1 = NULL,
   lat2 = NULL,
   resolution = 1,
-  class = c("tbl", "bathy"),
   antimeridian = FALSE,
   keep = FALSE,
   path = NULL,
-  base_url = "https://download.gebco.net",
-  grid_id = 1,
-  data_source_id = 1,
-  format_id = 1,
-  poll_interval = 2,
-  timeout = 300,
-  quiet = FALSE,
-  lon = NULL,
-  lat = NULL
+  class = c("tbl", "bathy")
 )
 }
 \arguments{
-\item{lon1}{Western or first longitude bound in decimal degrees.}
+\item{lon}{Numeric vector of length 2 giving the longitude bounds in decimal
+degrees. This is the recommended syntax.}
 
-\item{lon2}{Eastern or second longitude bound in decimal degrees.}
+\item{lat}{Numeric vector of length 2 giving the latitude bounds in decimal
+degrees. This is the recommended syntax.}
 
-\item{lat1}{Southern or first latitude bound in decimal degrees.}
+\item{lon1}{First longitude bound in decimal degrees. Alternative to
+\code{lon}.}
 
-\item{lat2}{Northern or second latitude bound in decimal degrees.}
+\item{lon2}{Second longitude bound in decimal degrees. Alternative to
+\code{lon}.}
+
+\item{lat1}{First latitude bound in decimal degrees. Alternative to
+\code{lat}.}
+
+\item{lat2}{Second latitude bound in decimal degrees. Alternative to
+\code{lat}.}
 
 \item{resolution}{Output grid spacing in arc-minutes. Defaults to \code{1}.
 The GEBCO global NetCDF subset is downloaded at its native 15 arc-second
 resolution, then resampled locally with nearest-neighbour selection when
 \code{resolution > 0.25}. Values lower than \code{0.25} return the native
 GEBCO global grid resolution.}
-
-\item{class}{Character. Class of the returned object. Use \code{"tbl"}
-(default) to return a tibble with columns \code{lon}, \code{lat}, and
-\code{depth}; use \code{"bathy"} to return a historical matrix of class
-\code{bathy}.}
 
 \item{antimeridian}{Logical. If \code{TRUE}, the requested longitudinal range
 is interpreted as crossing the antimeridian. The function downloads two
@@ -57,33 +55,10 @@ GEBCO subsets and stitches them into one \code{bathy} object. The order of
 where \code{get_gebco} looks for an already downloaded matching csv
 file. Defaults to the current working directory.}
 
-\item{base_url}{Base URL of the official GEBCO download service.}
-
-\item{grid_id}{Numeric GEBCO grid identifier used by the download service.
-The default, \code{1}, corresponds to the first grid returned by
-\code{/api/grids}; at the time this function was written, this was the
-latest global GEBCO grid.}
-
-\item{data_source_id}{Numeric GEBCO data-source identifier. The default,
-\code{1}, corresponds to the first bathymetry layer returned by
-\code{/api/grids}; at the time this function was written, this was
-bathymetry from the latest global GEBCO grid.}
-
-\item{format_id}{Numeric GEBCO output-format identifier. The default,
-\code{1}, corresponds to NetCDF.}
-
-\item{poll_interval}{Number of seconds between two status checks.}
-
-\item{timeout}{Maximum number of seconds to wait for the GEBCO basket to be
-processed.}
-
-\item{quiet}{Logical. If \code{FALSE}, progress messages are displayed.}
-
-\item{lon}{Numeric vector of length 2 giving the longitude bounds. This is an
-alternative to \code{lon1} and \code{lon2}.}
-
-\item{lat}{Numeric vector of length 2 giving the latitude bounds. This is an
-alternative to \code{lat1} and \code{lat2}.}
+\item{class}{Character. Class of the returned object. Use \code{"tbl"}
+(default) to return a tibble with columns \code{lon}, \code{lat}, and
+\code{depth}; use \code{"bathy"} to return a historical matrix of class
+\code{bathy}.}
 }
 \value{
 A tibble by default, or an object of class \code{bathy} when
@@ -115,11 +90,9 @@ not increase the spatial resolution and return the native grid.
 
 GEBCO also exposes some higher-resolution regional or experimental products
 through the same download service, for example polar grids or beta
-multi-resolution layers. Those products are selected with \code{grid_id} and
-\code{data_source_id}; their native resolution and coordinate reference
-system may differ from the global longitude/latitude grid. This function is
-currently designed for global longitude/latitude bathymetry layers whose
-NetCDF variables are named \code{lon}, \code{lat}, and \code{elevation}.
+multi-resolution layers. This function intentionally targets the default
+global longitude/latitude bathymetry layer whose NetCDF variables are named
+\code{lon}, \code{lat}, and \code{elevation}.
 
 The GEBCO download service expects \code{left <= right}; areas crossing the
 antimeridian are therefore downloaded as two geographic subsets, one from the

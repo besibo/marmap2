@@ -11,9 +11,9 @@ as_xyz(bathy)
 
 ## Arguments
 
-  - bathy:
-    
-    matrix of class `bathy`.
+- bathy:
+
+  matrix of class `bathy`.
 
 ## Value
 
@@ -31,7 +31,10 @@ between the long xyz format and the historical matrix format of class
 
 ## See also
 
-`as_bathy`, `bathy_to_tbl`, `tbl_to_bathy`, `summary_bathy`
+[`as_bathy`](https://besibo.github.io/marmap2/reference/as_bathy.md),
+[`bathy_to_tbl`](https://besibo.github.io/marmap2/reference/bathy_to_tbl.md),
+[`tbl_to_bathy`](https://besibo.github.io/marmap2/reference/bathy_to_tbl.md),
+[`summary_bathy`](https://besibo.github.io/marmap2/reference/summary_bathy.md)
 
 ## Author
 

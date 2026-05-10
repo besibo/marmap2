@@ -25,11 +25,9 @@
 #'
 #' GEBCO also exposes some higher-resolution regional or experimental products
 #' through the same download service, for example polar grids or beta
-#' multi-resolution layers. Those products are selected with \code{grid_id} and
-#' \code{data_source_id}; their native resolution and coordinate reference
-#' system may differ from the global longitude/latitude grid. This function is
-#' currently designed for global longitude/latitude bathymetry layers whose
-#' NetCDF variables are named \code{lon}, \code{lat}, and \code{elevation}.
+#' multi-resolution layers. This function intentionally targets the default
+#' global longitude/latitude bathymetry layer whose NetCDF variables are named
+#' \code{lon}, \code{lat}, and \code{elevation}.
 #'
 #' The GEBCO download service expects \code{left <= right}; areas crossing the
 #' antimeridian are therefore downloaded as two geographic subsets, one from the
@@ -40,23 +38,23 @@
 #' \code{lat1}/\code{lat2} does not matter: the function sorts the coordinate
 #' bounds internally before submitting requests to GEBCO.
 #'
-#' @param lon1 Western or first longitude bound in decimal degrees.
-#' @param lon2 Eastern or second longitude bound in decimal degrees.
-#' @param lat1 Southern or first latitude bound in decimal degrees.
-#' @param lat2 Northern or second latitude bound in decimal degrees.
-#' @param lon Numeric vector of length 2 giving the longitude bounds. This is an
-#'   alternative to \code{lon1} and \code{lon2}.
-#' @param lat Numeric vector of length 2 giving the latitude bounds. This is an
-#'   alternative to \code{lat1} and \code{lat2}.
+#' @param lon Numeric vector of length 2 giving the longitude bounds in decimal
+#'   degrees. This is the recommended syntax.
+#' @param lat Numeric vector of length 2 giving the latitude bounds in decimal
+#'   degrees. This is the recommended syntax.
+#' @param lon1 First longitude bound in decimal degrees. Alternative to
+#'   \code{lon}.
+#' @param lon2 Second longitude bound in decimal degrees. Alternative to
+#'   \code{lon}.
+#' @param lat1 First latitude bound in decimal degrees. Alternative to
+#'   \code{lat}.
+#' @param lat2 Second latitude bound in decimal degrees. Alternative to
+#'   \code{lat}.
 #' @param resolution Output grid spacing in arc-minutes. Defaults to \code{1}.
 #'   The GEBCO global NetCDF subset is downloaded at its native 15 arc-second
 #'   resolution, then resampled locally with nearest-neighbour selection when
 #'   \code{resolution > 0.25}. Values lower than \code{0.25} return the native
 #'   GEBCO global grid resolution.
-#' @param class Character. Class of the returned object. Use \code{"tbl"}
-#'   (default) to return a tibble with columns \code{lon}, \code{lat}, and
-#'   \code{depth}; use \code{"bathy"} to return a historical matrix of class
-#'   \code{bathy}.
 #' @param antimeridian Logical. If \code{TRUE}, the requested longitudinal range
 #'   is interpreted as crossing the antimeridian. The function downloads two
 #'   GEBCO subsets and stitches them into one \code{bathy} object. The order of
@@ -66,21 +64,10 @@
 #' @param path Directory used for cached csv files when \code{keep = TRUE}, and
 #'   where \code{get_gebco} looks for an already downloaded matching csv
 #'   file. Defaults to the current working directory.
-#' @param base_url Base URL of the official GEBCO download service.
-#' @param grid_id Numeric GEBCO grid identifier used by the download service.
-#'   The default, \code{1}, corresponds to the first grid returned by
-#'   \code{/api/grids}; at the time this function was written, this was the
-#'   latest global GEBCO grid.
-#' @param data_source_id Numeric GEBCO data-source identifier. The default,
-#'   \code{1}, corresponds to the first bathymetry layer returned by
-#'   \code{/api/grids}; at the time this function was written, this was
-#'   bathymetry from the latest global GEBCO grid.
-#' @param format_id Numeric GEBCO output-format identifier. The default,
-#'   \code{1}, corresponds to NetCDF.
-#' @param poll_interval Number of seconds between two status checks.
-#' @param timeout Maximum number of seconds to wait for the GEBCO basket to be
-#'   processed.
-#' @param quiet Logical. If \code{FALSE}, progress messages are displayed.
+#' @param class Character. Class of the returned object. Use \code{"tbl"}
+#'   (default) to return a tibble with columns \code{lon}, \code{lat}, and
+#'   \code{depth}; use \code{"bathy"} to return a historical matrix of class
+#'   \code{bathy}.
 #'
 #' @return
 #' A tibble by default, or an object of class \code{bathy} when
@@ -108,25 +95,26 @@
 #' @importFrom curl curl_fetch_memory new_handle handle_setheaders handle_setopt
 #' @export
 get_gebco <- function(
+    lon = NULL,
+    lat = NULL,
     lon1 = NULL,
     lon2 = NULL,
     lat1 = NULL,
     lat2 = NULL,
     resolution = 1,
-    class = c("tbl", "bathy"),
     antimeridian = FALSE,
     keep = FALSE,
     path = NULL,
-    base_url = "https://download.gebco.net",
-    grid_id = 1,
-    data_source_id = 1,
-    format_id = 1,
-    poll_interval = 2,
-    timeout = 300,
-    quiet = FALSE,
-    lon = NULL,
-    lat = NULL
+    class = c("tbl", "bathy")
 ) {
+  base_url <- "https://download.gebco.net"
+  grid_id <- 1
+  data_source_id <- 1
+  format_id <- 1
+  poll_interval <- 2
+  timeout <- 300
+  quiet <- FALSE
+
   output_class <- match.arg(class)
   bounds <- resolve_lon_lat_args(lon1, lon2, lat1, lat2, lon, lat)
   lon1 <- bounds$lon1

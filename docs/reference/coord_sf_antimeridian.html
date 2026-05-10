@@ -11,7 +11,7 @@ axis labels beyond 180 degrees to be displayed as western longitudes."><meta pro
 
     <a class="navbar-brand me-2" href="../index.html">marmap2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,7 @@ axis labels beyond 180 degrees to be displayed as western longitudes."><meta pro
 
     <div class="ref-description section level2">
     <p>A small wrapper around <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">ggplot2::coord_sf</a></code>
-that keeps the standard <code>coord_sf()</code> behaviour but allows longitude
+that keeps the standard <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf()</a></code> behaviour but allows longitude
 axis labels beyond 180 degrees to be displayed as western longitudes.</p>
     </div>
 
@@ -74,7 +74,7 @@ systems are used as the default crs. First, different methods can be preferable
 under different conditions. See parameter <code>lims_method</code> for details. Second,
 specifying limits along only one direction can affect the automatically generated
 limits along the other direction. Therefore, it is best to always specify limits
-for both x and y. Third, specifying limits via position scales or <code>xlim()</code>/<code>ylim()</code>
+for both x and y. Third, specifying limits via position scales or <code><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">xlim()</a></code>/<code><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ylim()</a></code>
 is strongly discouraged, as it can result in data points being dropped from the plot even
 though they would be visible in the final plot region.</p></dd>
 
@@ -206,7 +206,7 @@ breaks automatically.</p></dd>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Eric Pante, Benoit Simon-Bouhet, Jean-Olivier Irisson.</p>
+  <p>Developed by Benoît Simon-Bouhet, Eric Pante.</p>
 </div>
 
 <div class="pkgdown-footer-right">

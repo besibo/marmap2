@@ -14,19 +14,19 @@ tbl_to_bathy(x, lon = "lon", lat = "lat", depth = "depth")
 
 ## Arguments
 
-  - x:
-    
-    An object of class `bathy` for `bathy_to_tbl()`, or a table for
-    `tbl_to_bathy()`.
+- x:
 
-  - names:
-    
-    Character vector of length 3 giving the output column names for
-    longitude, latitude, and depth/elevation.
+  An object of class `bathy` for `bathy_to_tbl()`, or a table for
+  `tbl_to_bathy()`.
 
-  - lon, lat, depth:
-    
-    Column names used by `tbl_to_bathy()`.
+- names:
+
+  Character vector of length 3 giving the output column names for
+  longitude, latitude, and depth/elevation.
+
+- lon, lat, depth:
+
+  Column names used by `tbl_to_bathy()`.
 
 ## Value
 
@@ -35,7 +35,10 @@ class `bathy`.
 
 ## See also
 
-`as_bathy`, `as_xyz`, `get_noaa`, `get_gebco`
+[`as_bathy`](https://besibo.github.io/marmap2/reference/as_bathy.md),
+[`as_xyz`](https://besibo.github.io/marmap2/reference/as_xyz.md),
+[`get_noaa`](https://besibo.github.io/marmap2/reference/get_noaa.md),
+[`get_gebco`](https://besibo.github.io/marmap2/reference/get_gebco.md)
 
 ## Examples
 

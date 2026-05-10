@@ -5,55 +5,55 @@
 \title{Download bathymetry from NOAA ETOPO 2022}
 \usage{
 get_noaa(
+  lon = NULL,
+  lat = NULL,
   lon1 = NULL,
   lon2 = NULL,
   lat1 = NULL,
   lat2 = NULL,
   resolution = 4,
-  class = c("tbl", "bathy"),
-  keep = FALSE,
   antimeridian = FALSE,
+  keep = FALSE,
   path = NULL,
-  lon = NULL,
-  lat = NULL
+  class = c("tbl", "bathy")
 )
 }
 \arguments{
+\item{lon}{Numeric vector of length 2 giving the longitude bounds in decimal
+degrees. This is the recommended syntax.}
+
+\item{lat}{Numeric vector of length 2 giving the latitude bounds in decimal
+degrees. This is the recommended syntax.}
+
 \item{lon1}{First longitude bound of the area for which bathymetric data will
-be downloaded, in decimal degrees.}
+be downloaded, in decimal degrees. Alternative to \code{lon}.}
 
 \item{lon2}{Second longitude bound of the area for which bathymetric data will
-be downloaded, in decimal degrees.}
+be downloaded, in decimal degrees. Alternative to \code{lon}.}
 
 \item{lat1}{First latitude bound of the area for which bathymetric data will
-be downloaded, in decimal degrees.}
+be downloaded, in decimal degrees. Alternative to \code{lat}.}
 
 \item{lat2}{Second latitude bound of the area for which bathymetric data will
-be downloaded, in decimal degrees.}
+be downloaded, in decimal degrees. Alternative to \code{lat}.}
 
 \item{resolution}{Requested grid resolution in arc-minutes. Defaults to
 \code{4}.}
 
-\item{class}{Character. Class of the returned object. Use \code{"tbl"}
-(default) to return a tibble with columns \code{lon}, \code{lat}, and
-\code{depth}; use \code{"bathy"} to return a historical matrix of class
-\code{bathy}.}
+\item{antimeridian}{Logical. Whether the requested region crosses the
+antimeridian, longitude 180 or -180.}
 
 \item{keep}{Logical. Whether to write the downloaded xyz table to disk.
 Defaults to \code{FALSE}.}
-
-\item{antimeridian}{Logical. Whether the requested region crosses the
-antimeridian, longitude 180 or -180.}
 
 \item{path}{Directory used for cached csv files when \code{keep = TRUE}, and
 where \code{get_noaa()} looks for already downloaded matching data. Defaults
 to the current working directory.}
 
-\item{lon}{Numeric vector of length 2 giving the longitude bounds. This is an
-alternative to \code{lon1} and \code{lon2}.}
-
-\item{lat}{Numeric vector of length 2 giving the latitude bounds. This is an
-alternative to \code{lat1} and \code{lat2}.}
+\item{class}{Character. Class of the returned object. Use \code{"tbl"}
+(default) to return a tibble with columns \code{lon}, \code{lat}, and
+\code{depth}; use \code{"bathy"} to return a historical matrix of class
+\code{bathy}.}
 }
 \value{
 A tibble by default, or an object of class \code{bathy} when
@@ -100,9 +100,10 @@ be especially useful in this case.
 
 The order of longitude and latitude bounds does not matter: \code{get_noaa()}
 sorts the coordinate bounds internally before querying NOAA. Longitude and
-latitude bounds can be supplied either as \code{lon1}, \code{lon2},
-\code{lat1}, \code{lat2}, or with the shorter vector syntax
-\code{lon = c(lon1, lon2)} and \code{lat = c(lat1, lat2)}.
+latitude bounds should preferably be supplied with the vector syntax
+\code{lon = c(lon1, lon2)} and \code{lat = c(lat1, lat2)}. The explicit
+\code{lon1}, \code{lon2}, \code{lat1}, and \code{lat2} arguments remain
+available for compatibility with older code.
 }
 \examples{
 \dontrun{
@@ -110,8 +111,7 @@ latitude bounds can be supplied either as \code{lon1}, \code{lon2},
 atl <- get_noaa(
   lon = c(-20, -90),
   lat = c(50, 20),
-  resolution = 10,
-  class = "tbl"
+  resolution = 10
 )
 
 # Same query using explicit lon1/lon2/lat1/lat2 arguments.
@@ -129,9 +129,7 @@ aleu <- get_noaa(
   lon = c(165, -145),
   lat = c(50, 65),
   resolution = 5,
-  antimeridian = TRUE,
-  class = "tbl",
-  keep = TRUE
+  antimeridian = TRUE
 )
 }
 }

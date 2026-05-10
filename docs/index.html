@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">marmap2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,25 +56,47 @@
 <img src="logo.png" class="logo" alt=""><h1 id="marmap2">marmap2<a class="anchor" aria-label="anchor" href="#marmap2"></a>
 </h1>
 </div>
-<p><code>marmap2</code> imports, plots and analyses bathymetric and topographic data in R. It is a modernisation workspace for the historical <code>marmap</code> package, with tidier function names, updated documentation and newer data import workflows.</p>
+<p><code>marmap2</code> imports, converts and plots bathymetric and topographic data in R. It is a modernisation workspace for the historical <code>marmap</code> package, with tidier function names, updated documentation, tibble-first workflows and newer data import tools.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/besibo/marmap2" class="external-link">marmap2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">bathy</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_noaa.html">get_noaa</a></span><span class="op">(</span></span>
-<span>  lon1 <span class="op">=</span> <span class="op">-</span><span class="fl">6</span>, lon2 <span class="op">=</span> <span class="op">-</span><span class="fl">5</span>,</span>
-<span>  lat1 <span class="op">=</span> <span class="fl">49</span>, lat2 <span class="op">=</span> <span class="fl">50</span>,</span>
-<span>  resolution <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  class <span class="op">=</span> <span class="st">"bathy"</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_gebco.html">get_gebco</a></span><span class="op">(</span></span>
+<span>  lon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">7</span><span class="op">)</span>,</span>
+<span>  lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">42</span>, <span class="fl">44</span><span class="op">)</span>,</span>
+<span>  resolution <span class="op">=</span> <span class="fl">0.5</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bathy</span>, image <span class="op">=</span> <span class="cn">TRUE</span>, land <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>The package also includes an importer for the official GEBCO download service:</p>
+<span><span class="va">dat</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/geom_bathy.html">geom_bathy</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/geom_coastline.html">geom_coastline</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_contour.html" class="external-link">geom_contour</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">lon</span>, y <span class="op">=</span> <span class="va">lat</span>, z <span class="op">=</span> <span class="va">depth</span><span class="op">)</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"grey20"</span>,</span>
+<span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">2500</span>, by <span class="op">=</span> <span class="op">-</span><span class="fl">200</span><span class="op">)</span>,</span>
+<span>    linewidth <span class="op">=</span> <span class="fl">0.2</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_contour.html" class="external-link">geom_contour</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, z <span class="op">=</span> <span class="va">depth</span><span class="op">)</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"grey20"</span>,</span>
+<span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2500</span>, by <span class="op">=</span> <span class="fl">500</span><span class="op">)</span>,</span>
+<span>    linewidth <span class="op">=</span> <span class="fl">0.2</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/scale_fill_bathy.html">scale_fill_bathy</a></span><span class="op">(</span></span>
+<span>    palette_ocean <span class="op">=</span> <span class="st">"ocean_blues"</span>,</span>
+<span>    palette_land <span class="op">=</span> <span class="st">"land_earth"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="reference/figures/gebco-mediterranean.png" alt="Bathymetric map generated with GEBCO data and geom_bathy"><div class="figcaption">Bathymetric map generated with GEBCO data and geom_bathy</div>
+</div>
+<p>NOAA ETOPO data can be imported with the same tibble-first approach:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">gebco</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_gebco.html">get_gebco</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">dat_noaa</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_noaa.html">get_noaa</a></span><span class="op">(</span></span>
 <span>  lon1 <span class="op">=</span> <span class="op">-</span><span class="fl">6</span>, lon2 <span class="op">=</span> <span class="op">-</span><span class="fl">5</span>,</span>
 <span>  lat1 <span class="op">=</span> <span class="fl">49</span>, lat2 <span class="op">=</span> <span class="fl">50</span>,</span>
-<span>  resolution <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  class <span class="op">=</span> <span class="st">"bathy"</span></span>
+<span>  resolution <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -103,9 +125,8 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
+<li>Benoît Simon-Bouhet <br><small class="roles"> Author, maintainer </small>   </li>
 <li>Eric Pante <br><small class="roles"> Author </small>   </li>
-<li>Benoit Simon-Bouhet <br><small class="roles"> Author, maintainer </small>   </li>
-<li>Jean-Olivier Irisson <br><small class="roles"> Author </small>   </li>
 </ul>
 </div>
 
@@ -116,7 +137,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Eric Pante, Benoit Simon-Bouhet, Jean-Olivier Irisson.</p>
+  <p>Developed by Benoît Simon-Bouhet, Eric Pante.</p>
 </div>
 
 <div class="pkgdown-footer-right">
