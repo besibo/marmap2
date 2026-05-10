@@ -37,18 +37,10 @@
   : Draw the coastline from bathymetric data
 - [`coord_sf_antimeridian()`](https://besibo.github.io/marmap2/reference/coord_sf_antimeridian.md)
   : Coordinate system for sf data around the antimeridian
-- [`geom_sf_antimeridian()`](https://besibo.github.io/marmap2/reference/geom_sf_antimeridian.md)
-  : Plot sf bathymetry around the antimeridian
 - [`scale_fill_bathy()`](https://besibo.github.io/marmap2/reference/scale_fill_bathy.md)
   [`bathy_palette()`](https://besibo.github.io/marmap2/reference/scale_fill_bathy.md)
   [`bathy_palettes()`](https://besibo.github.io/marmap2/reference/scale_fill_bathy.md)
   : Bathymetry colour scales for ggplot2
-
-## Utilities
-
-- [`collate_bathy()`](https://besibo.github.io/marmap2/reference/collate_bathy.md)
-  : Collates two bathy matrices with data from either sides of the
-  antimeridian
 
 ## Package
 

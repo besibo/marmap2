@@ -37,13 +37,9 @@ reference:
       - geom_bathy
       - geom_coastline
       - coord_sf_antimeridian
-      - geom_sf_antimeridian
       - scale_fill_bathy
       - bathy_palette
       - bathy_palettes
-  - title: Utilities
-    contents:
-      - collate_bathy
   - title: Package
     contents:
       - marmap2-package

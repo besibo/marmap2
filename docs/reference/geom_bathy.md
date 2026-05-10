@@ -130,7 +130,6 @@ A list of ggplot2 components that can be added to a plot with `+`.
 ## See also
 
 [`coord_sf_antimeridian`](https://besibo.github.io/marmap2/reference/coord_sf_antimeridian.md),
-[`geom_sf_antimeridian`](https://besibo.github.io/marmap2/reference/geom_sf_antimeridian.md),
 [`as_sf`](https://besibo.github.io/marmap2/reference/as_sf.md),
 [`bathy_to_tbl`](https://besibo.github.io/marmap2/reference/bathy_to_tbl.md)
 

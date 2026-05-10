@@ -407,7 +407,7 @@ get_gebco <- function(
     east <- if (x2 < 180) fetch_gebco_bbox(x2, 180, y1, y2) else NULL
     west <- if (x1 > -180) fetch_gebco_bbox(-180, x1, y1, y2) else NULL
     bathy <- if (!is.null(east) && !is.null(west)) {
-      collate_bathy(east, west)
+      collate_antimeridian_bathy(east, west)
     } else if (!is.null(east)) {
       east
     } else if (!is.null(west)) {
@@ -433,4 +433,12 @@ get_gebco <- function(
     return(bathy_to_tbl(bathy))
   }
   bathy
+}
+
+collate_antimeridian_bathy <- function(east, west) {
+  rownames(west) <- as.numeric(rownames(west)) + 360
+  collated <- rbind(east, west)
+  collated <- collated[unique(rownames(collated)), , drop = FALSE]
+  class(collated) <- "bathy"
+  collated
 }

@@ -107,6 +107,6 @@ xyz |>
 }
 }
 \seealso{
-\code{\link{coord_sf_antimeridian}}, \code{\link{geom_sf_antimeridian}},
-\code{\link{as_sf}}, \code{\link{bathy_to_tbl}}
+\code{\link{coord_sf_antimeridian}}, \code{\link{as_sf}},
+\code{\link{bathy_to_tbl}}
 }

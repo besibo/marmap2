@@ -5,7 +5,11 @@ A small wrapper around
 that keeps the standard
 [`coord_sf()`](https://ggplot2.tidyverse.org/reference/ggsf.html)
 behaviour but allows longitude axis labels beyond 180 degrees to be
-displayed as western longitudes.
+displayed as western longitudes. This coordinate system is used
+internally by
+[`geom_bathy`](https://besibo.github.io/marmap2/reference/geom_bathy.md)
+when `antimeridian = TRUE`, and can also be added manually to ggplot2
+maps.
 
 ## Usage
 
@@ -173,5 +177,5 @@ A ggplot2 coordinate system.
 
 ## See also
 
-[`geom_sf_antimeridian`](https://besibo.github.io/marmap2/reference/geom_sf_antimeridian.md),
+[`geom_bathy`](https://besibo.github.io/marmap2/reference/geom_bathy.md),
 [`ggplot2::coord_sf`](https://ggplot2.tidyverse.org/reference/ggsf.html)
