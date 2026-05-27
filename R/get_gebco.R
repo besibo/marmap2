@@ -16,12 +16,9 @@
 #' The current global GEBCO grids are served by the GEBCO download service at
 #' their native resolution of 15 arc-seconds, i.e. 0.25 arc-minutes or
 #' 0.0041667 decimal degrees. This corresponds to approximately 463 m at the
-#' equator. The \code{resolution} argument is expressed in arc-minutes for
-#' consistency with \code{\link{get_noaa}}, but it is not sent to the GEBCO
-#' API: the NetCDF file is downloaded at native resolution, then resampled
-#' locally with nearest-neighbour selection on a regular grid if
-#' \code{resolution} is larger than 0.25. Values smaller than 0.25 therefore do
-#' not increase the spatial resolution and return the native grid.
+#' equator. \code{get_gebco()} always returns this native GEBCO resolution.
+#' Use \code{\link{reduce_bathy_resolution}} afterwards to reduce the spatial
+#' resolution locally without sending a new request to GEBCO.
 #'
 #' GEBCO also exposes some higher-resolution regional or experimental products
 #' through the same download service, for example polar grids or beta
@@ -50,11 +47,6 @@
 #'   \code{lat}.
 #' @param lat2 Second latitude bound in decimal degrees. Alternative to
 #'   \code{lat}.
-#' @param resolution Output grid spacing in arc-minutes. Defaults to \code{1}.
-#'   The GEBCO global NetCDF subset is downloaded at its native 15 arc-second
-#'   resolution, then resampled locally with nearest-neighbour selection when
-#'   \code{resolution > 0.25}. Values lower than \code{0.25} return the native
-#'   GEBCO global grid resolution.
 #' @param antimeridian Logical. If \code{TRUE}, the requested longitudinal range
 #'   is interpreted as crossing the antimeridian. The function downloads two
 #'   GEBCO subsets and stitches them into one \code{bathy} object. The order of
@@ -79,7 +71,8 @@
 #' and land at 15 arc-second intervals. \url{https://www.gebco.net/}
 #'
 #' @seealso
-#' \code{\link{get_noaa}}, \code{\link{read_bathy}},
+#' \code{\link{get_noaa}}, \code{\link{reduce_bathy_resolution}},
+#' \code{\link{read_bathy}},
 #' \code{\link{as_bathy}}, \code{\link{geom_bathy}}
 #'
 #' @examples
@@ -87,9 +80,10 @@
 #' # Download a one-degree subset from the official GEBCO service
 #' b <- get_gebco(
 #'   lon = c(-6, -5),
-#'   lat = c(49, 50),
-#'   resolution = 1
+#'   lat = c(49, 50)
 #' )
+#'
+#' b_5min <- reduce_bathy_resolution(b, resolution = 5)
 #'
 #' }
 #' @importFrom curl curl_fetch_memory new_handle handle_setheaders handle_setopt
@@ -101,7 +95,6 @@ get_gebco <- function(
     lon2 = NULL,
     lat1 = NULL,
     lat2 = NULL,
-    resolution = 1,
     antimeridian = FALSE,
     keep = FALSE,
     path = NULL,
@@ -129,8 +122,8 @@ get_gebco <- function(
     stop("Package 'curl' is required.", call. = FALSE)
   }
 
-  if (!is.numeric(c(lon1, lon2, lat1, lat2, resolution, grid_id, data_source_id, format_id))) {
-    stop("Coordinates, resolution, grid_id, data_source_id, and format_id must be numeric.", call. = FALSE)
+  if (!is.numeric(c(lon1, lon2, lat1, lat2, grid_id, data_source_id, format_id))) {
+    stop("Coordinates, grid_id, data_source_id, and format_id must be numeric.", call. = FALSE)
   }
   if (length(lon1) != 1 || length(lon2) != 1 || length(lat1) != 1 || length(lat2) != 1) {
     stop("lon1, lon2, lat1, and lat2 must be single numeric values.", call. = FALSE)
@@ -149,9 +142,6 @@ get_gebco <- function(
   }
   if (lon1 < -180 || lon1 > 180 || lon2 < -180 || lon2 > 180) {
     stop("Longitudes should have values between -180 and +180.", call. = FALSE)
-  }
-  if (!is.finite(resolution) || resolution <= 0) {
-    stop("resolution must be a positive numeric value.", call. = FALSE)
   }
   if (!is.logical(antimeridian) || length(antimeridian) != 1 || is.na(antimeridian)) {
     stop("antimeridian must be TRUE or FALSE.", call. = FALSE)
@@ -175,12 +165,10 @@ get_gebco <- function(
   x2 <- max(lon1, lon2)
   y1 <- min(lat1, lat2)
   y2 <- max(lat1, lat2)
-  resolution <- max(resolution, 0.25)
 
   file <- paste0(
     "marmap_gebco_coord_",
     x1, ";", y1, ";", x2, ";", y2,
-    "_res_", resolution,
     if (antimeridian) "_anti" else "",
     ".csv"
   )
@@ -353,30 +341,19 @@ get_gebco <- function(
       stop("The GEBCO elevation variable is not a two-dimensional grid.", call. = FALSE)
     }
 
-    lon_axis <- regular_gebco_axis(lon, left, right, resolution)
-    lat_axis <- regular_gebco_axis(lat, bottom, top, resolution)
-    lon_index <- lon_axis$index
-    lat_index <- lat_axis$index
-    lon <- lon_axis$values
-    lat <- lat_axis$values
-
     elevation_dim_names <- vapply(nc$var$elevation$dim, `[[`, character(1), "name")
     elevation_dim_names <- tolower(elevation_dim_names)
     elevation_orientation <- NULL
 
     if (identical(elevation_dim_names, c("lat", "lon"))) {
-      elevation <- elevation[lat_index, lon_index, drop = FALSE]
       elevation_orientation <- "lat_lon"
     } else if (identical(elevation_dim_names, c("lon", "lat"))) {
-      elevation <- elevation[lon_index, lat_index, drop = FALSE]
       elevation_orientation <- "lon_lat"
     } else if (!identical(length(original_lat), length(original_lon)) &&
         identical(dim(elevation), c(length(original_lat), length(original_lon)))) {
-      elevation <- elevation[lat_index, lon_index, drop = FALSE]
       elevation_orientation <- "lat_lon"
     } else if (!identical(length(original_lat), length(original_lon)) &&
         identical(dim(elevation), c(length(original_lon), length(original_lat)))) {
-      elevation <- elevation[lon_index, lat_index, drop = FALSE]
       elevation_orientation <- "lon_lat"
     } else {
       stop("The GEBCO elevation grid dimensions do not match lon/lat.", call. = FALSE)

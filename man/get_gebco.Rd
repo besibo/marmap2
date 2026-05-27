@@ -11,7 +11,6 @@ get_gebco(
   lon2 = NULL,
   lat1 = NULL,
   lat2 = NULL,
-  resolution = 1,
   antimeridian = FALSE,
   keep = FALSE,
   path = NULL,
@@ -36,12 +35,6 @@ degrees. This is the recommended syntax.}
 
 \item{lat2}{Second latitude bound in decimal degrees. Alternative to
 \code{lat}.}
-
-\item{resolution}{Output grid spacing in arc-minutes. Defaults to \code{1}.
-The GEBCO global NetCDF subset is downloaded at its native 15 arc-second
-resolution, then resampled locally with nearest-neighbour selection when
-\code{resolution > 0.25}. Values lower than \code{0.25} return the native
-GEBCO global grid resolution.}
 
 \item{antimeridian}{Logical. If \code{TRUE}, the requested longitudinal range
 is interpreted as crossing the antimeridian. The function downloads two
@@ -81,12 +74,9 @@ variables, and converts them to the requested output class.
 The current global GEBCO grids are served by the GEBCO download service at
 their native resolution of 15 arc-seconds, i.e. 0.25 arc-minutes or
 0.0041667 decimal degrees. This corresponds to approximately 463 m at the
-equator. The \code{resolution} argument is expressed in arc-minutes for
-consistency with \code{\link{get_noaa}}, but it is not sent to the GEBCO
-API: the NetCDF file is downloaded at native resolution, then resampled
-locally with nearest-neighbour selection on a regular grid if
-\code{resolution} is larger than 0.25. Values smaller than 0.25 therefore do
-not increase the spatial resolution and return the native grid.
+equator. \code{get_gebco()} always returns this native GEBCO resolution.
+Use \code{\link{reduce_bathy_resolution}} afterwards to reduce the spatial
+resolution locally without sending a new request to GEBCO.
 
 GEBCO also exposes some higher-resolution regional or experimental products
 through the same download service, for example polar grids or beta
@@ -108,9 +98,10 @@ bounds internally before submitting requests to GEBCO.
 # Download a one-degree subset from the official GEBCO service
 b <- get_gebco(
   lon = c(-6, -5),
-  lat = c(49, 50),
-  resolution = 1
+  lat = c(49, 50)
 )
+
+b_5min <- reduce_bathy_resolution(b, resolution = 5)
 
 }
 }
@@ -119,6 +110,7 @@ GEBCO Compilation Group. GEBCO Grid, a continuous terrain model for oceans
 and land at 15 arc-second intervals. \url{https://www.gebco.net/}
 }
 \seealso{
-\code{\link{get_noaa}}, \code{\link{read_bathy}},
+\code{\link{get_noaa}}, \code{\link{reduce_bathy_resolution}},
+\code{\link{read_bathy}},
 \code{\link{as_bathy}}, \code{\link{geom_bathy}}
 }

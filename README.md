@@ -11,8 +11,7 @@ library(ggplot2)
 
 dat <- get_gebco(
   lon = c(2, 7),
-  lat = c(42, 44),
-  resolution = 0.5
+  lat = c(42, 44)
 )
 
 dat |>

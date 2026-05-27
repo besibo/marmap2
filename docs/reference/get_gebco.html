@@ -47,7 +47,6 @@ service and returns it as a tibble or an object of class <code>bathy</code>.</p>
 <span>  lon2 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lat1 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lat2 <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  resolution <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  antimeridian <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  keep <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  path <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -87,14 +86,6 @@ degrees. This is the recommended syntax.</p></dd>
 <dt id="arg-lat-">lat2<a class="anchor" aria-label="anchor" href="#arg-lat-"></a></dt>
 <dd><p>Second latitude bound in decimal degrees. Alternative to
 <code>lat</code>.</p></dd>
-
-
-<dt id="arg-resolution">resolution<a class="anchor" aria-label="anchor" href="#arg-resolution"></a></dt>
-<dd><p>Output grid spacing in arc-minutes. Defaults to <code>1</code>.
-The GEBCO global NetCDF subset is downloaded at its native 15 arc-second
-resolution, then resampled locally with nearest-neighbour selection when
-<code>resolution &gt; 0.25</code>. Values lower than <code>0.25</code> return the native
-GEBCO global grid resolution.</p></dd>
 
 
 <dt id="arg-antimeridian">antimeridian<a class="anchor" aria-label="anchor" href="#arg-antimeridian"></a></dt>
@@ -140,12 +131,9 @@ variables, and converts them to the requested output class.</p>
 <p>The current global GEBCO grids are served by the GEBCO download service at
 their native resolution of 15 arc-seconds, i.e. 0.25 arc-minutes or
 0.0041667 decimal degrees. This corresponds to approximately 463 m at the
-equator. The <code>resolution</code> argument is expressed in arc-minutes for
-consistency with <code><a href="get_noaa.html">get_noaa</a></code>, but it is not sent to the GEBCO
-API: the NetCDF file is downloaded at native resolution, then resampled
-locally with nearest-neighbour selection on a regular grid if
-<code>resolution</code> is larger than 0.25. Values smaller than 0.25 therefore do
-not increase the spatial resolution and return the native grid.</p>
+equator. <code>get_gebco()</code> always returns this native GEBCO resolution.
+Use <code><a href="reduce_bathy_resolution.html">reduce_bathy_resolution</a></code> afterwards to reduce the spatial
+resolution locally without sending a new request to GEBCO.</p>
 <p>GEBCO also exposes some higher-resolution regional or experimental products
 through the same download service, for example polar grids or beta
 multi-resolution layers. This function intentionally targets the default
@@ -167,7 +155,8 @@ and land at 15 arc-second intervals. <a href="https://www.gebco.net/" class="ext
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="get_noaa.html">get_noaa</a></code>, <code><a href="read_bathy.html">read_bathy</a></code>,
+    <div class="dont-index"><p><code><a href="get_noaa.html">get_noaa</a></code>, <code><a href="reduce_bathy_resolution.html">reduce_bathy_resolution</a></code>,
+<code><a href="read_bathy.html">read_bathy</a></code>,
 <code><a href="as_bathy.html">as_bathy</a></code>, <code><a href="geom_bathy.html">geom_bathy</a></code></p></div>
     </div>
 
@@ -177,9 +166,10 @@ and land at 15 arc-second intervals. <a href="https://www.gebco.net/" class="ext
 <span class="r-in"><span><span class="co"># Download a one-degree subset from the official GEBCO service</span></span></span>
 <span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu">get_gebco</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  lon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">6</span>, <span class="op">-</span><span class="fl">5</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">49</span>, <span class="fl">50</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  resolution <span class="op">=</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span>  lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">49</span>, <span class="fl">50</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">b_5min</span> <span class="op">&lt;-</span> <span class="fu"><a href="reduce_bathy_resolution.html">reduce_bathy_resolution</a></span><span class="op">(</span><span class="va">b</span>, resolution <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>

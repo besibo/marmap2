@@ -31,21 +31,3 @@ resolve_lon_lat_args <- function(lon1, lon2, lat1, lat2, lon, lat) {
 
   list(lon1 = lon1, lon2 = lon2, lat1 = lat1, lat2 = lat2)
 }
-
-regular_gebco_axis <- function(x, lower, upper, resolution) {
-  if (length(x) <= 2 || resolution <= 0.25) {
-    return(list(index = seq_along(x), values = x))
-  }
-  step <- stats::median(abs(diff(sort(unique(x)))), na.rm = TRUE) * 60
-  if (!is.finite(step) || step <= 0) {
-    return(list(index = seq_along(x), values = x))
-  }
-  target_step <- resolution / 60
-  target <- seq(lower + target_step / 2, upper - target_step / 2, by = target_step)
-  if (length(target) == 0) {
-    target <- mean(c(lower, upper))
-  }
-  index <- vapply(target, function(value) which.min(abs(x - value)), integer(1))
-  keep <- !duplicated(index)
-  list(index = index[keep], values = target[keep])
-}

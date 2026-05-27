@@ -100,7 +100,9 @@ when <code>antimeridian = TRUE</code>. Projected tibbles returned by
 <code><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">ggplot2::geom_tile</a></code> or
 <code><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">ggplot2::geom_raster</a></code>. For
 <code>geom = "tile"</code>, cell borders are coloured like the fill by default
-to mask anti-aliasing seams between adjacent tiles.</p></dd>
+to mask anti-aliasing seams between adjacent tiles. Tile width and height
+are also set from the grid spacing by default so the panel grid does not
+show through between adjacent cells.</p></dd>
 
 
 <dt id="arg-lon-lat-depth">lon, lat, depth<a class="anchor" aria-label="anchor" href="#arg-lon-lat-depth"></a></dt>

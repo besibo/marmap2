@@ -21,7 +21,9 @@
 #'   \code{\link[ggplot2:geom_tile]{ggplot2::geom_tile}} or
 #'   \code{\link[ggplot2:geom_raster]{ggplot2::geom_raster}}. For
 #'   \code{geom = "tile"}, cell borders are coloured like the fill by default
-#'   to mask anti-aliasing seams between adjacent tiles.
+#'   to mask anti-aliasing seams between adjacent tiles. Tile width and height
+#'   are also set from the grid spacing by default so the panel grid does not
+#'   show through between adjacent cells.
 #' @param lon,lat,depth Character. Names of the longitude, latitude, and depth
 #'   columns.
 #' @param geom Character. Rendering geom, either \code{"tile"} or
@@ -106,6 +108,12 @@ geom_bathy <- function(
   geom_args <- list(...)
   if (identical(geom, "tile")) {
     mapped_aes <- names(mapping)
+    if (!"width" %in% c(names(geom_args), mapped_aes)) {
+      mapping$width <- rlang::quo(.bathy_width)
+    }
+    if (!"height" %in% c(names(geom_args), mapped_aes)) {
+      mapping$height <- rlang::quo(.bathy_height)
+    }
     if (!any(c("colour", "color") %in% c(names(geom_args), mapped_aes))) {
       mapping$colour <- rlang::quo(ggplot2::after_scale(fill))
     }
@@ -242,7 +250,23 @@ prepare_bathy_layer_data <- function(data, lon, lat, depth) {
     stop("Longitude, latitude, and depth columns must be numeric.", call. = FALSE)
   }
 
+  if (!".bathy_width" %in% names(data)) {
+    data$.bathy_width <- bathy_cell_size(data[[lon]])
+  }
+  if (!".bathy_height" %in% names(data)) {
+    data$.bathy_height <- bathy_cell_size(data[[lat]])
+  }
+
   data
+}
+
+bathy_cell_size <- function(x) {
+  dx <- diff(sort(unique(x)))
+  dx <- dx[is.finite(dx) & dx > 0]
+  if (!length(dx)) {
+    return(NA_real_)
+  }
+  stats::median(dx)
 }
 
 bathy_fixed_coordinates <- function(antimeridian, asp, x_breaks, expand) {

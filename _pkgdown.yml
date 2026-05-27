@@ -30,6 +30,7 @@ reference:
       - as_sf
       - as_spatraster
       - project_bathy
+      - reduce_bathy_resolution
       - check_bathy
   - title: Plotting
     contents:
@@ -43,3 +44,4 @@ reference:
     contents:
       - marmap2-package
       - summary_bathy
+      - summarise_bathy

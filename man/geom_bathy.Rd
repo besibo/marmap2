@@ -37,7 +37,9 @@ geom_bathy(
 \code{\link[ggplot2:geom_tile]{ggplot2::geom_tile}} or
 \code{\link[ggplot2:geom_raster]{ggplot2::geom_raster}}. For
 \code{geom = "tile"}, cell borders are coloured like the fill by default
-to mask anti-aliasing seams between adjacent tiles.}
+to mask anti-aliasing seams between adjacent tiles. Tile width and height
+are also set from the grid spacing by default so the panel grid does not
+show through between adjacent cells.}
 
 \item{lon, lat, depth}{Character. Names of the longitude, latitude, and depth
 columns.}

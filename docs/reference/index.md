@@ -24,6 +24,8 @@
   : Convert bathymetric data to a terra SpatRaster
 - [`project_bathy()`](https://besibo.github.io/marmap2/reference/project_bathy.md)
   : Project bathymetric grids
+- [`reduce_bathy_resolution()`](https://besibo.github.io/marmap2/reference/reduce_bathy_resolution.md)
+  : Reduce the spatial resolution of bathymetric data
 - [`check_bathy()`](https://besibo.github.io/marmap2/reference/check_bathy.md)
   : Sort bathymetric data matrix by increasing latitude and longitude
 
@@ -50,3 +52,6 @@
   :
 
   Summary of bathymetric data of class `bathy`
+
+- [`summarise_bathy()`](https://besibo.github.io/marmap2/reference/summarise_bathy.md)
+  : Summarise bathymetric data

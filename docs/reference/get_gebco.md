@@ -14,7 +14,6 @@ get_gebco(
   lon2 = NULL,
   lat1 = NULL,
   lat2 = NULL,
-  resolution = 1,
   antimeridian = FALSE,
   keep = FALSE,
   path = NULL,
@@ -49,14 +48,6 @@ get_gebco(
 - lat2:
 
   Second latitude bound in decimal degrees. Alternative to `lat`.
-
-- resolution:
-
-  Output grid spacing in arc-minutes. Defaults to `1`. The GEBCO global
-  NetCDF subset is downloaded at its native 15 arc-second resolution,
-  then resampled locally with nearest-neighbour selection when
-  `resolution > 0.25`. Values lower than `0.25` return the native GEBCO
-  global grid resolution.
 
 - antimeridian:
 
@@ -101,14 +92,11 @@ requested output class.
 The current global GEBCO grids are served by the GEBCO download service
 at their native resolution of 15 arc-seconds, i.e. 0.25 arc-minutes or
 0.0041667 decimal degrees. This corresponds to approximately 463 m at
-the equator. The `resolution` argument is expressed in arc-minutes for
-consistency with
-[`get_noaa`](https://besibo.github.io/marmap2/reference/get_noaa.md),
-but it is not sent to the GEBCO API: the NetCDF file is downloaded at
-native resolution, then resampled locally with nearest-neighbour
-selection on a regular grid if `resolution` is larger than 0.25. Values
-smaller than 0.25 therefore do not increase the spatial resolution and
-return the native grid.
+the equator. `get_gebco()` always returns this native GEBCO resolution.
+Use
+[`reduce_bathy_resolution`](https://besibo.github.io/marmap2/reference/reduce_bathy_resolution.md)
+afterwards to reduce the spatial resolution locally without sending a
+new request to GEBCO.
 
 GEBCO also exposes some higher-resolution regional or experimental
 products through the same download service, for example polar grids or
@@ -135,6 +123,7 @@ oceans and land at 15 arc-second intervals. <https://www.gebco.net/>
 ## See also
 
 [`get_noaa`](https://besibo.github.io/marmap2/reference/get_noaa.md),
+[`reduce_bathy_resolution`](https://besibo.github.io/marmap2/reference/reduce_bathy_resolution.md),
 [`read_bathy`](https://besibo.github.io/marmap2/reference/read_bathy.md),
 [`as_bathy`](https://besibo.github.io/marmap2/reference/as_bathy.md),
 [`geom_bathy`](https://besibo.github.io/marmap2/reference/geom_bathy.md)
@@ -146,9 +135,10 @@ if (FALSE) { # \dontrun{
 # Download a one-degree subset from the official GEBCO service
 b <- get_gebco(
   lon = c(-6, -5),
-  lat = c(49, 50),
-  resolution = 1
+  lat = c(49, 50)
 )
+
+b_5min <- reduce_bathy_resolution(b, resolution = 5)
 
 } # }
 ```

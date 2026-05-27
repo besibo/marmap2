@@ -59,7 +59,9 @@ geom_bathy(
   or
   [`ggplot2::geom_raster`](https://ggplot2.tidyverse.org/reference/geom_tile.html).
   For `geom = "tile"`, cell borders are coloured like the fill by
-  default to mask anti-aliasing seams between adjacent tiles.
+  default to mask anti-aliasing seams between adjacent tiles. Tile width
+  and height are also set from the grid spacing by default so the panel
+  grid does not show through between adjacent cells.
 
 - lon, lat, depth:
 
