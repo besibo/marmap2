@@ -19,7 +19,7 @@
 #' Eric Pante
 #'
 #' @seealso
-#' \code{\link{summary_bathy}}, \code{\link{as_bathy}},
+#' \code{\link{summarise_bathy}}, \code{\link{as_bathy}},
 #' \code{\link{bathy_to_tbl}}
 #'
 #' @examples

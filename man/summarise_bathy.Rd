@@ -34,6 +34,6 @@ summarise_bathy(xyz)
 summarise_bathy(as_bathy(xyz))
 }
 \seealso{
-\code{\link{summary_bathy}}, \code{\link{get_gebco}},
-\code{\link{get_noaa}}, \code{\link{geom_bathy}}
+\code{\link{get_gebco}}, \code{\link{get_noaa}},
+\code{\link{geom_bathy}}
 }

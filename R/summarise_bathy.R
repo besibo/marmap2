@@ -16,8 +16,8 @@
 #' size in memory. A compact print method is provided for interactive use.
 #'
 #' @seealso
-#' \code{\link{summary_bathy}}, \code{\link{get_gebco}},
-#' \code{\link{get_noaa}}, \code{\link{geom_bathy}}
+#' \code{\link{get_gebco}}, \code{\link{get_noaa}},
+#' \code{\link{geom_bathy}}
 #'
 #' @examples
 #' xyz <- data.frame(

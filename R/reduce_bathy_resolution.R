@@ -11,7 +11,8 @@
 #'   an object inheriting from class \code{bathy}.
 #' @param resolution Target grid spacing in arc-minutes. The value must be a
 #'   single positive number. If \code{resolution} is finer than or equal to the
-#'   current grid spacing, \code{x} is returned unchanged.
+#'   current grid spacing, \code{x} is returned unchanged and an informative
+#'   message is emitted.
 #' @param method Reduction method. \code{"nearest"} keeps the native cell
 #'   closest to each target cell centre and is the default. \code{"mean"}
 #'   averages all values in each output cell, and \code{"median"} uses their
@@ -71,6 +72,15 @@ reduce_bathy_resolution <- function(
     bathy <- tbl_to_bathy(x)
   }
 
+  current_resolution <- bathy_current_resolution(bathy)
+  if (resolution <= current_resolution) {
+    message(
+      "Requested resolution is finer than or equal to the current grid ",
+      "resolution; returning input unchanged."
+    )
+    return(x)
+  }
+
   reduced <- reduce_bathy_matrix(bathy, resolution = resolution, method = method)
 
   if (input_is_bathy) {
@@ -95,19 +105,6 @@ reduce_bathy_matrix <- function(x, resolution, method) {
     stop("x must be a regular bathy grid with numeric longitude and latitude names.", call. = FALSE)
   }
 
-  current_resolution <- max(
-    stats::median(abs(diff(sort(unique(lon)))), na.rm = TRUE),
-    stats::median(abs(diff(sort(unique(lat)))), na.rm = TRUE)
-  ) * 60
-
-  if (!is.finite(current_resolution) || current_resolution <= 0) {
-    stop("The current grid resolution cannot be determined.", call. = FALSE)
-  }
-
-  if (resolution <= current_resolution) {
-    return(x)
-  }
-
   if (identical(method, "nearest")) {
     return(reduce_bathy_matrix_nearest(x, resolution = resolution))
   }
@@ -118,8 +115,8 @@ reduce_bathy_matrix <- function(x, resolution, method) {
   lon_max <- max(xyz$lon, na.rm = TRUE)
   lat_min <- min(xyz$lat, na.rm = TRUE)
   lat_max <- max(xyz$lat, na.rm = TRUE)
-  n_lon_bins <- max(1, floor((lon_max - lon_min) / step))
-  n_lat_bins <- max(1, floor((lat_max - lat_min) / step))
+  n_lon_bins <- bathy_n_bins(lon_min, lon_max, step)
+  n_lat_bins <- bathy_n_bins(lat_min, lat_max, step)
   lon_bin <- pmin(floor((xyz$lon - lon_min) / step), n_lon_bins - 1)
   lat_bin <- pmin(floor((xyz$lat - lat_min) / step), n_lat_bins - 1)
 
@@ -154,10 +151,6 @@ reduce_bathy_matrix <- function(x, resolution, method) {
   as_bathy(reduced)
 }
 
-reduce_bathy_nearest <- function(x, resolution) {
-  reduce_bathy_resolution(x, resolution = resolution, method = "nearest")
-}
-
 reduce_bathy_matrix_nearest <- function(x, resolution) {
   lon <- as.numeric(rownames(x))
   lat <- as.numeric(colnames(x))
@@ -177,6 +170,29 @@ reduce_bathy_matrix_nearest <- function(x, resolution) {
   colnames(reduced) <- lat_target
   class(reduced) <- "bathy"
   reduced
+}
+
+bathy_n_bins <- function(lower, upper, step) {
+  max(1, floor(((upper - lower) / step) + sqrt(.Machine$double.eps)))
+}
+
+bathy_current_resolution <- function(x) {
+  lon <- suppressWarnings(as.numeric(rownames(x)))
+  lat <- suppressWarnings(as.numeric(colnames(x)))
+  if (anyNA(lon) || anyNA(lat) || length(lon) < 2 || length(lat) < 2) {
+    stop("x must be a regular bathy grid with numeric longitude and latitude names.", call. = FALSE)
+  }
+
+  current_resolution <- max(
+    stats::median(abs(diff(sort(unique(lon)))), na.rm = TRUE),
+    stats::median(abs(diff(sort(unique(lat)))), na.rm = TRUE)
+  ) * 60
+
+  if (!is.finite(current_resolution) || current_resolution <= 0) {
+    stop("The current grid resolution cannot be determined.", call. = FALSE)
+  }
+
+  current_resolution
 }
 
 bathy_target_axis <- function(x, resolution) {

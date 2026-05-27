@@ -43,5 +43,4 @@ reference:
   - title: Package
     contents:
       - marmap2-package
-      - summary_bathy
       - summarise_bathy

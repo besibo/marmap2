@@ -12,7 +12,8 @@ an object inheriting from class \code{bathy}.}
 
 \item{resolution}{Target grid spacing in arc-minutes. The value must be a
 single positive number. If \code{resolution} is finer than or equal to the
-current grid spacing, \code{x} is returned unchanged.}
+current grid spacing, \code{x} is returned unchanged and an informative
+message is emitted.}
 
 \item{method}{Reduction method. \code{"nearest"} keeps the native cell
 closest to each target cell centre and is the default. \code{"mean"}

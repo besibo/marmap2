@@ -27,7 +27,6 @@
 check_bathy = function(x){
 	order(as.numeric(colnames(x))) -> xc
 	order(as.numeric(rownames(x))) -> xr
-	x[xr, xc] -> sorted.x
+	x[xr, xc, drop = FALSE] -> sorted.x
 	return(sorted.x)
 }
-

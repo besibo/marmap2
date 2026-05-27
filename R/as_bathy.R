@@ -21,7 +21,7 @@
 #' Benoit Simon-Bouhet
 #'
 #' @seealso
-#' \code{\link{summary_bathy}}, \code{\link{read_bathy}},
+#' \code{\link{summarise_bathy}}, \code{\link{read_bathy}},
 #' \code{\link{as_xyz}}, \code{\link{bathy_to_tbl}}, \code{\link{tbl_to_bathy}}.
 #'
 #' @examples
@@ -33,7 +33,7 @@
 #'
 #' bathy <- as_bathy(xyz)
 #' class(bathy)
-#' summary(bathy)
+#' summarise_bathy(bathy)
 #' @export
 as_bathy <- function(x){
 

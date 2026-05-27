@@ -30,10 +30,10 @@ xyz <- data.frame(
 
 bathy <- as_bathy(xyz)
 class(bathy)
-summary(bathy)
+summarise_bathy(bathy)
 }
 \seealso{
-\code{\link{summary_bathy}}, \code{\link{read_bathy}},
+\code{\link{summarise_bathy}}, \code{\link{read_bathy}},
 \code{\link{as_xyz}}, \code{\link{bathy_to_tbl}}, \code{\link{tbl_to_bathy}}.
 }
 \author{

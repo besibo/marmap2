@@ -35,7 +35,7 @@ bathy <- read_bathy(tmp, header = TRUE)
 class(bathy)
 }
 \seealso{
-\code{\link{summary_bathy}}, \code{\link{as_bathy}},
+\code{\link{summarise_bathy}}, \code{\link{as_bathy}},
 \code{\link{bathy_to_tbl}}
 }
 \author{
