@@ -103,12 +103,6 @@ dat_noaa <- get_noaa(
 - [`marmap2`](https://besibo.github.io/marmap2/reference/marmap2-package.md)
   [`marmap2-package`](https://besibo.github.io/marmap2/reference/marmap2-package.md)
   : marmap2: Import, Plot, and Analyze Bathymetric and Topographic Data
-
-- [`summary_bathy()`](https://besibo.github.io/marmap2/reference/summary_bathy.md)
-  :
-
-  Summary of bathymetric data of class `bathy`
-
 - [`summarise_bathy()`](https://besibo.github.io/marmap2/reference/summarise_bathy.md)
   : Summarise bathymetric data
 

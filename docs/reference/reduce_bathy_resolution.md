@@ -23,7 +23,8 @@ reduce_bathy_resolution(x, resolution, method = c("nearest", "mean", "median"))
 
   Target grid spacing in arc-minutes. The value must be a single
   positive number. If `resolution` is finer than or equal to the current
-  grid spacing, `x` is returned unchanged.
+  grid spacing, `x` is returned unchanged and an informative message is
+  emitted.
 
 - method:
 

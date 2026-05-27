@@ -27,7 +27,7 @@ and the third as depth or elevation.
 
 ## See also
 
-[`summary_bathy`](https://besibo.github.io/marmap2/reference/summary_bathy.md),
+[`summarise_bathy`](https://besibo.github.io/marmap2/reference/summarise_bathy.md),
 [`read_bathy`](https://besibo.github.io/marmap2/reference/read_bathy.md),
 [`as_xyz`](https://besibo.github.io/marmap2/reference/as_xyz.md),
 [`bathy_to_tbl`](https://besibo.github.io/marmap2/reference/bathy_to_tbl.md),
@@ -49,19 +49,14 @@ xyz <- data.frame(
 bathy <- as_bathy(xyz)
 class(bathy)
 #> [1] "bathy"
-summary(bathy)
-#> Bathymetric data of class 'bathy', with 3 rows and 3 columns
-#> Latitudinal range: 48 to 50 (48 N to 50 N)
-#> Longitudinal range: -5 to -3 (5 W to 3 W)
-#> Cell size: 60 minute(s)
-#> 
-#> Depth statistics:
-#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>    -160    -140    -110    -110     -80     -60 
-#> 
-#> First 5 columns and rows of the bathymetric matrix:
-#>      48   49   50
-#> -5  -80  -70  -60
-#> -4 -120 -110 -100
-#> -3 -160 -150 -140
+summarise_bathy(bathy)
+#> Bathymetric data summary
+#>   Class:      bathy
+#>   Dimensions: 3 longitude x 3 latitude (9 cells)
+#>   Longitude:  5 W to 3 W
+#>   Latitude:   48 N to 50 N
+#>   Resolution: 60 x 60 arc-minutes
+#>   Depth:      -160 to -60 (mean -110, median -110)
+#>   Missing:    0
+#>   Memory:     1.2 Kb
 ```

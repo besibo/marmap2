@@ -36,7 +36,7 @@ depend on the resolution and extent of the input xyz table.
 
 ## See also
 
-[`summary_bathy`](https://besibo.github.io/marmap2/reference/summary_bathy.md),
+[`summarise_bathy`](https://besibo.github.io/marmap2/reference/summarise_bathy.md),
 [`as_bathy`](https://besibo.github.io/marmap2/reference/as_bathy.md),
 [`bathy_to_tbl`](https://besibo.github.io/marmap2/reference/bathy_to_tbl.md)
 

@@ -63,7 +63,7 @@ the third as depth or elevation.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="summary_bathy.html">summary_bathy</a></code>, <code><a href="read_bathy.html">read_bathy</a></code>,
+    <div class="dont-index"><p><code><a href="summarise_bathy.html">summarise_bathy</a></code>, <code><a href="read_bathy.html">read_bathy</a></code>,
 <code><a href="as_xyz.html">as_xyz</a></code>, <code><a href="bathy_to_tbl.html">bathy_to_tbl</a></code>, <code><a href="bathy_to_tbl.html">tbl_to_bathy</a></code>.</p></div>
     </div>
     <div class="section level2">
@@ -82,21 +82,16 @@ the third as depth or elevation.</p>
 <span class="r-in"><span><span class="va">bathy</span> <span class="op">&lt;-</span> <span class="fu">as_bathy</span><span class="op">(</span><span class="va">xyz</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">bathy</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bathy"</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bathy</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Bathymetric data of class 'bathy', with 3 rows and 3 columns</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Latitudinal range: 48 to 50 (48 N to 50 N)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Longitudinal range: -5 to -3 (5 W to 3 W)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Cell size: 60 minute(s)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Depth statistics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    -160    -140    -110    -110     -80     -60 </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> First 5 columns and rows of the bathymetric matrix:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      48   49   50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -5  -80  -70  -60</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -4 -120 -110 -100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -3 -160 -150 -140</span>
+<span class="r-in"><span><span class="fu"><a href="summarise_bathy.html">summarise_bathy</a></span><span class="op">(</span><span class="va">bathy</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bathymetric data summary</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Class:      bathy</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Dimensions: 3 longitude x 3 latitude (9 cells)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Longitude:  5 W to 3 W</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Latitude:   48 N to 50 N</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Resolution: 60 x 60 arc-minutes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Depth:      -160 to -60 (mean -110, median -110)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Missing:    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Memory:     1.2 Kb</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

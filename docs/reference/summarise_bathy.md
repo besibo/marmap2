@@ -31,7 +31,6 @@ interactive use.
 
 ## See also
 
-[`summary_bathy`](https://besibo.github.io/marmap2/reference/summary_bathy.md),
 [`get_gebco`](https://besibo.github.io/marmap2/reference/get_gebco.md),
 [`get_noaa`](https://besibo.github.io/marmap2/reference/get_noaa.md),
 [`geom_bathy`](https://besibo.github.io/marmap2/reference/geom_bathy.md)
