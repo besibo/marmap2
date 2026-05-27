@@ -30,7 +30,6 @@ reference:
       - as_sf
       - as_spatraster
       - project_bathy
-      - is_bathy
       - check_bathy
   - title: Plotting
     contents:

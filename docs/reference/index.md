@@ -24,8 +24,6 @@
   : Convert bathymetric data to a terra SpatRaster
 - [`project_bathy()`](https://besibo.github.io/marmap2/reference/project_bathy.md)
   : Project bathymetric grids
-- [`is_bathy()`](https://besibo.github.io/marmap2/reference/is_bathy.md)
-  : Test whether an object is of class bathy
 - [`check_bathy()`](https://besibo.github.io/marmap2/reference/check_bathy.md)
   : Sort bathymetric data matrix by increasing latitude and longitude
 
