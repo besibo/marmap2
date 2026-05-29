@@ -2,11 +2,35 @@
 % Please edit documentation in R/scale_fill_bathy.R
 \name{scale_fill_bathy}
 \alias{scale_fill_bathy}
+\alias{scale_colour_bathy}
+\alias{scale_color_bathy}
 \alias{bathy_palette}
 \alias{bathy_palettes}
 \title{Bathymetry colour scales for ggplot2}
 \usage{
 scale_fill_bathy(
+  palette_ocean = "ocean_blues",
+  palette_land = "land_earth",
+  limits = NULL,
+  mode = c("rescale", "truncate"),
+  na.value = "grey90",
+  name = "depth",
+  oob = NULL,
+  ...
+)
+
+scale_colour_bathy(
+  palette_ocean = "ocean_blues",
+  palette_land = "land_earth",
+  limits = NULL,
+  mode = c("rescale", "truncate"),
+  na.value = "grey90",
+  name = "depth",
+  oob = NULL,
+  ...
+)
+
+scale_color_bathy(
   palette_ocean = "ocean_blues",
   palette_land = "land_earth",
   limits = NULL,
@@ -27,7 +51,7 @@ bathy_palettes(type = c("all", "ocean", "land"))
 single colour, a vector of colours, a function taking \code{n} and returning
 colours, or \code{NULL}.}
 
-\item{limits}{Numeric vector of length two. Limits of the fill scale. If
+\item{limits}{Numeric vector of length two. Limits of the colour scale. If
 \code{NULL}, the scale limits are trained from the plotted data.}
 
 \item{mode}{Character. Either \code{"rescale"} or \code{"truncate"}. With
@@ -38,8 +62,7 @@ palette part is stretched over the plotted data range.}
 
 \item{na.value}{Colour used for missing values.}
 
-\item{name}{Scale name passed to
-\code{\link[ggplot2:scale_gradient]{ggplot2::scale_fill_gradientn}}.}
+\item{name}{Scale name passed to the ggplot2 gradient scale.}
 
 \item{oob}{Function used for out-of-bounds values. If \code{NULL}, values are
 squished to the nearest scale limit.}
@@ -56,15 +79,16 @@ taking \code{n} and returning colours.}
 or \code{"land"}.}
 }
 \value{
-A ggplot2 fill scale.
+A ggplot2 colour scale.
 
 For \code{bathy_palette()}, a character vector of colours. For
 \code{bathy_palettes()}, a character vector of palette names.
 }
 \description{
-\code{scale_fill_bathy()} provides perceptually ordered colour scales for
-bathymetric and topographic rasters drawn with ggplot2. The ocean and land
-parts of the scale are selected independently:
+\code{scale_fill_bathy()} and \code{scale_colour_bathy()} provide perceptually ordered
+colour scales for bathymetric and topographic rasters or contour lines drawn
+with ggplot2. The ocean and land parts of the scale are selected
+independently:
 \itemize{
 \item use a palette name to map a side with a colour gradient;
 \item use a single colour name or code to draw a side with a constant colour;

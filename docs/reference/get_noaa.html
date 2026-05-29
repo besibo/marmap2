@@ -51,6 +51,7 @@ service, given coordinate bounds and a requested spatial resolution.</p>
 <span>  antimeridian <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  keep <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  path <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  progress <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tbl"</span>, <span class="st">"bathy"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -110,6 +111,14 @@ where <code>get_noaa()</code> looks for already downloaded matching data. Defaul
 to the current working directory.</p></dd>
 
 
+<dt id="arg-progress">progress<a class="anchor" aria-label="anchor" href="#arg-progress"></a></dt>
+<dd><p>Logical. Whether to display a simple progress bar while NOAA
+windows are downloaded. The NOAA image service does not expose enough
+information for a true byte-level download progress bar, so progress is
+estimated from the number of grid cells requested and updated after each
+downloaded chunk.</p></dd>
+
+
 <dt id="arg-class">class<a class="anchor" aria-label="anchor" href="#arg-class"></a></dt>
 <dd><p>Character. Class of the returned object. Use <code>"tbl"</code>
 (default) to return a tibble with columns <code>lon</code>, <code>lat</code>, and
@@ -129,8 +138,9 @@ separated by semicolons; antimeridian requests add the <code>_anti</code> suffix
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>get_noaa()</code> queries the ETOPO 2022 database hosted by NOAA, using the
 coordinates of the area of interest and the desired resolution. The function
-uses the NOAA ArcGIS image service and returns a long tibble by default, or a
-matrix of class <code>bathy</code> when <code>class = "bathy"</code>.</p>
+uses the NOAA ArcGIS image service exposed through the same ImageServer
+backend as the NOAA Grid Extract tool, and returns a long tibble by default,
+or a matrix of class <code>bathy</code> when <code>class = "bathy"</code>.</p>
 <p>The <code>resolution</code> argument is expressed in arc-minutes. The function uses
 the 15 arc-second ETOPO 2022 layer for <code>resolution = 0.25</code>, the
 30 arc-second layer for <code>resolution = 0.5</code>, and the 60 arc-second layer
@@ -154,6 +164,10 @@ antimeridian when <code>antimeridian = TRUE</code>, or the 300 degree-wide area
 centered on the prime meridian when <code>antimeridian = FALSE</code>. Data around
 the antimeridian require two distinct NOAA queries, so <code>keep = TRUE</code> can
 be especially useful in this case.</p>
+<p>Internally, <code>get_noaa()</code> downloads temporary GeoTIFF subsets using the
+official ETOPO 2022 layer names used by the NOAA Grid Extract tool. The
+temporary files are written to R's temporary directory and removed as soon as
+they have been converted to <code>bathy</code>/tibble data.</p>
 <p>The order of longitude and latitude bounds does not matter: <code>get_noaa()</code>
 sorts the coordinate bounds internally before querying NOAA. Longitude and
 latitude bounds should preferably be supplied with the vector syntax

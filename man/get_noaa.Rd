@@ -15,6 +15,7 @@ get_noaa(
   antimeridian = FALSE,
   keep = FALSE,
   path = NULL,
+  progress = TRUE,
   class = c("tbl", "bathy")
 )
 }
@@ -50,6 +51,12 @@ Defaults to \code{FALSE}.}
 where \code{get_noaa()} looks for already downloaded matching data. Defaults
 to the current working directory.}
 
+\item{progress}{Logical. Whether to display a simple progress bar while NOAA
+windows are downloaded. The NOAA image service does not expose enough
+information for a true byte-level download progress bar, so progress is
+estimated from the number of grid cells requested and updated after each
+downloaded chunk.}
+
 \item{class}{Character. Class of the returned object. Use \code{"tbl"}
 (default) to return a tibble with columns \code{lon}, \code{lat}, and
 \code{depth}; use \code{"bathy"} to return a historical matrix of class
@@ -69,8 +76,9 @@ service, given coordinate bounds and a requested spatial resolution.
 \details{
 \code{get_noaa()} queries the ETOPO 2022 database hosted by NOAA, using the
 coordinates of the area of interest and the desired resolution. The function
-uses the NOAA ArcGIS image service and returns a long tibble by default, or a
-matrix of class \code{bathy} when \code{class = "bathy"}.
+uses the NOAA ArcGIS image service exposed through the same ImageServer
+backend as the NOAA Grid Extract tool, and returns a long tibble by default,
+or a matrix of class \code{bathy} when \code{class = "bathy"}.
 
 The \code{resolution} argument is expressed in arc-minutes. The function uses
 the 15 arc-second ETOPO 2022 layer for \code{resolution = 0.25}, the
@@ -97,6 +105,11 @@ antimeridian when \code{antimeridian = TRUE}, or the 300 degree-wide area
 centered on the prime meridian when \code{antimeridian = FALSE}. Data around
 the antimeridian require two distinct NOAA queries, so \code{keep = TRUE} can
 be especially useful in this case.
+
+Internally, \code{get_noaa()} downloads temporary GeoTIFF subsets using the
+official ETOPO 2022 layer names used by the NOAA Grid Extract tool. The
+temporary files are written to R's temporary directory and removed as soon as
+they have been converted to \code{bathy}/tibble data.
 
 The order of longitude and latitude bounds does not matter: \code{get_noaa()}
 sorts the coordinate bounds internally before querying NOAA. Longitude and

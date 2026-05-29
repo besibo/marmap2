@@ -20,6 +20,7 @@ reference:
   - title: Data import
     contents:
       - get_noaa
+      - get_noaa_erddap
       - get_gebco
       - read_bathy
   - title: Bathy conversion and validation
@@ -34,6 +35,7 @@ reference:
       - check_bathy
   - title: Plotting
     contents:
+      - quickplot_bathy
       - geom_bathy
       - geom_coastline
       - coord_sf_antimeridian

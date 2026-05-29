@@ -249,6 +249,7 @@ prepare_bathy_layer_data <- function(data, lon, lat, depth) {
   if (!is.numeric(data[[lon]]) || !is.numeric(data[[lat]]) || !is.numeric(data[[depth]])) {
     stop("Longitude, latitude, and depth columns must be numeric.", call. = FALSE)
   }
+  data[[depth]] <- bathy_depth(data[[depth]])
 
   if (!".bathy_width" %in% names(data)) {
     data$.bathy_width <- bathy_cell_size(data[[lon]])
@@ -340,4 +341,18 @@ label_latitude <- function(x) {
   )
   out[is.na(x)] <- NA_character_
   out
+}
+
+bathy_depth <- function(x) {
+  class(x) <- unique(c("bathy_depth", class(x)))
+  x
+}
+
+#' @exportS3Method ggplot2::scale_type
+scale_type.bathy_depth <- function(x) {
+  "bathy_depth"
+}
+
+scale_fill_bathy_depth <- function(...) {
+  scale_fill_bathy(...)
 }

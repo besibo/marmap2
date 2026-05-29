@@ -1,9 +1,10 @@
 #' Bathymetry colour scales for ggplot2
 #'
 #' @description
-#' `scale_fill_bathy()` provides perceptually ordered colour scales for
-#' bathymetric and topographic rasters drawn with ggplot2. The ocean and land
-#' parts of the scale are selected independently:
+#' `scale_fill_bathy()` and `scale_colour_bathy()` provide perceptually ordered
+#' colour scales for bathymetric and topographic rasters or contour lines drawn
+#' with ggplot2. The ocean and land parts of the scale are selected
+#' independently:
 #'
 #' - use a palette name to map a side with a colour gradient;
 #' - use a single colour name or code to draw a side with a constant colour;
@@ -15,7 +16,7 @@
 #'   (`<= 0`) and land values (`>= 0`), respectively. Can be a palette name, a
 #'   single colour, a vector of colours, a function taking `n` and returning
 #'   colours, or `NULL`.
-#' @param limits Numeric vector of length two. Limits of the fill scale. If
+#' @param limits Numeric vector of length two. Limits of the colour scale. If
 #'   `NULL`, the scale limits are trained from the plotted data.
 #' @param mode Character. Either `"rescale"` or `"truncate"`. With
 #'   `"truncate"`, the legend spans the data range but colours remain anchored
@@ -23,14 +24,13 @@
 #'   altitude keeps the same colour across maps. With `"rescale"`, the selected
 #'   palette part is stretched over the plotted data range.
 #' @param na.value Colour used for missing values.
-#' @param name Scale name passed to
-#'   \code{\link[ggplot2:scale_gradient]{ggplot2::scale_fill_gradientn}}.
+#' @param name Scale name passed to the ggplot2 gradient scale.
 #' @param oob Function used for out-of-bounds values. If `NULL`, values are
 #'   squished to the nearest scale limit.
 #' @param ... Additional arguments passed to
 #'   \code{\link[ggplot2:scale_gradient]{ggplot2::scale_fill_gradientn}}.
 #'
-#' @return A ggplot2 fill scale.
+#' @return A ggplot2 colour scale.
 #'
 #' @seealso
 #' \code{\link{geom_bathy}}, \code{\link{bathy_palette}},
@@ -75,6 +75,59 @@ scale_fill_bathy <- function(
   oob = NULL,
   ...
 ) {
+  scale_bathy(
+    aesthetics = "fill",
+    palette_ocean = palette_ocean,
+    palette_land = palette_land,
+    limits = limits,
+    mode = mode,
+    na.value = na.value,
+    name = name,
+    oob = oob,
+    ...
+  )
+}
+
+#' @rdname scale_fill_bathy
+#' @export
+scale_colour_bathy <- function(
+  palette_ocean = "ocean_blues",
+  palette_land = "land_earth",
+  limits = NULL,
+  mode = c("rescale", "truncate"),
+  na.value = "grey90",
+  name = "depth",
+  oob = NULL,
+  ...
+) {
+  scale_bathy(
+    aesthetics = "colour",
+    palette_ocean = palette_ocean,
+    palette_land = palette_land,
+    limits = limits,
+    mode = mode,
+    na.value = na.value,
+    name = name,
+    oob = oob,
+    ...
+  )
+}
+
+#' @rdname scale_fill_bathy
+#' @export
+scale_color_bathy <- scale_colour_bathy
+
+scale_bathy <- function(
+  aesthetics,
+  palette_ocean = "ocean_blues",
+  palette_land = "land_earth",
+  limits = NULL,
+  mode = c("rescale", "truncate"),
+  na.value = "grey90",
+  name = "depth",
+  oob = NULL,
+  ...
+) {
   mode <- match.arg(mode)
   spec <- bathy_scale_spec(palette_ocean, palette_land)
   limits <- bathy_user_limits(limits, spec$coverage)
@@ -86,6 +139,7 @@ scale_fill_bathy <- function(
   }
 
   ggplot2::scale_fill_gradientn(
+    aesthetics = aesthetics,
     colours = scale$colours,
     values = scale$values,
     limits = limits,
@@ -484,19 +538,19 @@ bathy_rescale_coverage <- function(x, from, coverage) {
 }
 
 bathy_rescale_piecewise <- function(x, from, zero) {
-  out <- numeric(length(x))
+  out <- rep(NA_real_, length(x))
   has_ocean <- from[1] < 0
   has_land <- from[2] > 0
 
   if (has_ocean) {
-    ocean <- x <= 0
+    ocean <- !is.na(x) & x <= 0
     out[ocean] <- bathy_rescale_to(x[ocean], c(from[1], 0), c(0, zero))
   } else {
     ocean <- rep(FALSE, length(x))
   }
 
   if (has_land) {
-    land <- x > 0
+    land <- !is.na(x) & x > 0
     out[land] <- bathy_rescale_to(x[land], c(0, from[2]), c(zero, 1))
   } else {
     land <- rep(FALSE, length(x))

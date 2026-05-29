@@ -13,10 +13,9 @@ Author: Benoît Simon-Bouhet [aut, cre], Eric Pante [aut]
 Maintainer: Benoît Simon-Bouhet <besibo@gmail.com>
 Depends: R (>= 2.10)
 Imports: curl, ggplot2, methods, ncdf4, raster, reshape2, rlang,
-        sf, tibble
+        sf, terra, tibble
 Suggests: 
     pkgdown,
-    terra,
     testthat (>= 3.0.0)
 BugReports: https://github.com/besibo/marmap2/issues
 Description: Import bathymetric and hypsometric data from NOAA (National Oceanic and Atmospheric Administration, <https://www.ncei.noaa.gov/products/etopo-global-relief-model>) and GEBCO (General Bathymetric Chart of the Oceans, <https://www.gebco.net>), convert historical bathy matrices to modern tabular and spatial formats, and draw bathymetric maps with ggplot2.

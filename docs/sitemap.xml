@@ -13,10 +13,12 @@
 <url><loc>https://besibo.github.io/marmap2/reference/geom_coastline.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/get_gebco.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/get_noaa.html</loc></url>
+<url><loc>https://besibo.github.io/marmap2/reference/get_noaa_erddap.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/index.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/is_bathy.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/marmap2-package.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/project_bathy.html</loc></url>
+<url><loc>https://besibo.github.io/marmap2/reference/quickplot_bathy.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/read_bathy.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/reduce_bathy_resolution.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/scale_fill_bathy.html</loc></url>

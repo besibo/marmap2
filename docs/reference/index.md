@@ -4,6 +4,8 @@
 
 - [`get_noaa()`](https://besibo.github.io/marmap2/reference/get_noaa.md)
   : Download bathymetry from NOAA ETOPO 2022
+- [`get_noaa_erddap()`](https://besibo.github.io/marmap2/reference/get_noaa_erddap.md)
+  : Download bathymetry from NOAA ETOPO 2022 through ERDDAP
 - [`get_gebco()`](https://besibo.github.io/marmap2/reference/get_gebco.md)
   : Download bathymetry from the GEBCO download service
 - [`read_bathy()`](https://besibo.github.io/marmap2/reference/read_bathy.md)
@@ -31,6 +33,8 @@
 
 ## Plotting
 
+- [`quickplot_bathy()`](https://besibo.github.io/marmap2/reference/quickplot_bathy.md)
+  : Quickly plot bathymetric data
 - [`geom_bathy()`](https://besibo.github.io/marmap2/reference/geom_bathy.md)
   : Plot bathymetric grids with ggplot2 and sf coordinates
 - [`geom_coastline()`](https://besibo.github.io/marmap2/reference/geom_coastline.md)
@@ -38,6 +42,8 @@
 - [`coord_sf_antimeridian()`](https://besibo.github.io/marmap2/reference/coord_sf_antimeridian.md)
   : Coordinate system for sf data around the antimeridian
 - [`scale_fill_bathy()`](https://besibo.github.io/marmap2/reference/scale_fill_bathy.md)
+  [`scale_colour_bathy()`](https://besibo.github.io/marmap2/reference/scale_fill_bathy.md)
+  [`scale_color_bathy()`](https://besibo.github.io/marmap2/reference/scale_fill_bathy.md)
   [`bathy_palette()`](https://besibo.github.io/marmap2/reference/scale_fill_bathy.md)
   [`bathy_palettes()`](https://besibo.github.io/marmap2/reference/scale_fill_bathy.md)
   : Bathymetry colour scales for ggplot2

@@ -1,8 +1,9 @@
 # Bathymetry colour scales for ggplot2
 
-`scale_fill_bathy()` provides perceptually ordered colour scales for
-bathymetric and topographic rasters drawn with ggplot2. The ocean and
-land parts of the scale are selected independently:
+`scale_fill_bathy()` and `scale_colour_bathy()` provide perceptually
+ordered colour scales for bathymetric and topographic rasters or contour
+lines drawn with ggplot2. The ocean and land parts of the scale are
+selected independently:
 
 - use a palette name to map a side with a colour gradient;
 
@@ -18,6 +19,28 @@ land parts of the scale are selected independently:
 
 ``` r
 scale_fill_bathy(
+  palette_ocean = "ocean_blues",
+  palette_land = "land_earth",
+  limits = NULL,
+  mode = c("rescale", "truncate"),
+  na.value = "grey90",
+  name = "depth",
+  oob = NULL,
+  ...
+)
+
+scale_colour_bathy(
+  palette_ocean = "ocean_blues",
+  palette_land = "land_earth",
+  limits = NULL,
+  mode = c("rescale", "truncate"),
+  na.value = "grey90",
+  name = "depth",
+  oob = NULL,
+  ...
+)
+
+scale_color_bathy(
   palette_ocean = "ocean_blues",
   palette_land = "land_earth",
   limits = NULL,
@@ -44,8 +67,8 @@ bathy_palettes(type = c("all", "ocean", "land"))
 
 - limits:
 
-  Numeric vector of length two. Limits of the fill scale. If `NULL`, the
-  scale limits are trained from the plotted data.
+  Numeric vector of length two. Limits of the colour scale. If `NULL`,
+  the scale limits are trained from the plotted data.
 
 - mode:
 
@@ -61,8 +84,7 @@ bathy_palettes(type = c("all", "ocean", "land"))
 
 - name:
 
-  Scale name passed to
-  [`ggplot2::scale_fill_gradientn`](https://ggplot2.tidyverse.org/reference/scale_gradient.html).
+  Scale name passed to the ggplot2 gradient scale.
 
 - oob:
 
@@ -90,7 +112,7 @@ bathy_palettes(type = c("all", "ocean", "land"))
 
 ## Value
 
-A ggplot2 fill scale.
+A ggplot2 colour scale.
 
 For `bathy_palette()`, a character vector of colours. For
 `bathy_palettes()`, a character vector of palette names.
