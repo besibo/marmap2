@@ -2,16 +2,19 @@
 #'
 #' @description
 #' Converts a three-column data frame containing longitude, latitude and depth
-#' values to a matrix of class \code{bathy}.
+#' values, or a \code{terra::SpatRaster}, to a matrix of class \code{bathy}.
 #'
 #' @rdname as_bathy
 #' @usage
 #' as_bathy(x)
-#' @param x Three-column data frame with longitude, latitude and depth values.
+#' @param x Three-column data frame with longitude, latitude and depth values,
+#'   or a \code{terra::SpatRaster}.
 #'
 #' @details
-#' The first column is interpreted as longitude, the second as latitude, and
-#' the third as depth or elevation.
+#' For tabular input, the first column is interpreted as longitude, the second
+#' as latitude, and the third as depth or elevation. Missing grid cells are
+#' represented as \code{NA}. For \code{terra::SpatRaster} input, the first layer
+#' is converted to xyz cell centres before creating the \code{bathy} matrix.
 #'
 #' @return
 #' The output of \code{as_bathy} is a matrix of class \code{bathy}, with
@@ -35,50 +38,53 @@
 #' class(bathy)
 #' summarise_bathy(bathy)
 #' @export
-as_bathy <- function(x){
+as_bathy <- function(x) {
+  if (inherits(x, "bathy")) {
+    stop("Object is already of class 'bathy'")
+  }
 
-	if (is(x,"bathy")) stop("Object is already of class 'bathy'")
+  if (inherits(x, "SpatRaster")) {
+    if (!requireNamespace("terra", quietly = TRUE)) {
+      stop("Package 'terra' is required.", call. = FALSE)
+    }
+    x <- terra::as.data.frame(x[[1]], xy = TRUE, na.rm = FALSE)
+  }
 
-	if (is(x,"SpatialGridDataFrame")) x <- raster::raster(x)
+  if (!is.data.frame(x) || ncol(x) != 3) {
+    stop("as_bathy requires a 3-column table, or an object of class SpatRaster")
+  }
 
-	# if x is a RasterLayer do this
-	if (is(x,"RasterLayer")) {
-		lat.min <- x@extent@xmin
-		lat.max <- x@extent@xmax
-		lon.min <- x@extent@ymin
-		lon.max <- x@extent@ymax
-		
-		nlat <- x@ncols
-		nlon <- x@nrows
-		
-		lon <- seq(lon.min, lon.max, length.out = nlon)
-		lat <- seq(lat.min, lat.max, length.out = nlat)
-		
-		bathy <- t(raster::as.matrix(raster::flip(x,direction="y")))
-		colnames(bathy) <- lon
-		rownames(bathy) <- lat
-	}
-	
-	# if not, it has to be a 3-column table (xyz format)
-	if (ncol(x)==3 & !exists("bathy", inherits=FALSE)) {
-		bath <- x
-	    bath <- bath[order(bath[, 2], bath[, 1], decreasing = FALSE), ]
+  bathy <- xyz_to_bathy_matrix(x)
+  ordered.mat <- check_bathy(bathy)
+  class(ordered.mat) <- "bathy"
+  ordered.mat
+}
 
-	    lat <- unique(bath[, 2]) ; bcol <- length(lat)
-	    lon <- unique(bath[, 1]) ; brow <- length(lon)
+xyz_to_bathy_matrix <- function(x) {
+  if (!is.data.frame(x) || ncol(x) != 3) {
+    stop("x must be a 3-column table.", call. = FALSE)
+  }
 
-		if ((bcol*brow) == nrow(bath)) {
-			bathy <- matrix(bath[, 3], nrow = brow, ncol = bcol, byrow = FALSE, dimnames = list(lon, lat))
-			} else {
-				colnames(bath) <- paste("V",1:3,sep="")
-				bathy <- reshape2::acast(bath, V1~V2, value.var="V3")
-			}
-	}
+  x <- data.frame(
+    lon = x[[1]],
+    lat = x[[2]],
+    depth = x[[3]]
+  )
+  if (!is.numeric(x$lon) || !is.numeric(x$lat) || !is.numeric(x$depth)) {
+    stop("Longitude, latitude, and depth columns must be numeric.", call. = FALSE)
+  }
+  if (any(!is.finite(x$lon)) || any(!is.finite(x$lat))) {
+    stop("Longitude and latitude values must be finite.", call. = FALSE)
+  }
 
-	if (!exists("bathy", inherits=FALSE)) stop("as_bathy requires a 3-column table, or an object of class RasterLayer or SpatialDataFrame")
-
-	ordered.mat <- check_bathy(bathy)
-	class(ordered.mat) <- "bathy"
-	return(ordered.mat)
-
+  lon <- sort(unique(x$lon))
+  lat <- sort(unique(x$lat))
+  mat <- matrix(
+    NA_real_,
+    nrow = length(lon),
+    ncol = length(lat),
+    dimnames = list(lon, lat)
+  )
+  mat[cbind(match(x$lon, lon), match(x$lat, lat))] <- x$depth
+  mat
 }

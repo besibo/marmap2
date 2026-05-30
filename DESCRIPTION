@@ -12,7 +12,7 @@ Authors@R: c(person(given = "Benoît",
 Author: Benoît Simon-Bouhet [aut, cre], Eric Pante [aut]
 Maintainer: Benoît Simon-Bouhet <besibo@gmail.com>
 Depends: R (>= 2.10)
-Imports: curl, ggplot2, methods, ncdf4, raster, reshape2, rlang,
+Imports: curl, ggplot2, methods, ncdf4, rlang,
         sf, terra, tibble
 Suggests: 
     pkgdown,

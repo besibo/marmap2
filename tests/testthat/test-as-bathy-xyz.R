@@ -50,6 +50,38 @@ test_that("as_bathy() keeps missing cells as NA in incomplete xyz tables", {
   expect_true(is.na(unclass(bathy)[2, 2]))
 })
 
+test_that("read_bathy() keeps missing cells as NA without reshape2", {
+  xyz <- data.frame(
+    lon = c(-5, -5, -4),
+    lat = c(48, 49, 48),
+    depth = c(-80, -70, -120)
+  )
+  tmp <- tempfile(fileext = ".csv")
+  utils::write.table(xyz, tmp, sep = ",", quote = FALSE, row.names = FALSE)
+
+  bathy <- read_bathy(tmp, header = TRUE)
+
+  expect_s3_class(bathy, "bathy")
+  expect_equal(dim(bathy), c(2L, 2L))
+  expect_true(is.na(unclass(bathy)[2, 2]))
+})
+
+test_that("as_bathy() converts terra SpatRaster objects", {
+  testthat::skip_if_not_installed("terra")
+  xyz <- data.frame(
+    lon = rep(c(-5, -4, -3), each = 3),
+    lat = rep(c(48, 49, 50), times = 3),
+    depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+  )
+  r <- terra::rast(xyz, type = "xyz", crs = "EPSG:4326")
+
+  bathy <- as_bathy(r)
+
+  expect_s3_class(bathy, "bathy")
+  expect_equal(as.numeric(rownames(bathy)), c(-5, -4, -3))
+  expect_equal(as.numeric(colnames(bathy)), c(48, 49, 50))
+})
+
 test_that("as_xyz() converts a bathy object to the historical xyz format", {
   xyz <- data.frame(
     lon = rep(c(-5, -4, -3), each = 3),

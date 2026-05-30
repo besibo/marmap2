@@ -28,8 +28,6 @@
   : Project bathymetric grids
 - [`reduce_bathy_resolution()`](https://besibo.github.io/marmap2/reference/reduce_bathy_resolution.md)
   : Reduce the spatial resolution of bathymetric data
-- [`check_bathy()`](https://besibo.github.io/marmap2/reference/check_bathy.md)
-  : Sort bathymetric data matrix by increasing latitude and longitude
 
 ## Plotting
 

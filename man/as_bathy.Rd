@@ -7,7 +7,8 @@
 as_bathy(x)
 }
 \arguments{
-\item{x}{Three-column data frame with longitude, latitude and depth values.}
+\item{x}{Three-column data frame with longitude, latitude and depth values,
+or a \code{terra::SpatRaster}.}
 }
 \value{
 The output of \code{as_bathy} is a matrix of class \code{bathy}, with
@@ -15,11 +16,13 @@ longitude stored in row names and latitude stored in column names.
 }
 \description{
 Converts a three-column data frame containing longitude, latitude and depth
-values to a matrix of class \code{bathy}.
+values, or a \code{terra::SpatRaster}, to a matrix of class \code{bathy}.
 }
 \details{
-The first column is interpreted as longitude, the second as latitude, and
-the third as depth or elevation.
+For tabular input, the first column is interpreted as longitude, the second
+as latitude, and the third as depth or elevation. Missing grid cells are
+represented as \code{NA}. For \code{terra::SpatRaster} input, the first layer
+is converted to xyz cell centres before creating the \code{bathy} matrix.
 }
 \examples{
 xyz <- data.frame(

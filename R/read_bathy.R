@@ -41,17 +41,7 @@ read_bathy <- function(xyz, header=FALSE, sep=",", ...){
 ### sep: character separating columns, (default=",")
 
 	bath <- read.table(xyz, header = header, sep = sep, ...)
-	bath <- bath[order(bath[, 2], bath[, 1], decreasing = FALSE), ]
-
-    lat <- unique(bath[, 2]) ; bcol <- length(lat)
-    lon <- unique(bath[, 1]) ; brow <- length(lon)
-
-	if ((bcol*brow) == nrow(bath)) {
-		mat <- matrix(bath[, 3], nrow = brow, ncol = bcol, byrow = FALSE, dimnames = list(lon, lat))
-		} else {
-			colnames(bath) <- paste("V",1:3,sep="")
-			mat <- reshape2::acast(bath, V1~V2, value.var="V3")
-		}
+	mat <- xyz_to_bathy_matrix(bath)
 		
     ordered.mat <- check_bathy(mat)
     class(ordered.mat) <- "bathy"

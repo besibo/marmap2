@@ -32,7 +32,6 @@ reference:
       - as_spatraster
       - project_bathy
       - reduce_bathy_resolution
-      - check_bathy
   - title: Plotting
     contents:
       - quickplot_bathy

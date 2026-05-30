@@ -1,7 +1,9 @@
 # Convert to bathymetric data in an object of class bathy
 
 Converts a three-column data frame containing longitude, latitude and
-depth values to a matrix of class `bathy`.
+depth values, or a
+[`terra::SpatRaster`](https://rspatial.github.io/terra/reference/SpatRaster-class.html),
+to a matrix of class `bathy`.
 
 ## Usage
 
@@ -13,7 +15,9 @@ as_bathy(x)
 
 - x:
 
-  Three-column data frame with longitude, latitude and depth values.
+  Three-column data frame with longitude, latitude and depth values, or
+  a
+  [`terra::SpatRaster`](https://rspatial.github.io/terra/reference/SpatRaster-class.html).
 
 ## Value
 
@@ -22,8 +26,12 @@ stored in row names and latitude stored in column names.
 
 ## Details
 
-The first column is interpreted as longitude, the second as latitude,
-and the third as depth or elevation.
+For tabular input, the first column is interpreted as longitude, the
+second as latitude, and the third as depth or elevation. Missing grid
+cells are represented as `NA`. For
+[`terra::SpatRaster`](https://rspatial.github.io/terra/reference/SpatRaster-class.html)
+input, the first layer is converted to xyz cell centres before creating
+the `bathy` matrix.
 
 ## See also
 
