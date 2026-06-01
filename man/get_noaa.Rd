@@ -15,7 +15,6 @@ get_noaa(
   antimeridian = FALSE,
   keep = FALSE,
   path = NULL,
-  progress = TRUE,
   class = c("tbl", "bathy")
 )
 }
@@ -50,12 +49,6 @@ Defaults to \code{FALSE}.}
 \item{path}{Directory used for cached csv files when \code{keep = TRUE}, and
 where \code{get_noaa()} looks for already downloaded matching data. Defaults
 to the current working directory.}
-
-\item{progress}{Logical. Whether to display a simple progress bar while NOAA
-windows are downloaded. The NOAA image service does not expose enough
-information for a true byte-level download progress bar, so progress is
-estimated from the number of grid cells requested and updated after each
-downloaded chunk.}
 
 \item{class}{Character. Class of the returned object. Use \code{"tbl"}
 (default) to return a tibble with columns \code{lon}, \code{lat}, and

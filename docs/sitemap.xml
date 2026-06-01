@@ -1,5 +1,10 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://besibo.github.io/marmap2/404.html</loc></url>
+<url><loc>https://besibo.github.io/marmap2/articles/articles/marmap2-full.html</loc></url>
+<url><loc>https://besibo.github.io/marmap2/articles/basics.html</loc></url>
+<url><loc>https://besibo.github.io/marmap2/articles/index.html</loc></url>
+<url><loc>https://besibo.github.io/marmap2/articles/marmap2-full.html</loc></url>
+<url><loc>https://besibo.github.io/marmap2/articles/marmap2.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/authors.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/index.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/as_bathy.html</loc></url>
@@ -13,6 +18,7 @@
 <url><loc>https://besibo.github.io/marmap2/reference/get_gebco.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/get_noaa.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/get_noaa_erddap.html</loc></url>
+<url><loc>https://besibo.github.io/marmap2/reference/griddify.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/index.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/marmap2-package.html</loc></url>
 <url><loc>https://besibo.github.io/marmap2/reference/project_bathy.html</loc></url>

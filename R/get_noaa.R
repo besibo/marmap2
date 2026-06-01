@@ -71,11 +71,6 @@
 #' @param path Directory used for cached csv files when \code{keep = TRUE}, and
 #'   where \code{get_noaa()} looks for already downloaded matching data. Defaults
 #'   to the current working directory.
-#' @param progress Logical. Whether to display a simple progress bar while NOAA
-#'   windows are downloaded. The NOAA image service does not expose enough
-#'   information for a true byte-level download progress bar, so progress is
-#'   estimated from the number of grid cells requested and updated after each
-#'   downloaded chunk.
 #' @param class Character. Class of the returned object. Use \code{"tbl"}
 #'   (default) to return a tibble with columns \code{lon}, \code{lat}, and
 #'   \code{depth}; use \code{"bathy"} to return a historical matrix of class
@@ -138,7 +133,6 @@ get_noaa <-
     antimeridian = FALSE,
     keep = FALSE,
     path = NULL,
-    progress = TRUE,
     class = c("tbl", "bathy")
   ) {
     output_class <- match.arg(class)
@@ -151,8 +145,7 @@ get_noaa <-
       lat2 = lat2,
       resolution = resolution,
       antimeridian = antimeridian,
-      path = path,
-      progress = progress
+      path = path
     )
 
     file <- noaa_cache_name(request)
@@ -172,10 +165,10 @@ get_noaa <-
     message("Querying NOAA database ...")
     message("This may take seconds to minutes, depending on grid size\n")
     if (request$antimeridian) {
-      pieces <- noaa_fetch_windows(windows, fetcher, request$layer, request$progress)
+      pieces <- noaa_fetch_windows(windows, fetcher, request$layer)
       bathy <- collate_antimeridian_bathy(pieces$east, pieces$west)
     } else {
-      bathy <- noaa_fetch_windows(windows, fetcher, request$layer, request$progress)[[1]]
+      bathy <- noaa_fetch_windows(windows, fetcher, request$layer)[[1]]
     }
 
     message("Building bathy matrix ...")
@@ -204,8 +197,7 @@ noaa_request_args <- function(
     lat2 = NULL,
     resolution = 4,
     antimeridian = FALSE,
-    path = NULL,
-    progress = TRUE
+    path = NULL
 ) {
   bounds <- resolve_lon_lat_args(lon1, lon2, lat1, lat2, lon, lat)
   lon1 <- bounds$lon1
@@ -224,9 +216,6 @@ noaa_request_args <- function(
   }
   if (!is.logical(antimeridian) || length(antimeridian) != 1 || is.na(antimeridian)) {
     stop("antimeridian must be TRUE or FALSE.", call. = FALSE)
-  }
-  if (!is.logical(progress) || length(progress) != 1 || is.na(progress)) {
-    stop("progress must be TRUE or FALSE.", call. = FALSE)
   }
   if (lon1 == lon2) {
     stop("The longitudinal range defined by lon1 and lon2 is incorrect.", call. = FALSE)
@@ -263,8 +252,7 @@ noaa_request_args <- function(
     resolution = resolution,
     layer = layer,
     antimeridian = antimeridian,
-    path = path,
-    progress = progress
+    path = path
   )
 
   windows <- noaa_request_windows(request)
@@ -372,21 +360,18 @@ noaa_cache_file <- function(path, request) {
   file.path(path, noaa_cache_name(request))
 }
 
-noaa_fetch_windows <- function(windows, fetcher, layer, progress = TRUE) {
+noaa_fetch_windows <- function(windows, fetcher, layer) {
   all_chunks <- unlist(lapply(windows, noaa_window_chunks), recursive = FALSE)
   total_cells <- sum(vapply(all_chunks, noaa_window_cells, numeric(1)))
 
-  pb <- NULL
   downloaded <- 0
-  if (isTRUE(progress)) {
-    message(
-      "Downloading NOAA GeoTIFF subset (",
-      noaa_format_cell_count(total_cells),
-      " cells) ..."
-    )
-    pb <- utils::txtProgressBar(min = 0, max = total_cells, style = 3)
-    on.exit(close(pb), add = TRUE)
-  }
+  message(
+    "Downloading NOAA GeoTIFF subset (",
+    noaa_format_cell_count(total_cells),
+    " cells) ..."
+  )
+  pb <- utils::txtProgressBar(min = 0, max = total_cells, style = 3)
+  on.exit(close(pb), add = TRUE)
 
   pieces <- vector("list", length(windows))
   names(pieces) <- names(windows)
@@ -396,9 +381,7 @@ noaa_fetch_windows <- function(windows, fetcher, layer, progress = TRUE) {
     for (j in seq_along(chunks)) {
       chunk_bathy[[j]] <- do.call(fetcher, c(chunks[[j]], list(layer = layer)))
       downloaded <- downloaded + noaa_window_cells(chunks[[j]])
-      if (!is.null(pb)) {
-        utils::setTxtProgressBar(pb, downloaded)
-      }
+      utils::setTxtProgressBar(pb, downloaded)
     }
     pieces[[i]] <- noaa_combine_latitude_chunks(chunk_bathy)
   }

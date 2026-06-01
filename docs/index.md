@@ -6,7 +6,6 @@ package, with tidier function names, updated documentation, tibble-first
 workflows and newer data import tools.
 
 ``` r
-
 library(marmap2)
 library(ggplot2)
 
@@ -19,14 +18,13 @@ quickplot_bathy(dat)
 ```
 
 ![Bathymetric map generated with GEBCO data and
-geom_bathy](reference/figures/gebco-mediterranean.png)
+geom\_bathy](reference/figures/gebco-mediterranean.png)
 
-Bathymetric map generated with GEBCO data and geom_bathy
+Bathymetric map generated with GEBCO data and geom\_bathy
 
 NOAA ETOPO data can be imported with the same tibble-first approach:
 
 ``` r
-
 dat_noaa <- get_noaa(
   lon = c(-6, -5),
   lat = c(49, 50),
@@ -38,7 +36,6 @@ For publication-quality maps, the same data can be passed to the
 underlying ggplot2 layers:
 
 ``` r
-
 dat |>
   ggplot() +
   geom_bathy(expand = FALSE) +

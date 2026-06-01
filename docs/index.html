@@ -38,6 +38,12 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials">
+<li><a class="dropdown-item" href="articles/basics.html">Basics</a></li>
+  </ul>
+</li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -67,8 +73,8 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/quickplot_bathy.html">quickplot_bathy</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div>
-<div class="float">
-<img src="reference/figures/gebco-mediterranean.png" alt="Bathymetric map generated with GEBCO data and geom_bathy"><div class="figcaption">Bathymetric map generated with GEBCO data and geom_bathy</div>
+<div class="figure">
+<img src="reference/figures/gebco-mediterranean.png" alt="Bathymetric map generated with GEBCO data and geom_bathy"><p class="caption">Bathymetric map generated with GEBCO data and geom_bathy</p>
 </div>
 <p>NOAA ETOPO data can be imported with the same tibble-first approach:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">

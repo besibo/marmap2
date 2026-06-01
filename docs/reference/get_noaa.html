@@ -18,6 +18,10 @@ service, given coordinate bounds and a requested spatial resolution."><meta prop
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials"><li><a class="dropdown-item" href="../articles/basics.html">Basics</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/besibo/marmap2/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -51,7 +55,6 @@ service, given coordinate bounds and a requested spatial resolution.</p>
 <span>  antimeridian <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  keep <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  path <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  progress <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tbl"</span>, <span class="st">"bathy"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -109,14 +112,6 @@ Defaults to <code>FALSE</code>.</p></dd>
 <dd><p>Directory used for cached csv files when <code>keep = TRUE</code>, and
 where <code>get_noaa()</code> looks for already downloaded matching data. Defaults
 to the current working directory.</p></dd>
-
-
-<dt id="arg-progress">progress<a class="anchor" aria-label="anchor" href="#arg-progress"></a></dt>
-<dd><p>Logical. Whether to display a simple progress bar while NOAA
-windows are downloaded. The NOAA image service does not expose enough
-information for a true byte-level download progress bar, so progress is
-estimated from the number of grid cells requested and updated after each
-downloaded chunk.</p></dd>
 
 
 <dt id="arg-class">class<a class="anchor" aria-label="anchor" href="#arg-class"></a></dt>

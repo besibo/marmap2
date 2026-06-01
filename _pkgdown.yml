@@ -13,8 +13,19 @@ home:
 
 navbar:
   structure:
-    left: [reference, news]
+    left: [reference, articles, news]
     right: [search, github]
+  components:
+    articles:
+      text: Tutorials
+      menu:
+      - text: Basics
+        href: articles/basics.html
+
+articles:
+  - title: Tutorials
+    contents:
+      - articles/basics
 
 reference:
   - title: Data import
@@ -31,6 +42,7 @@ reference:
       - as_sf
       - as_spatraster
       - project_bathy
+      - griddify
       - reduce_bathy_resolution
   - title: Plotting
     contents:

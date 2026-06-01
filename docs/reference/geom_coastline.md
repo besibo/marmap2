@@ -2,8 +2,7 @@
 
 `geom_coastline()` draws the `0 m` contour line from a regular
 bathymetric grid. It is a small convenience wrapper around
-[`ggplot2::geom_contour`](https://ggplot2.tidyverse.org/reference/geom_contour.html)
-with `breaks = 0`.
+`ggplot2::geom_contour` with `breaks = 0`.
 
 ## Usage
 
@@ -26,36 +25,32 @@ geom_coastline(
 
 ## Arguments
 
-- mapping:
+  - mapping:
+    
+    Set of aesthetic mappings created by `ggplot2::aes`. If `x`, `y`, or
+    `z` are missing, they default to `lon`, `lat`, and `depth`.
 
-  Set of aesthetic mappings created by
-  [`ggplot2::aes`](https://ggplot2.tidyverse.org/reference/aes.html). If
-  `x`, `y`, or `z` are missing, they default to `lon`, `lat`, and
-  `depth`.
+  - data:
+    
+    Data to display in this layer. Defaults to the data inherited from
+    `ggplot2::ggplot`.
 
-- data:
+  - ...:
+    
+    Additional arguments passed to `ggplot2::geom_contour`.
 
-  Data to display in this layer. Defaults to the data inherited from
-  [`ggplot2::ggplot`](https://ggplot2.tidyverse.org/reference/ggplot.html).
+  - lon, lat, depth:
+    
+    Character. Names of the longitude, latitude, and depth columns used
+    when the corresponding aesthetics are not supplied in `mapping`.
 
-- ...:
+  - colour, linewidth, linetype:
+    
+    Default line style. These can be changed to customize the coastline.
 
-  Additional arguments passed to
-  [`ggplot2::geom_contour`](https://ggplot2.tidyverse.org/reference/geom_contour.html).
-
-- lon, lat, depth:
-
-  Character. Names of the longitude, latitude, and depth columns used
-  when the corresponding aesthetics are not supplied in `mapping`.
-
-- colour, linewidth, linetype:
-
-  Default line style. These can be changed to customize the coastline.
-
-- na.rm, show.legend, inherit.aes:
-
-  Arguments passed to
-  [`ggplot2::geom_contour`](https://ggplot2.tidyverse.org/reference/geom_contour.html).
+  - na.rm, show.legend, inherit.aes:
+    
+    Arguments passed to `ggplot2::geom_contour`.
 
 ## Value
 
@@ -63,8 +58,7 @@ A ggplot2 layer.
 
 ## See also
 
-[`geom_bathy`](https://besibo.github.io/marmap2/reference/geom_bathy.md),
-[`ggplot2::geom_contour`](https://ggplot2.tidyverse.org/reference/geom_contour.html)
+`geom_bathy`, `ggplot2::geom_contour`
 
 ## Examples
 

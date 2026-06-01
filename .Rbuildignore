@@ -4,5 +4,9 @@
 ^docs$
 ^pkgdown$
 ^vignettes/\.quarto
+^vignettes/.*\.html$
+^vignettes/articles$
 ^A ré-intégrer$
 ^À supprimer$
+^doc$
+^Meta$

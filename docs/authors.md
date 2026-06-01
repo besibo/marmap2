@@ -2,9 +2,9 @@
 
 ## Authors
 
-- **Benoît Simon-Bouhet**. Author, maintainer.
+  - **Benoît Simon-Bouhet**. Author, maintainer.
 
-- **Eric Pante**. Author.
+  - **Eric Pante**. Author.
 
 ## Citation
 

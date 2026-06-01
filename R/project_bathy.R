@@ -108,7 +108,9 @@ project_bathy <- function(
   projected <- if (is.null(resolution)) {
     terra::project(r, crs_to, method = method)
   } else {
-    terra::project(r, crs_to, res = resolution, method = method)
+    template <- terra::project(terra::rast(r), crs_to)
+    terra::res(template) <- resolution
+    terra::project(r, template, method = method)
   }
 
   out <- terra::as.data.frame(projected, xy = TRUE, na.rm = na.rm)

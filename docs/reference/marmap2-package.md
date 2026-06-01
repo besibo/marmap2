@@ -22,11 +22,11 @@ ONE*, 8(9), e73051.
 
 Useful links:
 
-- <https://github.com/besibo/marmap2>
+  - <https://github.com/besibo/marmap2>
 
-- <https://besibo.github.io/marmap2/>
+  - <https://besibo.github.io/marmap2/>
 
-- Report bugs at <https://github.com/besibo/marmap2/issues>
+  - Report bugs at <https://github.com/besibo/marmap2/issues>
 
 ## Author
 
@@ -34,6 +34,6 @@ Useful links:
 
 Authors:
 
-- Benoît Simon-Bouhet <besibo@gmail.com>
+  - Benoît Simon-Bouhet <besibo@gmail.com>
 
-- Eric Pante
+  - Eric Pante

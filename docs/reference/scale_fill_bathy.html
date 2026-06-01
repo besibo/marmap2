@@ -36,6 +36,10 @@ with separate palettes joined at sea level.
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials"><li><a class="dropdown-item" href="../articles/basics.html">Basics</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/besibo/marmap2/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -69,6 +73,7 @@ with separate palettes joined at sea level.</p></li>
 <span>  palette_land <span class="op">=</span> <span class="st">"land_earth"</span>,</span>
 <span>  limits <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rescale"</span>, <span class="st">"truncate"</span><span class="op">)</span>,</span>
+<span>  reference_limits <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  na.value <span class="op">=</span> <span class="st">"grey90"</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"depth"</span>,</span>
 <span>  oob <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -80,6 +85,7 @@ with separate palettes joined at sea level.</p></li>
 <span>  palette_land <span class="op">=</span> <span class="st">"land_earth"</span>,</span>
 <span>  limits <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rescale"</span>, <span class="st">"truncate"</span><span class="op">)</span>,</span>
+<span>  reference_limits <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  na.value <span class="op">=</span> <span class="st">"grey90"</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"depth"</span>,</span>
 <span>  oob <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -91,6 +97,7 @@ with separate palettes joined at sea level.</p></li>
 <span>  palette_land <span class="op">=</span> <span class="st">"land_earth"</span>,</span>
 <span>  limits <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rescale"</span>, <span class="st">"truncate"</span><span class="op">)</span>,</span>
+<span>  reference_limits <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  na.value <span class="op">=</span> <span class="st">"grey90"</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"depth"</span>,</span>
 <span>  oob <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -124,6 +131,14 @@ colours, or <code>NULL</code>.</p></dd>
 to fixed bathymetric/topographic reference depths, so the same depth or
 altitude keeps the same colour across maps. With <code>"rescale"</code>, the selected
 palette part is stretched over the plotted data range.</p></dd>
+
+
+<dt id="arg-reference-limits">reference_limits<a class="anchor" aria-label="anchor" href="#arg-reference-limits"></a></dt>
+<dd><p>Reference limits used to anchor colours when
+<code>mode = "truncate"</code>. Can be <code>NULL</code> to use global bathymetric/topographic
+defaults, a finite numeric vector of length two, or a bathymetric object
+from which the depth range can be extracted, such as a tibble with a
+<code>depth</code> column or a <code>bathy</code> matrix. Ignored when <code>mode = "rescale"</code>.</p></dd>
 
 
 <dt id="arg-na-value">na.value<a class="anchor" aria-label="anchor" href="#arg-na-value"></a></dt>

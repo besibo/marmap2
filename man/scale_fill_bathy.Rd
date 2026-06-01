@@ -13,6 +13,7 @@ scale_fill_bathy(
   palette_land = "land_earth",
   limits = NULL,
   mode = c("rescale", "truncate"),
+  reference_limits = NULL,
   na.value = "grey90",
   name = "depth",
   oob = NULL,
@@ -24,6 +25,7 @@ scale_colour_bathy(
   palette_land = "land_earth",
   limits = NULL,
   mode = c("rescale", "truncate"),
+  reference_limits = NULL,
   na.value = "grey90",
   name = "depth",
   oob = NULL,
@@ -35,6 +37,7 @@ scale_color_bathy(
   palette_land = "land_earth",
   limits = NULL,
   mode = c("rescale", "truncate"),
+  reference_limits = NULL,
   na.value = "grey90",
   name = "depth",
   oob = NULL,
@@ -59,6 +62,12 @@ colours, or \code{NULL}.}
 to fixed bathymetric/topographic reference depths, so the same depth or
 altitude keeps the same colour across maps. With \code{"rescale"}, the selected
 palette part is stretched over the plotted data range.}
+
+\item{reference_limits}{Reference limits used to anchor colours when
+\code{mode = "truncate"}. Can be \code{NULL} to use global bathymetric/topographic
+defaults, a finite numeric vector of length two, or a bathymetric object
+from which the depth range can be extracted, such as a tibble with a
+\code{depth} column or a \code{bathy} matrix. Ignored when \code{mode = "rescale"}.}
 
 \item{na.value}{Colour used for missing values.}
 

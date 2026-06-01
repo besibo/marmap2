@@ -23,6 +23,11 @@
 #'   to fixed bathymetric/topographic reference depths, so the same depth or
 #'   altitude keeps the same colour across maps. With `"rescale"`, the selected
 #'   palette part is stretched over the plotted data range.
+#' @param reference_limits Reference limits used to anchor colours when
+#'   `mode = "truncate"`. Can be `NULL` to use global bathymetric/topographic
+#'   defaults, a finite numeric vector of length two, or a bathymetric object
+#'   from which the depth range can be extracted, such as a tibble with a
+#'   `depth` column or a `bathy` matrix. Ignored when `mode = "rescale"`.
 #' @param na.value Colour used for missing values.
 #' @param name Scale name passed to the ggplot2 gradient scale.
 #' @param oob Function used for out-of-bounds values. If `NULL`, values are
@@ -70,6 +75,7 @@ scale_fill_bathy <- function(
   palette_land = "land_earth",
   limits = NULL,
   mode = c("rescale", "truncate"),
+  reference_limits = NULL,
   na.value = "grey90",
   name = "depth",
   oob = NULL,
@@ -81,6 +87,7 @@ scale_fill_bathy <- function(
     palette_land = palette_land,
     limits = limits,
     mode = mode,
+    reference_limits = reference_limits,
     na.value = na.value,
     name = name,
     oob = oob,
@@ -95,6 +102,7 @@ scale_colour_bathy <- function(
   palette_land = "land_earth",
   limits = NULL,
   mode = c("rescale", "truncate"),
+  reference_limits = NULL,
   na.value = "grey90",
   name = "depth",
   oob = NULL,
@@ -106,6 +114,7 @@ scale_colour_bathy <- function(
     palette_land = palette_land,
     limits = limits,
     mode = mode,
+    reference_limits = reference_limits,
     na.value = na.value,
     name = name,
     oob = oob,
@@ -123,6 +132,7 @@ scale_bathy <- function(
   palette_land = "land_earth",
   limits = NULL,
   mode = c("rescale", "truncate"),
+  reference_limits = NULL,
   na.value = "grey90",
   name = "depth",
   oob = NULL,
@@ -131,7 +141,11 @@ scale_bathy <- function(
   mode <- match.arg(mode)
   spec <- bathy_scale_spec(palette_ocean, palette_land)
   limits <- bathy_user_limits(limits, spec$coverage)
-  reference_limits <- bathy_reference_limits(spec$coverage)
+  reference_limits <- if (identical(mode, "truncate")) {
+    bathy_reference_limits(reference_limits, spec$coverage)
+  } else {
+    bathy_reference_limits(NULL, spec$coverage)
+  }
   scale <- bathy_scale_values(spec, reference_limits, mode)
   rescaler <- bathy_scale_rescaler(spec$coverage, reference_limits, mode)
   if (is.null(oob)) {
@@ -453,13 +467,54 @@ bathy_user_limits <- function(limits, coverage) {
   limits
 }
 
-bathy_reference_limits <- function(coverage) {
-  switch(
-    coverage,
-    ocean = c(-11000, 0.1),
-    land = c(-0.1, 9000),
-    both = c(-11000, 9000)
+bathy_reference_limits <- function(reference_limits, coverage) {
+  if (is.null(reference_limits)) {
+    reference_limits <- switch(
+      coverage,
+      ocean = c(-11000, 0.1),
+      land = c(-0.1, 9000),
+      both = c(-11000, 9000)
+    )
+  } else {
+    reference_limits <- bathy_reference_limits_from_input(reference_limits)
+  }
+
+  bathy_user_limits(reference_limits, coverage)
+}
+
+bathy_reference_limits_from_input <- function(x) {
+  if (is.numeric(x) && length(x) == 2L) {
+    return(bathy_finite_range(x, "reference_limits"))
+  }
+  if (inherits(x, "bathy")) {
+    return(bathy_finite_range(as.numeric(x), "reference_limits"))
+  }
+  if (inherits(x, "SpatRaster")) {
+    if (!requireNamespace("terra", quietly = TRUE)) {
+      stop("Package 'terra' is required.", call. = FALSE)
+    }
+    return(bathy_finite_range(terra::values(x, mat = FALSE), "reference_limits"))
+  }
+  if (inherits(x, "sf")) {
+    x <- sf::st_drop_geometry(x)
+  }
+  if (is.data.frame(x) && "depth" %in% names(x)) {
+    return(bathy_finite_range(x$depth, "reference_limits"))
+  }
+
+  stop(
+    "reference_limits must be NULL, a finite numeric vector of length two, or a bathymetric object with depth values.",
+    call. = FALSE
   )
+}
+
+bathy_finite_range <- function(x, name) {
+  x <- as.numeric(x)
+  x <- x[is.finite(x)]
+  if (length(x) == 0L) {
+    stop(name, " must contain finite depth values.", call. = FALSE)
+  }
+  range(x)
 }
 
 bathy_scale_values <- function(spec, limits, mode) {

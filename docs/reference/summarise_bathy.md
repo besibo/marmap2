@@ -12,14 +12,14 @@ summarise_bathy(x, ...)
 
 ## Arguments
 
-- x:
+  - x:
+    
+    A data frame/tibble with columns `lon`, `lat`, and `depth`, or an
+    object inheriting from class `bathy`.
 
-  A data frame/tibble with columns `lon`, `lat`, and `depth`, or an
-  object inheriting from class `bathy`.
-
-- ...:
-
-  Reserved for future use.
+  - ...:
+    
+    Reserved for future use.
 
 ## Value
 
@@ -31,9 +31,7 @@ interactive use.
 
 ## See also
 
-[`get_gebco`](https://besibo.github.io/marmap2/reference/get_gebco.md),
-[`get_noaa`](https://besibo.github.io/marmap2/reference/get_noaa.md),
-[`geom_bathy`](https://besibo.github.io/marmap2/reference/geom_bathy.md)
+`get_gebco`, `get_noaa`, `geom_bathy`
 
 ## Examples
 

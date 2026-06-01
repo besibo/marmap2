@@ -1,9 +1,7 @@
 # Convert to bathymetric data in an object of class bathy
 
 Converts a three-column data frame containing longitude, latitude and
-depth values, or a
-[`terra::SpatRaster`](https://rspatial.github.io/terra/reference/SpatRaster-class.html),
-to a matrix of class `bathy`.
+depth values, or a `terra::SpatRaster`, to a matrix of class `bathy`.
 
 ## Usage
 
@@ -13,11 +11,10 @@ as_bathy(x)
 
 ## Arguments
 
-- x:
-
-  Three-column data frame with longitude, latitude and depth values, or
-  a
-  [`terra::SpatRaster`](https://rspatial.github.io/terra/reference/SpatRaster-class.html).
+  - x:
+    
+    Three-column data frame with longitude, latitude and depth values,
+    or a `terra::SpatRaster`.
 
 ## Value
 
@@ -28,18 +25,14 @@ stored in row names and latitude stored in column names.
 
 For tabular input, the first column is interpreted as longitude, the
 second as latitude, and the third as depth or elevation. Missing grid
-cells are represented as `NA`. For
-[`terra::SpatRaster`](https://rspatial.github.io/terra/reference/SpatRaster-class.html)
-input, the first layer is converted to xyz cell centres before creating
-the `bathy` matrix.
+cells are represented as `NA`. For `terra::SpatRaster` input, the first
+layer is converted to xyz cell centres before creating the `bathy`
+matrix.
 
 ## See also
 
-[`summarise_bathy`](https://besibo.github.io/marmap2/reference/summarise_bathy.md),
-[`read_bathy`](https://besibo.github.io/marmap2/reference/read_bathy.md),
-[`as_xyz`](https://besibo.github.io/marmap2/reference/as_xyz.md),
-[`bathy_to_tbl`](https://besibo.github.io/marmap2/reference/bathy_to_tbl.md),
-[`tbl_to_bathy`](https://besibo.github.io/marmap2/reference/bathy_to_tbl.md).
+`summarise_bathy`, `read_bathy`, `as_xyz`, `bathy_to_tbl`,
+`tbl_to_bathy`.
 
 ## Author
 

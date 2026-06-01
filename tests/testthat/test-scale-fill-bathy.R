@@ -145,6 +145,45 @@ test_that("scale_fill_bathy() supports rescale and truncate modes", {
   expect_false(identical(rescale, truncate))
 })
 
+test_that("scale_fill_bathy() supports custom truncate reference limits", {
+  depths <- c(-2000, -1000, 0, 1000)
+  reference <- data.frame(
+    lon = 1:4,
+    lat = 1,
+    depth = c(-4000, -2000, 0, 2000)
+  )
+
+  from_vector <- scale_fill_values(
+    depths,
+    scale_fill_bathy(
+      mode = "truncate",
+      reference_limits = range(reference$depth)
+    )
+  )
+  from_data <- scale_fill_values(
+    depths,
+    scale_fill_bathy(
+      mode = "truncate",
+      reference_limits = reference
+    )
+  )
+  default_reference <- scale_fill_values(
+    depths,
+    scale_fill_bathy(mode = "truncate")
+  )
+
+  expect_equal(from_vector, from_data)
+  expect_false(identical(from_vector, default_reference))
+  expect_error(
+    scale_fill_bathy(mode = "truncate", reference_limits = "bad"),
+    "reference_limits"
+  )
+  expect_error(
+    scale_fill_bathy(mode = "truncate", reference_limits = data.frame(depth = NA_real_)),
+    "finite depth"
+  )
+})
+
 test_that("scale_fill_bathy() handles ocean-only, land-only, and mixed data", {
   ocean <- scale_fill_values(c(-1000, -500, 0))
   land <- scale_fill_values(c(0, 500, 1000))

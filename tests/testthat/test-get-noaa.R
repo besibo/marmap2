@@ -16,8 +16,7 @@ test_that("NOAA helpers validate, sort, and select ETOPO layers", {
     lon = c(10, -10),
     lat = c(45, 35),
     resolution = 0.4,
-    path = tempdir(),
-    progress = FALSE
+    path = tempdir()
   )
 
   expect_equal(request$x1, -10)
@@ -26,7 +25,6 @@ test_that("NOAA helpers validate, sort, and select ETOPO layers", {
   expect_equal(request$y2, 45)
   expect_equal(request$resolution, 0.25)
   expect_equal(request$layer, "ETOPO_2022_v1_15s_bed_elev")
-  expect_false(request$progress)
 
   expect_equal(noaa_layer_name(0.5), "ETOPO_2022_v1_30s_bed")
   expect_equal(noaa_layer_name(2), "ETOPO_2022_v1_60s_bed")
@@ -40,7 +38,6 @@ test_that("NOAA helpers report invalid arguments", {
   expect_error(noaa_request_args(lon = c(-5, -4), lat = c(-91, 49)), "Latitudes")
   expect_error(noaa_request_args(lon = c(-5, -4), lat = c(48, 49), resolution = 0), "positive")
   expect_error(noaa_request_args(lon = c(-5, -4), lat = c(48, 49), antimeridian = NA), "TRUE or FALSE")
-  expect_error(noaa_request_args(lon = c(-5, -4), lat = c(48, 49), progress = NA), "TRUE or FALSE")
   expect_error(noaa_request_args(lon = c(-5, -4), lat = c(48, 49), path = tempfile()), "path")
 })
 
@@ -138,8 +135,7 @@ test_that("get_noaa() returns a tibble after multi-chunk downloads", {
       out <- suppressMessages(get_noaa(
         lon = c(-5, -4),
         lat = c(40, 50),
-        resolution = 0.25,
-        progress = FALSE
+        resolution = 0.25
       ))
     }
   )
@@ -187,7 +183,7 @@ test_that("get_noaa() supports keep = TRUE with a fake fetcher", {
       make_noaa_bathy(lon = c(left, right), lat = c(bottom, top))
     },
     {
-      out <- get_noaa(lon = c(-5, -4), lat = c(48, 49), resolution = 1, keep = TRUE, path = tmp, progress = FALSE)
+      out <- get_noaa(lon = c(-5, -4), lat = c(48, 49), resolution = 1, keep = TRUE, path = tmp)
     }
   )
 
@@ -220,7 +216,6 @@ test_that("get_noaa() handles antimeridian requests without network", {
         resolution = 5,
         antimeridian = TRUE,
         path = tempdir(),
-        progress = FALSE,
         class = "bathy"
       ))
     }

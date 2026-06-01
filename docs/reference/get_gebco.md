@@ -23,61 +23,61 @@ get_gebco(
 
 ## Arguments
 
-- lon:
+  - lon:
+    
+    Numeric vector of length 2 giving the longitude bounds in decimal
+    degrees. This is the recommended syntax.
 
-  Numeric vector of length 2 giving the longitude bounds in decimal
-  degrees. This is the recommended syntax.
+  - lat:
+    
+    Numeric vector of length 2 giving the latitude bounds in decimal
+    degrees. This is the recommended syntax.
 
-- lat:
+  - lon1:
+    
+    First longitude bound in decimal degrees. Alternative to `lon`.
 
-  Numeric vector of length 2 giving the latitude bounds in decimal
-  degrees. This is the recommended syntax.
+  - lon2:
+    
+    Second longitude bound in decimal degrees. Alternative to `lon`.
 
-- lon1:
+  - lat1:
+    
+    First latitude bound in decimal degrees. Alternative to `lat`.
 
-  First longitude bound in decimal degrees. Alternative to `lon`.
+  - lat2:
+    
+    Second latitude bound in decimal degrees. Alternative to `lat`.
 
-- lon2:
+  - antimeridian:
+    
+    Logical. If `TRUE`, the requested longitudinal range is interpreted
+    as crossing the antimeridian. The function downloads two GEBCO
+    subsets and stitches them into one `bathy` object. The order of
+    `lon1` and `lon2` does not matter.
 
-  Second longitude bound in decimal degrees. Alternative to `lon`.
+  - keep:
+    
+    Logical. If `TRUE`, the xyz table returned as a `bathy` object is
+    also written as a csv file in `path`.
 
-- lat1:
+  - path:
+    
+    Directory used for cached csv files when `keep = TRUE`, and where
+    `get_gebco` looks for an already downloaded matching csv file.
+    Defaults to the current working directory.
 
-  First latitude bound in decimal degrees. Alternative to `lat`.
-
-- lat2:
-
-  Second latitude bound in decimal degrees. Alternative to `lat`.
-
-- antimeridian:
-
-  Logical. If `TRUE`, the requested longitudinal range is interpreted as
-  crossing the antimeridian. The function downloads two GEBCO subsets
-  and stitches them into one `bathy` object. The order of `lon1` and
-  `lon2` does not matter.
-
-- keep:
-
-  Logical. If `TRUE`, the xyz table returned as a `bathy` object is also
-  written as a csv file in `path`.
-
-- path:
-
-  Directory used for cached csv files when `keep = TRUE`, and where
-  `get_gebco` looks for an already downloaded matching csv file.
-  Defaults to the current working directory.
-
-- class:
-
-  Character. Class of the returned object. Use `"tbl"` (default) to
-  return a tibble with columns `lon`, `lat`, and `depth`; use `"bathy"`
-  to return a historical matrix of class `bathy`.
+  - class:
+    
+    Character. Class of the returned object. Use `"tbl"` (default) to
+    return a tibble with columns `lon`, `lat`, and `depth`; use
+    `"bathy"` to return a historical matrix of class `bathy`.
 
 ## Value
 
-A tibble by default, or an object of class `bathy` when
-`class = "bathy"`. If `keep = TRUE`, a csv copy of the downloaded xyz
-table is written to `path`.
+A tibble by default, or an object of class `bathy` when `class =
+"bathy"`. If `keep = TRUE`, a csv copy of the downloaded xyz table is
+written to `path`.
 
 ## Details
 
@@ -93,10 +93,8 @@ The current global GEBCO grids are served by the GEBCO download service
 at their native resolution of 15 arc-seconds, i.e. 0.25 arc-minutes or
 0.0041667 decimal degrees. This corresponds to approximately 463 m at
 the equator. `get_gebco()` always returns this native GEBCO resolution.
-Use
-[`reduce_bathy_resolution`](https://besibo.github.io/marmap2/reference/reduce_bathy_resolution.md)
-afterwards to reduce the spatial resolution locally without sending a
-new request to GEBCO.
+Use `reduce_bathy_resolution` afterwards to reduce the spatial
+resolution locally without sending a new request to GEBCO.
 
 GEBCO also exposes some higher-resolution regional or experimental
 products through the same download service, for example polar grids or
@@ -109,11 +107,9 @@ antimeridian are therefore downloaded as two geographic subsets, one
 from the eastern longitude bound to 180 degrees and one from -180
 degrees to the western longitude bound. The two subsets are then
 stitched into a single `bathy` object whose longitudes are expressed in
-the 0-360 degree range. As in
-[`get_noaa`](https://besibo.github.io/marmap2/reference/get_noaa.md),
-the order of `lon1`/`lon2` and `lat1`/`lat2` does not matter: the
-function sorts the coordinate bounds internally before submitting
-requests to GEBCO.
+the 0-360 degree range. As in `get_noaa`, the order of `lon1`/`lon2` and
+`lat1`/`lat2` does not matter: the function sorts the coordinate bounds
+internally before submitting requests to GEBCO.
 
 ## References
 
@@ -122,11 +118,8 @@ oceans and land at 15 arc-second intervals. <https://www.gebco.net/>
 
 ## See also
 
-[`get_noaa`](https://besibo.github.io/marmap2/reference/get_noaa.md),
-[`reduce_bathy_resolution`](https://besibo.github.io/marmap2/reference/reduce_bathy_resolution.md),
-[`read_bathy`](https://besibo.github.io/marmap2/reference/read_bathy.md),
-[`as_bathy`](https://besibo.github.io/marmap2/reference/as_bathy.md),
-[`geom_bathy`](https://besibo.github.io/marmap2/reference/geom_bathy.md)
+`get_noaa`, `reduce_bathy_resolution`, `read_bathy`, `as_bathy`,
+`geom_bathy`
 
 ## Examples
 

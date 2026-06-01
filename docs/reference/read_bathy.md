@@ -11,23 +11,22 @@ read_bathy(xyz, header = FALSE, sep = ",", ...)
 
 ## Arguments
 
-- xyz:
+  - xyz:
+    
+    three-column table with longitude (x), latitude (y) and depth (z)
+    (no default)
 
-  three-column table with longitude (x), latitude (y) and depth (z) (no
-  default)
+  - header:
+    
+    whether this table has a row of column names (default = FALSE)
 
-- header:
+  - sep:
+    
+    character separating columns, (default=",")
 
-  whether this table has a row of column names (default = FALSE)
-
-- sep:
-
-  character separating columns, (default=",")
-
-- ...:
-
-  further arguments to be passed to
-  [`read.table()`](https://rdrr.io/r/utils/read.table.html)
+  - ...:
+    
+    further arguments to be passed to `read.table()`
 
 ## Value
 
@@ -36,9 +35,7 @@ depend on the resolution and extent of the input xyz table.
 
 ## See also
 
-[`summarise_bathy`](https://besibo.github.io/marmap2/reference/summarise_bathy.md),
-[`as_bathy`](https://besibo.github.io/marmap2/reference/as_bathy.md),
-[`bathy_to_tbl`](https://besibo.github.io/marmap2/reference/bathy_to_tbl.md)
+`summarise_bathy`, `as_bathy`, `bathy_to_tbl`
 
 ## Author
 

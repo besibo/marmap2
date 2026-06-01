@@ -148,6 +148,16 @@ test_that("project_bathy() stores CRS and SpatRaster attributes", {
   expect_s4_class(attr(out, "spatraster"), "SpatRaster")
 })
 
+test_that("project_bathy() supports explicit output resolution", {
+  testthat::skip_if_not_installed("terra")
+  xyz <- make_spatial_grid()
+
+  out <- project_bathy(xyz, crs_to = 3857, resolution = 100000, method = "near")
+
+  expect_s3_class(out, "projected_bathy")
+  expect_equal(terra::res(attr(out, "spatraster")), c(100000, 100000))
+})
+
 test_that("project_bathy() reports invalid inputs", {
   testthat::skip_if_not_installed("terra")
   xyz <- make_spatial_grid()

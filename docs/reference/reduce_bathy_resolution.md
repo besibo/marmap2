@@ -3,8 +3,8 @@
 Reduces the spatial resolution of a regular bathymetric grid stored as a
 tibble/data frame or as an historical `bathy` object. This is intended
 for workflows where high-resolution data, for example data returned by
-[`get_gebco`](https://besibo.github.io/marmap2/reference/get_gebco.md),
-are downloaded once and then aggregated locally at coarser resolutions.
+`get_gebco`, are downloaded once and then aggregated locally at coarser
+resolutions.
 
 ## Usage
 
@@ -14,23 +14,23 @@ reduce_bathy_resolution(x, resolution, method = c("nearest", "mean", "median"))
 
 ## Arguments
 
-- x:
+  - x:
+    
+    A data frame/tibble with longitude, latitude, and depth columns, or
+    an object inheriting from class `bathy`.
 
-  A data frame/tibble with longitude, latitude, and depth columns, or an
-  object inheriting from class `bathy`.
+  - resolution:
+    
+    Target grid spacing in arc-minutes. The value must be a single
+    positive number. If `resolution` is finer than or equal to the
+    current grid spacing, `x` is returned unchanged and an informative
+    message is emitted.
 
-- resolution:
-
-  Target grid spacing in arc-minutes. The value must be a single
-  positive number. If `resolution` is finer than or equal to the current
-  grid spacing, `x` is returned unchanged and an informative message is
-  emitted.
-
-- method:
-
-  Reduction method. `"nearest"` keeps the native cell closest to each
-  target cell centre and is the default. `"mean"` averages all values in
-  each output cell, and `"median"` uses their median.
+  - method:
+    
+    Reduction method. `"nearest"` keeps the native cell closest to each
+    target cell centre and is the default. `"mean"` averages all values
+    in each output cell, and `"median"` uses their median.
 
 ## Value
 
@@ -39,23 +39,18 @@ frame for data-frame input, or a `bathy` object for `bathy` input.
 
 ## Details
 
-`resolution` is expressed in arc-minutes, like in
-[`get_noaa`](https://besibo.github.io/marmap2/reference/get_noaa.md).
-The function assumes that the input coordinates are longitude/latitude
+`resolution` is expressed in arc-minutes, like in `get_noaa`. The
+function assumes that the input coordinates are longitude/latitude
 coordinates in decimal degrees and that the input represents a regular
 grid.
 
-`method = "nearest"` preserves original cell values exactly. Use
-`method = "mean"` or `method = "median"` to aggregate all native cells
-falling within each coarser output cell.
+`method = "nearest"` preserves original cell values exactly. Use `method
+= "mean"` or `method = "median"` to aggregate all native cells falling
+within each coarser output cell.
 
 ## See also
 
-[`get_gebco`](https://besibo.github.io/marmap2/reference/get_gebco.md),
-[`get_noaa`](https://besibo.github.io/marmap2/reference/get_noaa.md),
-[`bathy_to_tbl`](https://besibo.github.io/marmap2/reference/bathy_to_tbl.md),
-[`tbl_to_bathy`](https://besibo.github.io/marmap2/reference/bathy_to_tbl.md),
-[`geom_bathy`](https://besibo.github.io/marmap2/reference/geom_bathy.md)
+`get_gebco`, `get_noaa`, `bathy_to_tbl`, `tbl_to_bathy`, `geom_bathy`
 
 ## Examples
 

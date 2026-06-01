@@ -3,9 +3,7 @@
 `quickplot_bathy()` creates a simple bathymetric/topographic map from a
 tibble/data frame or a historical `bathy` object, with sensible defaults
 for most situations. It is intended for quick visual checks after
-downloading data with
-[`get_noaa`](https://besibo.github.io/marmap2/reference/get_noaa.md) or
-[`get_gebco`](https://besibo.github.io/marmap2/reference/get_gebco.md).
+downloading data with `get_noaa` or `get_gebco`.
 
 ## Usage
 
@@ -31,49 +29,45 @@ quickplot_bathy(
 
 ## Arguments
 
-- x:
+  - x:
+    
+    A data frame/tibble with longitude, latitude, and depth columns, or
+    an object inheriting from class `bathy`.
 
-  A data frame/tibble with longitude, latitude, and depth columns, or an
-  object inheriting from class `bathy`.
+  - lon, lat, depth:
+    
+    Character. Names of the longitude, latitude, and depth columns when
+    `x` is a data frame/tibble.
 
-- lon, lat, depth:
+  - ocean\_breaks, land\_breaks:
+    
+    Numeric vectors giving contour breaks for ocean depths and land
+    elevations.
 
-  Character. Names of the longitude, latitude, and depth columns when
-  `x` is a data frame/tibble.
+  - contour\_colour, contour\_linewidth:
+    
+    Colour and linewidth used for bathymetric/topographic contour lines.
 
-- ocean_breaks, land_breaks:
+  - coastline\_colour, coastline\_linewidth:
+    
+    Colour and linewidth used for the coastline.
 
-  Numeric vectors giving contour breaks for ocean depths and land
-  elevations.
+  - palette\_ocean, palette\_land:
+    
+    Palettes passed to `scale_fill_bathy`.
 
-- contour_colour, contour_linewidth:
+  - expand:
+    
+    Logical or character vector passed to `geom_bathy`. Defaults to
+    `FALSE` to remove padding around the downloaded grid.
 
-  Colour and linewidth used for bathymetric/topographic contour lines.
+  - theme:
+    
+    ggplot2 theme added to the plot. Defaults to `ggplot2::theme_bw`.
 
-- coastline_colour, coastline_linewidth:
-
-  Colour and linewidth used for the coastline.
-
-- palette_ocean, palette_land:
-
-  Palettes passed to
-  [`scale_fill_bathy`](https://besibo.github.io/marmap2/reference/scale_fill_bathy.md).
-
-- expand:
-
-  Logical or character vector passed to
-  [`geom_bathy`](https://besibo.github.io/marmap2/reference/geom_bathy.md).
-  Defaults to `FALSE` to remove padding around the downloaded grid.
-
-- theme:
-
-  ggplot2 theme added to the plot. Defaults to
-  [`ggplot2::theme_bw`](https://ggplot2.tidyverse.org/reference/ggtheme.html).
-
-- ...:
-
-  Additional arguments passed to
-  [`geom_bathy`](https://besibo.github.io/marmap2/reference/geom_bathy.md).
+  - ...:
+    
+    Additional arguments passed to `geom_bathy`.
 
 ## Value
 
@@ -81,9 +75,7 @@ A ggplot object.
 
 ## See also
 
-[`geom_bathy`](https://besibo.github.io/marmap2/reference/geom_bathy.md),
-[`geom_coastline`](https://besibo.github.io/marmap2/reference/geom_coastline.md),
-[`scale_fill_bathy`](https://besibo.github.io/marmap2/reference/scale_fill_bathy.md)
+`geom_bathy`, `geom_coastline`, `scale_fill_bathy`
 
 ## Examples
 

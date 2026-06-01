@@ -1,7 +1,8 @@
 # Convert to xyz format
 
 Converts bathymetric data into a three-column data.frame containing
-longitude, latitude and depth data.
+longitude, latitude and depth
+data.
 
 ## Usage
 
@@ -11,19 +12,19 @@ as_xyz(x, lon = "lon", lat = "lat", depth = "depth", names = c("V1", "V2", "V3")
 
 ## Arguments
 
-- x:
+  - x:
+    
+    A matrix of class `bathy`, or a data.frame/tibble containing
+    longitude, latitude and depth columns.
 
-  A matrix of class `bathy`, or a data.frame/tibble containing
-  longitude, latitude and depth columns.
+  - lon, lat, depth:
+    
+    Column names used when `x` is a data.frame or tibble.
 
-- lon, lat, depth:
-
-  Column names used when `x` is a data.frame or tibble.
-
-- names:
-
-  Names to use for the output columns. Defaults to the historical
-  `c("V1", "V2", "V3")` xyz format.
+  - names:
+    
+    Names to use for the output columns. Defaults to the historical
+    `c("V1", "V2", "V3")` xyz format.
 
 ## Value
 
@@ -47,10 +48,7 @@ xyz file or table.
 
 ## See also
 
-[`as_bathy`](https://besibo.github.io/marmap2/reference/as_bathy.md),
-[`bathy_to_tbl`](https://besibo.github.io/marmap2/reference/bathy_to_tbl.md),
-[`tbl_to_bathy`](https://besibo.github.io/marmap2/reference/bathy_to_tbl.md),
-[`summarise_bathy`](https://besibo.github.io/marmap2/reference/summarise_bathy.md)
+`as_bathy`, `bathy_to_tbl`, `tbl_to_bathy`, `summarise_bathy`
 
 ## Author
 
