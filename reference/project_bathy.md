@@ -1,8 +1,8 @@
 # Project bathymetric grids
 
 Projects bathymetric data to a destination coordinate reference system
-and returns a tibble suitable for plotting with
-[`geom_bathy`](https://besibo.github.io/marmap2/reference/geom_bathy.md).
+and returns the same main data representation as the input: a tibble for
+tabular input, or a matrix of class `bathy` for `bathy` input.
 
 ## Usage
 
@@ -68,8 +68,10 @@ project_bathy(
 
 ## Value
 
-A tibble with projected coordinates and depth values. The source CRS,
-destination CRS, and projected
+If `x` is a `bathy` object, a projected matrix of class `bathy`.
+Otherwise, a tibble with projected coordinates and depth values. In both
+cases, the output also inherits from `projected_bathy`, and the source
+CRS, destination CRS, and projected
 [`terra::SpatRaster`](https://rspatial.github.io/terra/reference/SpatRaster-class.html)
 are stored in attributes named `crs_from`, `crs_to`, and `spatraster`.
 
@@ -80,9 +82,9 @@ requires resampling. `project_bathy()` therefore converts the input to a
 [`terra::SpatRaster`](https://rspatial.github.io/terra/reference/SpatRaster-class.html),
 projects the raster with
 [`terra::project()`](https://rspatial.github.io/terra/reference/project.html),
-and converts the projected grid back to a long tibble. The output is not
-a `bathy` object because projected coordinates are not
-longitude/latitude row and column names.
+and converts the projected grid back to the same main representation as
+the input. For projected `bathy` matrices, row and column names contain
+projected x/y coordinates, not geographic longitude/latitude values.
 
 To plot the projected result with
 [`geom_bathy()`](https://besibo.github.io/marmap2/reference/geom_bathy.md),

@@ -24,10 +24,10 @@ summarise_bathy(x, ...)
 ## Value
 
 A one-row tibble with class `bathy_summary`. It contains the input
-classes, grid dimensions, geographic bounding box, grid resolution in
-arc-minutes, depth/elevation statistics, number of missing values, and
-object size in memory. A compact print method is provided for
-interactive use.
+classes, coordinate type, grid dimensions, coordinate bounds, geographic
+bounding box when available, grid resolution, depth/elevation
+statistics, number of missing values, and object size in memory. A
+compact print method is provided for interactive use.
 
 ## See also
 

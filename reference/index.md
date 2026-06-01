@@ -11,7 +11,7 @@
 - [`read_bathy()`](https://besibo.github.io/marmap2/reference/read_bathy.md)
   : Read bathymetric data in XYZ format
 
-## Bathy conversion and validation
+## Format conversion and validation
 
 - [`as_bathy()`](https://besibo.github.io/marmap2/reference/as_bathy.md)
   : Convert to bathymetric data in an object of class bathy
@@ -24,6 +24,9 @@
   Convert bathymetric data to sf
 - [`as_spatraster()`](https://besibo.github.io/marmap2/reference/as_spatraster.md)
   : Convert bathymetric data to a terra SpatRaster
+
+## Spatial transformations
+
 - [`project_bathy()`](https://besibo.github.io/marmap2/reference/project_bathy.md)
   : Project bathymetric grids
 - [`griddify()`](https://besibo.github.io/marmap2/reference/griddify.md)
