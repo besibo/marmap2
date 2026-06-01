@@ -34,13 +34,15 @@ reference:
       - get_noaa_erddap
       - get_gebco
       - read_bathy
-  - title: Bathy conversion and validation
+  - title: Format conversion and validation
     contents:
       - as_bathy
       - as_xyz
       - bathy_to_tbl
       - as_sf
       - as_spatraster
+  - title: Spatial transformations
+    contents:
       - project_bathy
       - griddify
       - reduce_bathy_resolution

@@ -14,10 +14,18 @@ test_that("summarise_bathy() summarises a data.frame", {
   expect_equal(out$n_cells, 9L)
   expect_equal(out$n_lon, 3L)
   expect_equal(out$n_lat, 3L)
+  expect_equal(out$coord_type, "geographic")
+  expect_equal(out$crs, "EPSG:4326")
+  expect_equal(out$x_min, -5)
+  expect_equal(out$x_max, -3)
+  expect_equal(out$y_min, 48)
+  expect_equal(out$y_max, 50)
   expect_equal(out$lon_min, -5)
   expect_equal(out$lon_max, -3)
   expect_equal(out$lat_min, 48)
   expect_equal(out$lat_max, 50)
+  expect_equal(out$resolution_x, 1)
+  expect_equal(out$resolution_y, 1)
   expect_equal(out$resolution_lon, 60)
   expect_equal(out$resolution_lat, 60)
   expect_equal(out$depth_min, -160)
@@ -111,12 +119,56 @@ test_that("summarise_bathy() can be converted to a plain tibble", {
   expect_s3_class(out, "tbl_df")
   expect_false(inherits(out, "bathy_summary"))
   expect_named(out, c(
-    "class", "n_cells", "n_lon", "n_lat",
+    "class", "coord_type", "crs", "crs_unit",
+    "n_cells", "n_lon", "n_lat",
+    "x_min", "x_max", "y_min", "y_max",
     "lon_min", "lon_max", "lat_min", "lat_max",
+    "resolution_x", "resolution_y",
     "resolution_lon", "resolution_lat", "resolution_unit",
     "depth_min", "depth_max", "depth_mean", "depth_median",
     "n_na", "memory"
   ))
+})
+
+test_that("summarise_bathy() reports projected coordinate metadata", {
+  testthat::skip_if_not_installed("terra")
+  xyz <- data.frame(
+    lon = rep(c(-5, -4, -3), each = 3),
+    lat = rep(c(48, 49, 50), times = 3),
+    depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+  )
+  projected <- project_bathy(xyz, crs_to = 3857, method = "near")
+
+  out <- summarise_bathy(projected)
+
+  expect_equal(out$coord_type, "projected")
+  expect_equal(out$crs, "EPSG:3857")
+  expect_equal(out$crs_unit, "m")
+  expect_true(is.na(out$resolution_lon))
+  expect_true(is.na(out$resolution_lat))
+  expect_equal(out$resolution_unit, "m")
+  expect_true(is.finite(out$x_min))
+  expect_true(is.finite(out$y_min))
+  expect_true(is.finite(out$lon_min))
+  expect_true(is.finite(out$lat_min))
+})
+
+test_that("print.bathy_summary() uses projected labels for projected data", {
+  testthat::skip_if_not_installed("terra")
+  xyz <- data.frame(
+    lon = rep(c(-5, -4, -3), each = 3),
+    lat = rep(c(48, 49, 50), times = 3),
+    depth = c(-80, -70, -60, -120, -110, -100, -160, -150, -140)
+  )
+  projected <- project_bathy(xyz, crs_to = 3857, method = "near")
+
+  printed <- capture.output(returned <- print(summarise_bathy(projected)))
+
+  expect_true(any(grepl("CRS:        EPSG:3857", printed, fixed = TRUE)))
+  expect_true(any(grepl("X range:", printed, fixed = TRUE)))
+  expect_true(any(grepl("Y range:", printed, fixed = TRUE)))
+  expect_true(any(grepl("Geographic:", printed, fixed = TRUE)))
+  expect_s3_class(returned, "bathy_summary")
 })
 
 test_that("print.bathy_summary() formats coordinates and returns invisibly", {

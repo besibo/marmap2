@@ -2,7 +2,8 @@
 #'
 #' @description
 #' Projects bathymetric data to a destination coordinate reference system and
-#' returns a tibble suitable for plotting with \code{\link{geom_bathy}}.
+#' returns the same main data representation as the input: a tibble for
+#' tabular input, or a matrix of class \code{bathy} for \code{bathy} input.
 #'
 #' @param x A data frame/tibble with longitude, latitude, and depth columns, or
 #'   an object inheriting from class \code{bathy}.
@@ -26,17 +27,20 @@
 #'   removed from the returned tibble.
 #'
 #' @return
-#' A tibble with projected coordinates and depth values. The source CRS,
-#' destination CRS, and projected \code{terra::SpatRaster} are stored in
-#' attributes named \code{crs_from}, \code{crs_to}, and \code{spatraster}.
+#' If \code{x} is a \code{bathy} object, a projected matrix of class
+#' \code{bathy}. Otherwise, a tibble with projected coordinates and depth
+#' values. In both cases, the output also inherits from
+#' \code{projected_bathy}, and the source CRS, destination CRS, and projected
+#' \code{terra::SpatRaster} are stored in attributes named \code{crs_from},
+#' \code{crs_to}, and \code{spatraster}.
 #'
 #' @details
 #' Projection of a regular longitude/latitude bathymetric grid generally
 #' requires resampling. \code{project_bathy()} therefore converts the input to a
 #' \code{terra::SpatRaster}, projects the raster with \code{terra::project()},
-#' and converts the projected grid back to a long tibble. The output is not a
-#' \code{bathy} object because projected coordinates are not longitude/latitude
-#' row and column names.
+#' and converts the projected grid back to the same main representation as the
+#' input. For projected \code{bathy} matrices, row and column names contain
+#' projected x/y coordinates, not geographic longitude/latitude values.
 #'
 #' To plot the projected result with \code{geom_bathy()}, use
 #' \code{coord = "fixed"} because the returned \code{lon} and \code{lat}
@@ -81,6 +85,8 @@ project_bathy <- function(
     names = c("lon", "lat", "depth"),
     na.rm = TRUE
 ) {
+  input_is_bathy <- inherits(x, "bathy")
+
   if (missing(crs_to) || is.null(crs_to)) {
     stop("crs_to must be supplied.", call. = FALSE)
   }
@@ -119,10 +125,19 @@ project_bathy <- function(
   }
   out <- out[, seq_len(3), drop = FALSE]
   names(out) <- names
-  out <- tibble::as_tibble(out)
-  class(out) <- unique(c("projected_bathy", class(out)))
+  out <- project_bathy_output(out, input_is_bathy)
   attr(out, "crs_from") <- terra::crs(r)
   attr(out, "crs_to") <- terra::crs(projected)
   attr(out, "spatraster") <- projected
+  out
+}
+
+project_bathy_output <- function(x, input_is_bathy) {
+  if (isTRUE(input_is_bathy)) {
+    out <- as_bathy(x)
+  } else {
+    out <- tibble::as_tibble(x)
+  }
+  class(out) <- unique(c("projected_bathy", class(out)))
   out
 }

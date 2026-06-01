@@ -47,21 +47,25 @@ coordinate and depth columns in the returned tibble. Defaults to
 removed from the returned tibble.}
 }
 \value{
-A tibble with projected coordinates and depth values. The source CRS,
-destination CRS, and projected \code{terra::SpatRaster} are stored in
-attributes named \code{crs_from}, \code{crs_to}, and \code{spatraster}.
+If \code{x} is a \code{bathy} object, a projected matrix of class
+\code{bathy}. Otherwise, a tibble with projected coordinates and depth
+values. In both cases, the output also inherits from
+\code{projected_bathy}, and the source CRS, destination CRS, and projected
+\code{terra::SpatRaster} are stored in attributes named \code{crs_from},
+\code{crs_to}, and \code{spatraster}.
 }
 \description{
 Projects bathymetric data to a destination coordinate reference system and
-returns a tibble suitable for plotting with \code{\link{geom_bathy}}.
+returns the same main data representation as the input: a tibble for
+tabular input, or a matrix of class \code{bathy} for \code{bathy} input.
 }
 \details{
 Projection of a regular longitude/latitude bathymetric grid generally
 requires resampling. \code{project_bathy()} therefore converts the input to a
 \code{terra::SpatRaster}, projects the raster with \code{terra::project()},
-and converts the projected grid back to a long tibble. The output is not a
-\code{bathy} object because projected coordinates are not longitude/latitude
-row and column names.
+and converts the projected grid back to the same main representation as the
+input. For projected \code{bathy} matrices, row and column names contain
+projected x/y coordinates, not geographic longitude/latitude values.
 
 To plot the projected result with \code{geom_bathy()}, use
 \code{coord = "fixed"} because the returned \code{lon} and \code{lat}

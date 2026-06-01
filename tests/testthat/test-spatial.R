@@ -124,6 +124,19 @@ test_that("project_bathy() projects to numeric and string CRS definitions", {
   expect_match(attr(string, "crs_to"), "EPSG\",3857", fixed = TRUE)
 })
 
+test_that("project_bathy() preserves bathy input class", {
+  testthat::skip_if_not_installed("terra")
+  bathy <- tbl_to_bathy(make_spatial_grid())
+
+  out <- project_bathy(bathy, crs_to = 3857, method = "near")
+
+  expect_s3_class(out, "projected_bathy")
+  expect_s3_class(out, "bathy")
+  expect_true(is.matrix(out))
+  expect_s4_class(attr(out, "spatraster"), "SpatRaster")
+  expect_match(attr(out, "crs_to"), "EPSG\",3857", fixed = TRUE)
+})
+
 test_that("project_bathy() supports bilinear and near methods", {
   testthat::skip_if_not_installed("terra")
   xyz <- make_spatial_grid()
