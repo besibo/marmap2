@@ -353,6 +353,15 @@ scale_type.bathy_depth <- function(x) {
   "bathy_depth"
 }
 
+#' @export
 scale_fill_bathy_depth <- function(...) {
   scale_fill_bathy(...)
 }
+
+#' @export
+scale_colour_bathy_depth <- function(...) {
+  scale_colour_bathy(...)
+}
+
+#' @export
+scale_color_bathy_depth <- scale_colour_bathy_depth
